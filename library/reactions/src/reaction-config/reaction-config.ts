@@ -15,9 +15,9 @@ export interface ReactionConfig {
     up: boolean;
 }
 
-export function reactiveConfig(tool: Reaction): ReactionConfig {
+export function reactionConfig(tool: Reaction): ReactionConfig {
     const config = tool.config || {};
-    const order = config.order || tool.order || '0000:0000';
+    const order = config.order || '0000:0000';
     return Object.assign({
         down: true,
         up: false,
