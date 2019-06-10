@@ -1,52 +1,54 @@
-<ng-template #toolTemplate>
+<ng-container *ngIf="snapshot$ | async as snapshot">
+  <ng-template #toolTemplate>
     <fa-icon *ngIf="icon"
              [fixedWidth]="true"
-             [spin]="(animate$ | async) === 'spin'"
-             [pulse]="(animate$ | async) === 'pulse'"
-             [icon]="icon$ | async"
-             [matTooltip]="toolTip$ | async"></fa-icon>
-    <span *ngIf="title">{{title$ | async}}</span>
-</ng-template>
-<ng-container *ngIf="visible$ | async">
+             [spin]="snapshot.animate === 'spin'"
+             [pulse]="snapshot.animate === 'pulse'"
+             [icon]="snapshot.icon"
+             [matTooltip]="snapshot.toolTip"></fa-icon>
+    <span *ngIf="title">{{snapshot.title}}</span>
+  </ng-template>
+  <ng-container *ngIf="snapshot.visible">
     <div *ngIf="mode === 'menu'"
          class="tag-menu-compact"
          (click)="mouseDown($event)"
-         [class.text-success]="(color$ | async) === 'success'"
-         [class.text-warning]="(color$ | async) === 'warning'"
-         [class.text-danger]="(color$ | async) === 'danger'"
-         [class.text-info]="(color$ | async) === 'info'"
+         [class.text-success]="snapshot.color === 'success'"
+         [class.text-warning]="snapshot.color === 'warning'"
+         [class.text-danger]="snapshot.color === 'danger'"
+         [class.text-info]="snapshot.color === 'info'"
          [class.text-muted]="muted"
-         [class.highlighted]="highlight$ | async"
-         [disabled]="disabled$ | async"
+         [class.highlighted]="snapshot.highlight"
+         [disabled]="snapshot.disabled"
          mat-menu-item>
-        <ng-container *ngTemplateOutlet="toolTemplate"></ng-container>
+      <ng-container *ngTemplateOutlet="toolTemplate"></ng-container>
     </div>
     <button *ngIf="mode === 'icon'"
             type="button"
             (mousedown)="mouseDown($event)"
             (mouseup)="mouseUp($event)"
-            [class.text-success]="(color$ | async) === 'success'"
-            [class.text-warning]="(color$ | async) === 'warning'"
-            [class.text-danger]="(color$ | async) === 'danger'"
-            [class.text-info]="(color$ | async) === 'info'"
+            [class.text-success]="snapshot.color === 'success'"
+            [class.text-warning]="snapshot.color === 'warning'"
+            [class.text-danger]="snapshot.color === 'danger'"
+            [class.text-info]="snapshot.color === 'info'"
             [class.text-muted]="muted"
-            [class.highlighted]="highlight$ | async"
-            [disabled]="disabled$ | async"
+            [class.highlighted]="snapshot.highlight"
+            [disabled]="snapshot.disabled"
             mat-icon-button>
-        <ng-container *ngTemplateOutlet="toolTemplate"></ng-container>
+      <ng-container *ngTemplateOutlet="toolTemplate"></ng-container>
     </button>
     <button *ngIf="mode === 'button'"
             type="button"
             (mousedown)="mouseDown($event)"
             (mouseup)="mouseUp($event)"
-            [class.text-success]="(color$ | async) === 'success'"
-            [class.text-warning]="(color$ | async) === 'warning'"
-            [class.text-danger]="(color$ | async) === 'danger'"
-            [class.text-info]="(color$ | async) === 'info'"
+            [class.text-success]="snapshot.color === 'success'"
+            [class.text-warning]="snapshot.color === 'warning'"
+            [class.text-danger]="snapshot.color === 'danger'"
+            [class.text-info]="snapshot.color === 'info'"
             [class.text-muted]="muted"
-            [class.highlighted]="highlight$ | async"
-            [disabled]="disabled$ | async"
+            [class.highlighted]="snapshot.highlight"
+            [disabled]="snapshot.disabled"
             mat-button>
-        <ng-container *ngTemplateOutlet="toolTemplate"></ng-container>
+      <ng-container *ngTemplateOutlet="toolTemplate"></ng-container>
     </button>
+  </ng-container>
 </ng-container>

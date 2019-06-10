@@ -6,8 +6,8 @@ import {Observable} from 'rxjs';
  * These are currently limited to what FontAwesome supports.
  */
 export enum ReactionAnimateMode {
-    SPIN,
-    PULSE
+    SPIN = 'spin',
+    PULSE = 'pulse'
 }
 
 /**

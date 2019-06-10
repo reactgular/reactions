@@ -1,13 +1,10 @@
 import {Attribute, ChangeDetectionStrategy, Component, ElementRef, Input, QueryList, ViewChildren, ViewContainerRef} from '@angular/core';
 import {MatTooltip} from '@angular/material';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {reactionConfig} from '../reaction-config/reaction-config';
 import {ReactionMouse} from '../reaction-context/reaction-context';
+import {createSnapshot, ReactionSnapshot} from '../reaction-snapshot/reaction-snapshot';
 import {Reaction} from '../reaction/reaction';
-import {isReactionAnimate, ReactionAnimateMode} from '../reaction/reaction-animate';
-import {isReactionDisabled} from '../reaction/reaction-disabled';
-import {isReactionStyle, ReactionColor} from '../reaction/reaction-style';
-import {isReactionVisible} from '../reaction/reaction-visible';
 
 @Component({
     selector: 'rg-reaction-button',
@@ -16,18 +13,8 @@ import {isReactionVisible} from '../reaction/reaction-visible';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReactionButtonComponent {
-    public animate$: Observable<ReactionAnimateMode | void>;
-
-    public color$: Observable<ReactionColor | void>;
-
-    public disabled$: Observable<boolean>;
-
-    public highlight$: Observable<boolean>;
-
     @Input()
     public icon = true;
-
-    public icon$: Observable<string>;
 
     @ViewChildren(MatTooltip)
     public matTooltips: QueryList<MatTooltip>;
@@ -35,14 +22,10 @@ export class ReactionButtonComponent {
     @Input()
     public muted: boolean;
 
+    public snapshot$: Observable<ReactionSnapshot>;
+
     @Input()
     public title = true;
-
-    public title$: Observable<string>;
-
-    public toolTip$: Observable<string>;
-
-    public visible$: Observable<boolean>;
 
     public constructor(private readonly _view: ViewContainerRef,
                        private readonly _el: ElementRef<HTMLElement>,
@@ -55,14 +38,7 @@ export class ReactionButtonComponent {
     @Input()
     public set tool(tool: Reaction) {
         this._tool = tool;
-        this.icon$ = tool.icon();
-        this.toolTip$ = tool.toolTip();
-        this.title$ = tool.title();
-        this.animate$ = isReactionAnimate(tool) ? tool.animate() : undefined;
-        this.color$ = isReactionStyle(tool) ? tool.color() : undefined;
-        this.highlight$ = isReactionStyle(tool) ? tool.highlight() : undefined;
-        this.disabled$ = isReactionDisabled(tool) ? tool.disabled() : of(false);
-        this.visible$ = isReactionVisible(tool) ? tool.visible() : of(true);
+        this.snapshot$ = createSnapshot(tool);
     }
 
     public mouseDown(event: MouseEvent) {
