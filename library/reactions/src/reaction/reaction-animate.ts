@@ -17,7 +17,7 @@ export interface ReactionAnimate {
     /**
      * Emits the animation state of the tool. Can be "spin" or "pulse" or undefined.
      */
-    animate(): Observable<ReactionAnimateMode>;
+    animate(): Observable<ReactionAnimateMode | void>;
 }
 
 /**
