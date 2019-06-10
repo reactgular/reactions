@@ -1,0 +1,23 @@
+{
+  "name": "@reactgular/reactions",
+  "version": "1.0.0",
+  "description": "",
+  "author": "reactgular.com",
+  "homepage": "https://reactgular.com/",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reactgular/reactions"
+  },
+  "bugs": {
+    "url": "https://github.com/reactgular/reactions/issues"
+  },
+  "keywords": [
+    "angular",
+    "library"
+  ],
+  "peerDependencies": {
+    "@angular/common": "^8.0.0",
+    "@angular/core": "^8.0.0"
+  }
+}
