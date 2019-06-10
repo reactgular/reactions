@@ -8,6 +8,7 @@ import {Reaction} from '../reaction/reaction';
 export class ReactionOrderPipe implements PipeTransform {
     public transform(value: Reaction[]): any {
         if (value instanceof Array) {
+            value = [...value];
             value.sort((a, b) => {
                 const ca = a && a.config && a.config.order;
                 const cb = b && b.config && b.config.order;
