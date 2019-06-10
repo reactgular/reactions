@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {ReactiveOrderPipe} from './reactive-order/reactive-order.pipe';
+import {ReactionOrderPipe} from './reaction-order/reaction-order.pipe';
 import {CommonModule} from '@angular/common';
 
 @NgModule({
@@ -7,10 +7,10 @@ import {CommonModule} from '@angular/common';
         CommonModule
     ],
     declarations: [
-        ReactiveOrderPipe
+        ReactionOrderPipe
     ],
     providers: [
-        ReactiveOrderPipe
+        ReactionOrderPipe
     ]
 })
 export class ReactionsModule {
