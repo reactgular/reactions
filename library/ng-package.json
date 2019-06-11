@@ -4,7 +4,8 @@
   "lib": {
     "entryFile": "reactions/public-api.ts",
     "umdModuleIds": {
-      "@reactgular/reactions": "reactions"
+      "@reactgular/reactions": "reactions",
+      "@fortawesome/angular-fontawesome": "angularFontawesome"
     }
   }
 }
