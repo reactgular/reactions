@@ -1,3 +1,26 @@
 <form [formGroup]="group">
-  <input type="text" formControlName="title">
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input id="title"
+           class="form-control"
+           placeholder="Title"
+           type="text"
+           formControlName="title">
+  </div>
+  <div class="form-group">
+    <label for="toolTip">Tool Tip</label>
+    <input id="toolTip"
+           class="form-control"
+           placeholder="Tool Tip"
+           type="text"
+           formControlName="toolTip">
+  </div>
+  <div class="form-group">
+    <label for="icon">Icon</label>
+    <input id="icon"
+           class="form-control"
+           placeholder="Icon"
+           type="text"
+           formControlName="icon">
+  </div>
 </form>
