@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, ElementRef, Input, ViewContainerRef} from '@angular/core';
-import {Reaction} from '../reaction/reaction';
 import {Observable} from 'rxjs';
 import {createSnapshot, ReactionSnapshot} from '../reaction-snapshot/reaction-snapshot';
+import {Reaction} from '../reaction/reaction';
 
 @Component({
     selector: 'rg-reaction-icon',

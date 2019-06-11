@@ -2,12 +2,12 @@ import {ElementRef, Injectable} from '@angular/core';
 import {fromEvent, merge, Observable, Subject} from 'rxjs';
 import {defaultIfEmpty, first, map, scan, switchMap, takeUntil} from 'rxjs/operators';
 import {ReactionEvent} from '../reaction-events/reaction-event';
+import {ReactionSelectDrag} from '../reaction-selectors/reaction-select-drag';
+import {ReactionSelectFocus} from '../reaction-selectors/reaction-select-focus';
+import {ReactionSelectMouse} from '../reaction-selectors/reaction-select-mouse';
+import {ReactionSelectTouch} from '../reaction-selectors/reaction-select-touch';
 import {ReactionSelector} from '../reaction-selectors/reaction-selector';
 import {Reaction} from '../reaction/reaction';
-import {ReactionSelectMouse} from '../reaction-selectors/reaction-select-mouse';
-import {ReactionSelectFocus} from '../reaction-selectors/reaction-select-focus';
-import {ReactionSelectDrag} from '../reaction-selectors/reaction-select-drag';
-import {ReactionSelectTouch} from '../reaction-selectors/reaction-select-touch';
 
 /**
  * UI events are broadcast from this service and reactions can act upon those events. Events are things like mouse events, keyboard

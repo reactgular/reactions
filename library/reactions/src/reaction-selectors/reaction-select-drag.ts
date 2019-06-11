@@ -48,13 +48,6 @@ export class ReactionSelectDrag {
     }
 
     /**
-     * Selects only dragstart events.
-     */
-    public dragstart(): Observable<ReactionUIEvent<DragEvent>> {
-        return this._filter('dragstart');
-    }
-
-    /**
      * Selects only dragleave events.
      */
     public dragleave(): Observable<ReactionUIEvent<DragEvent>> {
@@ -66,6 +59,13 @@ export class ReactionSelectDrag {
      */
     public dragover(): Observable<ReactionUIEvent<DragEvent>> {
         return this._filter('dragover');
+    }
+
+    /**
+     * Selects only dragstart events.
+     */
+    public dragstart(): Observable<ReactionUIEvent<DragEvent>> {
+        return this._filter('dragstart');
     }
 
     /**

@@ -14,9 +14,6 @@ export class ReactionButtonComponent {
     @Input()
     public icon = true;
 
-    @Input()
-    public type: string;
-
     @ViewChildren(MatTooltip)
     public matTooltips: QueryList<MatTooltip>;
 
@@ -27,6 +24,9 @@ export class ReactionButtonComponent {
 
     @Input()
     public title = true;
+
+    @Input()
+    public type: string;
 
     public constructor(private readonly _view: ViewContainerRef,
                        private readonly _el: ElementRef<HTMLElement>) {

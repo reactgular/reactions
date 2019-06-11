@@ -11,12 +11,12 @@ import {Reaction} from '../reaction/reaction';
 })
 export class ReactionMenuItemComponent {
     @Input()
+    public icon = true;
+
+    @Input()
     public muted: boolean;
 
     public snapshot$: Observable<ReactionSnapshot>;
-
-    @Input()
-    public icon = true;
 
     @Input()
     public title = true;

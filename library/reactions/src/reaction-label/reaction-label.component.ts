@@ -9,11 +9,11 @@ import {ReactionSnapshot} from '../reaction-snapshot/reaction-snapshot';
 })
 export class ReactionLabelComponent {
     @Input()
+    public icon: boolean;
+
+    @Input()
     public snapshot: ReactionSnapshot;
 
     @Input()
     public title: boolean;
-
-    @Input()
-    public icon: boolean;
 }

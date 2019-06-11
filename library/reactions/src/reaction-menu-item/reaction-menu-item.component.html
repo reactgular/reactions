@@ -1,16 +1,16 @@
 <ng-container *ngIf="snapshot$ | async as snapshot">
   <ng-container *ngIf="snapshot.visible">
-    <div class="tag-menu-compact"
-         [class.text-success]="snapshot.color === 'success'"
-         [class.text-warning]="snapshot.color === 'warning'"
+    <div [class.highlighted]="snapshot.highlight"
          [class.text-danger]="snapshot.color === 'danger'"
          [class.text-info]="snapshot.color === 'info'"
          [class.text-muted]="muted"
-         [class.highlighted]="snapshot.highlight"
+         [class.text-success]="snapshot.color === 'success'"
+         [class.text-warning]="snapshot.color === 'warning'"
          [disabled]="snapshot.disabled"
+         class="tag-menu-compact"
          mat-menu-item>
-      <rg-reaction-label [snapshot]="snapshot"
-                         [icon]="true"
+      <rg-reaction-label [icon]="true"
+                         [snapshot]="snapshot"
                          [title]="true"></rg-reaction-label>
     </div>
   </ng-container>

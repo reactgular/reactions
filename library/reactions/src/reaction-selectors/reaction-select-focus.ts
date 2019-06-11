@@ -30,17 +30,17 @@ export class ReactionSelectFocus {
     }
 
     /**
-     * Selects only focus events.
-     */
-    public focus(): Observable<ReactionUIEvent<FocusEvent>> {
-        return this._filter('focus');
-    }
-
-    /**
      * Selects only blur events.
      */
     public blur(): Observable<ReactionUIEvent<FocusEvent>> {
         return this._filter('blur');
+    }
+
+    /**
+     * Selects only focus events.
+     */
+    public focus(): Observable<ReactionUIEvent<FocusEvent>> {
+        return this._filter('focus');
     }
 
     /**

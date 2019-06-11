@@ -27,17 +27,17 @@ export abstract class ReactionSelector {
     }
 
     /**
-     * Selects only events for a given reaction.
-     */
-    public select(reaction: Reaction): ReactionSelectReaction {
-        return new ReactionSelectReaction(this.events$, reaction);
-    }
-
-    /**
      * Emits only mouse events.
      */
     public mouse(): ReactionSelectMouse {
         return new ReactionSelectMouse(this.events$);
+    }
+
+    /**
+     * Selects only events for a given reaction.
+     */
+    public select(reaction: Reaction): ReactionSelectReaction {
+        return new ReactionSelectReaction(this.events$, reaction);
     }
 
     /**

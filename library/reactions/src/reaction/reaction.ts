@@ -1,6 +1,6 @@
 import {Observable} from 'rxjs';
-import {ReactionContext} from '../reaction-context/reaction-context';
 import {ReactionConfig} from '../reaction-config/reaction-config';
+import {ReactionContext} from '../reaction-context/reaction-context';
 
 export interface Reaction {
     /**

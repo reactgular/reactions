@@ -88,17 +88,17 @@ export class ReactionSelectMouse {
     }
 
     /**
-     * Selects only mouseover events.
-     */
-    public mouseover(): Observable<ReactionUIEvent<MouseEvent>> {
-        return this._filter('mouseover');
-    }
-
-    /**
      * Selects only mouseout events.
      */
     public mouseout(): Observable<ReactionUIEvent<MouseEvent>> {
         return this._filter('mouseout');
+    }
+
+    /**
+     * Selects only mouseover events.
+     */
+    public mouseover(): Observable<ReactionUIEvent<MouseEvent>> {
+        return this._filter('mouseover');
     }
 
     /**
