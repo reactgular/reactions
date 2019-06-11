@@ -17,7 +17,7 @@ export interface ReactionEvent {
      */
     reaction: Reaction;
     /**
-     * The type of event (mouse, keyboard, touch, drag, etc..)
+     * The type of event (mouse, keyboard, touch, selectDrag, etc..)
      */
     type: string;
 }

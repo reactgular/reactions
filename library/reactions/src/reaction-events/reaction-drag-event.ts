@@ -1,11 +1,11 @@
 import {ReactionEvent} from './reaction-event';
 
 /**
- * Defines the interface for drag events.
+ * Defines the interface for selectDrag events.
  */
 export interface ReactionDragEvent extends ReactionEvent {
     /**
-     * The drag event from the DOM.
+     * The selectDrag event from the DOM.
      */
     event: DragEvent;
     /**

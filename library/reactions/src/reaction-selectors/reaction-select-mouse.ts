@@ -7,6 +7,21 @@ import {isReactionMouseEvent, ReactionMouseEvent} from '../reaction-events/react
  * A selector for mouse events.
  */
 export class ReactionSelectMouse {
+    public static readonly EVENTS = [
+        'auxclick',
+        'click',
+        'contextmenu',
+        'dblclick',
+        'mousedown',
+        'mouseenter',
+        'mouseleave',
+        'mousemove',
+        'mouseover',
+        'mouseout',
+        'mouseup',
+        'wheel'
+    ];
+
     /**
      * Emits only mouse events.
      */

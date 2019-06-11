@@ -21,9 +21,9 @@ export abstract class ReactionSelector {
     }
 
     /**
-     * Emits only drag events.
+     * Emits only selectDrag events.
      */
-    public drag(): ReactionSelectDrag {
+    public selectDrag(): ReactionSelectDrag {
         return new ReactionSelectDrag(this.events$);
     }
 
