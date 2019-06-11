@@ -7,6 +7,9 @@ import {isReactionUIEvent, ReactionUIEvent} from '../reaction-events/reaction-ui
  * A selector for touch events.
  */
 export class ReactionSelectTouch {
+    /**
+     * List of event types.
+     */
     public static readonly EVENTS = [
         'touchcancel',
         'touchend',
@@ -29,22 +32,37 @@ export class ReactionSelectTouch {
         );
     }
 
+    /**
+     * Selects only touchcancel events.
+     */
     public touchcancel(): Observable<ReactionUIEvent<TouchEvent>> {
         return this._filter('touchcancel');
     }
 
+    /**
+     * Selects only touchend events.
+     */
     public touchend(): Observable<ReactionUIEvent<TouchEvent>> {
         return this._filter('touchend');
     }
 
+    /**
+     * Selects only touchmove events.
+     */
     public touchmove(): Observable<ReactionUIEvent<TouchEvent>> {
         return this._filter('touchmove');
     }
 
+    /**
+     * Selects only touchstart events.
+     */
     public touchstart(): Observable<ReactionUIEvent<TouchEvent>> {
         return this._filter('touchstart');
     }
 
+    /**
+     * Filters events by the given type.
+     */
     private _filter(type: string): Observable<ReactionUIEvent<TouchEvent>> {
         return this.events$.pipe(filter(event => event.event.type === type));
     }

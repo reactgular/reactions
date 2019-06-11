@@ -7,6 +7,9 @@ import {isReactionUIEvent, ReactionUIEvent} from '../reaction-events/reaction-ui
  * A selector for focus events.
  */
 export class ReactionSelectFocus {
+    /**
+     * List of event types.
+     */
     public static readonly EVENTS = [
         'focus',
         'blur'
@@ -26,14 +29,23 @@ export class ReactionSelectFocus {
         );
     }
 
+    /**
+     * Selects only focus events.
+     */
     public focus(): Observable<ReactionUIEvent<FocusEvent>> {
         return this._filter('focus');
     }
 
+    /**
+     * Selects only blur events.
+     */
     public blur(): Observable<ReactionUIEvent<FocusEvent>> {
         return this._filter('blur');
     }
 
+    /**
+     * Filters events by the given type.
+     */
     private _filter(type: string): Observable<ReactionUIEvent<FocusEvent>> {
         return this.events$.pipe(filter(event => event.event.type === type));
     }

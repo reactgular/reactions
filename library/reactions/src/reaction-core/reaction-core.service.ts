@@ -6,12 +6,12 @@ import {ReactionSelector} from '../reaction-selectors/reaction-selector';
 import {Reaction} from '../reaction/reaction';
 import {ReactionSelectMouse} from '../reaction-selectors/reaction-select-mouse';
 import {ReactionSelectFocus} from '../reaction-selectors/reaction-select-focus';
+import {ReactionSelectDrag} from '../reaction-selectors/reaction-select-drag';
+import {ReactionSelectTouch} from '../reaction-selectors/reaction-select-touch';
 
 /**
- * Reactions trigger UI events via this service, and then they can act upon those events. Events are things like mouse events, keyboard
+ * UI events are broadcast from this service and reactions can act upon those events. Events are things like mouse events, keyboard
  * events, etc.. etc..
- *
- * Consumers filter events to select which ones they want to react to.
  */
 @Injectable({providedIn: 'root'})
 export class ReactionCoreService extends ReactionSelector {
@@ -32,17 +32,22 @@ export class ReactionCoreService extends ReactionSelector {
         this._events$ = events$;
     }
 
+    /**
+     * Subscribes to multiple UI events on the target, and broadcasts events for the reaction.
+     */
     public from(reaction: Reaction, target: ElementRef<HTMLElement>, data$: Observable<any>, destroy$: Observable<void>) {
         const eventNames = [
+            ...ReactionSelectDrag.EVENTS,
+            ...ReactionSelectFocus.EVENTS,
             ...ReactionSelectMouse.EVENTS,
-            ...ReactionSelectFocus.EVENTS
+            ...ReactionSelectTouch.EVENTS
         ];
 
         const events$ = eventNames.map(eventName => fromEvent(target.nativeElement, eventName));
         const type = 'uiEvent', id = 0, data = null;
 
         merge(...events$).pipe(
-            map((event: FocusEvent) => ({id, type, data, event, reaction})),
+            map(event => ({id, type, data, event, reaction})),
             switchMap(event => data$.pipe(
                 defaultIfEmpty(undefined),
                 first(),
