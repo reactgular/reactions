@@ -1,0 +1,7 @@
+<fa-icon *ngIf="icon"
+         [fixedWidth]="true"
+         [spin]="snapshot.animate === 'spin'"
+         [pulse]="snapshot.animate === 'pulse'"
+         [icon]="snapshot.icon"
+         [matTooltip]="snapshot.toolTip"></fa-icon>
+<span *ngIf="title">{{snapshot.title}}</span>

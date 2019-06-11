@@ -4,6 +4,9 @@ import {MatButtonModule, MatMenuModule, MatTooltipModule} from '@angular/materia
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {ReactionButtonComponent} from './reaction-button/reaction-button.component';
 import {ReactionOrderPipe} from './reaction-order/reaction-order.pipe';
+import {ReactionIconComponent} from './reaction-icon/reaction-icon.component';
+import {ReactionLabelComponent} from './reaction-label/reaction-label.component';
+import { ReactionMenuItemComponent } from './reaction-menu-item/reaction-menu-item.component';
 
 @NgModule({
     imports: [
@@ -15,10 +18,17 @@ import {ReactionOrderPipe} from './reaction-order/reaction-order.pipe';
     ],
     declarations: [
         ReactionOrderPipe,
-        ReactionButtonComponent
+        ReactionButtonComponent,
+        ReactionIconComponent,
+        ReactionLabelComponent,
+        ReactionMenuItemComponent
     ],
     providers: [
         ReactionOrderPipe
+    ],
+    exports: [
+        ReactionButtonComponent,
+        ReactionIconComponent
     ]
 })
 export class ReactionsModule {

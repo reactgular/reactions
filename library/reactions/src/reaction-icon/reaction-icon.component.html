@@ -1,6 +1,6 @@
 <ng-container *ngIf="snapshot$ | async as snapshot">
   <ng-container *ngIf="snapshot.visible">
-    <button [attr.type]="type || 'button'"
+    <button type="button"
             [class.text-success]="snapshot.color === 'success'"
             [class.text-warning]="snapshot.color === 'warning'"
             [class.text-danger]="snapshot.color === 'danger'"
@@ -8,10 +8,10 @@
             [class.text-muted]="muted"
             [class.highlighted]="snapshot.highlight"
             [disabled]="snapshot.disabled"
-            mat-button>
+            mat-icon-button>
       <rg-reaction-label [snapshot]="snapshot"
-                         [icon]="icon"
-                         [title]="title"></rg-reaction-label>
+                         [icon]="true"
+                         [title]="false"></rg-reaction-label>
     </button>
   </ng-container>
 </ng-container>
