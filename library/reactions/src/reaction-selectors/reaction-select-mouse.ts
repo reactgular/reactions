@@ -15,7 +15,6 @@ export class ReactionSelectMouse {
         'mousedown',
         'mouseenter',
         'mouseleave',
-        'mousemove',
         'mouseover',
         'mouseout',
         'mouseup',
@@ -34,5 +33,53 @@ export class ReactionSelectMouse {
         this.events$ = events.pipe(
             filter<ReactionUIEvent<MouseEvent>>(event => isReactionUIEvent(event) && event.event instanceof MouseEvent)
         );
+    }
+
+    public auxclick(): Observable<ReactionUIEvent<MouseEvent>> {
+        return this._filter('auxclick');
+    }
+
+    public click(): Observable<ReactionUIEvent<MouseEvent>> {
+        return this._filter('click');
+    }
+
+    public contextmenu(): Observable<ReactionUIEvent<MouseEvent>> {
+        return this._filter('contextmenu');
+    }
+
+    public dblclick(): Observable<ReactionUIEvent<MouseEvent>> {
+        return this._filter('dblclick');
+    }
+
+    public mousedown(): Observable<ReactionUIEvent<MouseEvent>> {
+        return this._filter('mousedown');
+    }
+
+    public mouseenter(): Observable<ReactionUIEvent<MouseEvent>> {
+        return this._filter('mouseenter');
+    }
+
+    public mouseleave(): Observable<ReactionUIEvent<MouseEvent>> {
+        return this._filter('mouseleave');
+    }
+
+    public mouseover(): Observable<ReactionUIEvent<MouseEvent>> {
+        return this._filter('mouseover');
+    }
+
+    public mouseout(): Observable<ReactionUIEvent<MouseEvent>> {
+        return this._filter('mouseout');
+    }
+
+    public mouseup(): Observable<ReactionUIEvent<MouseEvent>> {
+        return this._filter('mouseup');
+    }
+
+    public wheel(): Observable<ReactionUIEvent<MouseEvent>> {
+        return this._filter('wheel');
+    }
+
+    private _filter(type: string): Observable<ReactionUIEvent<MouseEvent>> {
+        return this.events$.pipe(filter(event => event.event.type === type));
     }
 }

@@ -11,7 +11,7 @@ export class ReactionSelectFocus {
         'focus',
         'blur'
     ];
-ß
+
     /**
      * Emits only focus events.
      */
@@ -24,5 +24,17 @@ export class ReactionSelectFocus {
         this.events$ = events.pipe(
             filter<ReactionUIEvent<FocusEvent>>(event => isReactionUIEvent(event) && event.event instanceof FocusEvent)
         );
+    }
+
+    public focus(): Observable<ReactionUIEvent<FocusEvent>> {
+        return this._filter('focus');
+    }
+
+    public blur(): Observable<ReactionUIEvent<FocusEvent>> {
+        return this._filter('blur');
+    }
+
+    private _filter(type: string): Observable<ReactionUIEvent<FocusEvent>> {
+        return this.events$.pipe(filter(event => event.event.type === type));
     }
 }

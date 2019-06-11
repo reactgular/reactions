@@ -4,7 +4,6 @@ import {Reaction} from '../reaction/reaction';
 import {ReactionSelectDrag} from './reaction-select-drag';
 import {ReactionSelectMouse} from './reaction-select-mouse';
 import {ReactionSelectReaction} from './reaction-select-reaction';
-import {ReactionSelectWheel} from './reaction-select-wheel';
 import {ReactionSelectTouch} from './reaction-select-touch';
 
 export abstract class ReactionSelector {
@@ -21,9 +20,9 @@ export abstract class ReactionSelector {
     }
 
     /**
-     * Emits only selectDrag events.
+     * Emits only drag events.
      */
-    public selectDrag(): ReactionSelectDrag {
+    public drag(): ReactionSelectDrag {
         return new ReactionSelectDrag(this.events$);
     }
 
@@ -37,22 +36,14 @@ export abstract class ReactionSelector {
     /**
      * Emits only mouse events.
      */
-    public selectMouse(): ReactionSelectMouse {
+    public mouse(): ReactionSelectMouse {
         return new ReactionSelectMouse(this.events$);
     }
 
     /**
      * Emits only touch events.
      */
-    public selectTouch(): ReactionSelectTouch {
+    public touch(): ReactionSelectTouch {
         return new ReactionSelectTouch(this.events$);
     }
-
-    /**
-     * Emits only wheel events.
-     */
-    public selectWheel(): ReactionSelectWheel {
-        return new ReactionSelectWheel(this.events$);
-    }
-
 }
