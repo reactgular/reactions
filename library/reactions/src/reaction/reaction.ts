@@ -1,6 +1,5 @@
 import {Observable} from 'rxjs';
 import {ReactionConfig} from '../reaction-config/reaction-config';
-import {ReactionContext} from '../reaction-context/reaction-context';
 
 export interface Reaction {
     /**
@@ -22,10 +21,5 @@ export interface Reaction {
      * The tooltip shown when mouse hovering.
      */
     toolTip(): Observable<string>;
-
-    /**
-     * Triggers the tool on the down event (mouse down, .
-     */
-    trigger(context?: ReactionContext);
 }
 

@@ -1,5 +1,5 @@
 import {combineLatest, Observable, of} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {distinctUntilChanged, map} from 'rxjs/operators';
 import {Reaction} from '../reaction/reaction';
 import {isReactionAnimate, ReactionAnimateMode} from '../reaction/reaction-animate';
 import {isReactionDisabled} from '../reaction/reaction-disabled';
@@ -27,7 +27,11 @@ export function createSnapshot(reaction: Reaction): Observable<ReactionSnapshot>
     const disabled$ = isReactionDisabled(reaction) ? reaction.disabled() : of(false);
     const visible$ = isReactionVisible(reaction) ? reaction.visible() : of(true);
 
-    return combineLatest([icon$, toolTip$, title$, animate$, color$, highlight$, disabled$, visible$]).pipe(
+    const observables$ = [icon$, toolTip$, title$, animate$, color$, highlight$, disabled$, visible$].map(
+        ob => ob.pipe(distinctUntilChanged())
+    );
+
+    return combineLatest(observables$).pipe(
         map(([icon, toolTip, title, animate, color, highlight, disabled, visible]) => ({
             icon,
             toolTip,
