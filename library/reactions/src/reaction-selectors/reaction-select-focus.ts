@@ -1,28 +1,28 @@
 import {Observable} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {ReactionEvent} from '../reaction-events/reaction-event';
-import {isReactionFocusEvent, ReactionFocusEvent} from '../reaction-events/reaction-focus-event';
+import {isReactionUIEvent, ReactionUIEvent} from '../reaction-events/reaction-ui-event';
 
 /**
- * A selector for drag events.
+ * A selector for focus events.
  */
 export class ReactionSelectFocus {
     public static readonly EVENTS = [
         'focus',
         'blur'
     ];
-
+ß
     /**
-     * Emits only selectDrag events.
+     * Emits only focus events.
      */
-    public readonly events$: Observable<ReactionFocusEvent>;
+    public readonly events$: Observable<ReactionUIEvent<FocusEvent>>;
 
     /**
      * Constructor
      */
     public constructor(events: Observable<ReactionEvent>) {
         this.events$ = events.pipe(
-            filter<ReactionFocusEvent>(event => isReactionFocusEvent(event))
+            filter<ReactionUIEvent<FocusEvent>>(event => isReactionUIEvent(event) && event.event instanceof FocusEvent)
         );
     }
 }

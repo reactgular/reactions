@@ -4,8 +4,8 @@ import {Reaction} from '../reaction/reaction';
 import {ReactionSelectDrag} from './reaction-select-drag';
 import {ReactionSelectMouse} from './reaction-select-mouse';
 import {ReactionSelectReaction} from './reaction-select-reaction';
-import {ReactionSelectWheel} from './reaction-select-touch';
-import {ReactionSelectTouch} from './reaction-select-wheel';
+import {ReactionSelectWheel} from './reaction-select-wheel';
+import {ReactionSelectTouch} from './reaction-select-touch';
 
 export abstract class ReactionSelector {
     /**

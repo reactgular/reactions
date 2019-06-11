@@ -3,10 +3,8 @@ import {fromEvent, merge, Observable, Subject} from 'rxjs';
 import {defaultIfEmpty, first, map, scan, switchMap, takeUntil} from 'rxjs/operators';
 import {ReactionEvent} from '../reaction-events/reaction-event';
 import {ReactionSelector} from '../reaction-selectors/reaction-selector';
-import {ReactionMouseEvent} from '../reaction-events/reaction-mouse-event';
 import {Reaction} from '../reaction/reaction';
 import {ReactionSelectMouse} from '../reaction-selectors/reaction-select-mouse';
-import {ReactionFocusEvent} from '../reaction-events/reaction-focus-event';
 import {ReactionSelectFocus} from '../reaction-selectors/reaction-select-focus';
 
 /**
@@ -35,12 +33,16 @@ export class ReactionCoreService extends ReactionSelector {
     }
 
     public from(reaction: Reaction, target: ElementRef<HTMLElement>, data$: Observable<any>, destroy$: Observable<void>) {
-        const focus$ = this._focusEvents(reaction, target.nativeElement);
-        const mouse$ = this._mouseEvents(reaction, target.nativeElement);
+        const eventNames = [
+            ...ReactionSelectMouse.EVENTS,
+            ...ReactionSelectFocus.EVENTS
+        ];
 
-        const events$ = [focus$, mouse$];
+        const events$ = eventNames.map(eventName => fromEvent(target.nativeElement, eventName));
+        const type = 'uiEvent', id = 0, data = null;
 
         merge(...events$).pipe(
+            map((event: FocusEvent) => ({id, type, data, event, reaction})),
             switchMap(event => data$.pipe(
                 defaultIfEmpty(undefined),
                 first(),
@@ -48,21 +50,5 @@ export class ReactionCoreService extends ReactionSelector {
             )),
             takeUntil(destroy$)
         ).subscribe(event => this._events$.next(event));
-    }
-
-    private _focusEvents(reaction: Reaction, target: HTMLElement): Observable<ReactionFocusEvent> {
-        const events$ = ReactionSelectFocus.EVENTS.map(eventName => fromEvent(target, eventName));
-        const type = 'focus', id = 0, data = null;
-        return merge(...events$).pipe(
-            map((event: FocusEvent) => ({id, type, data, event, reaction}))
-        );
-    }
-
-    private _mouseEvents(reaction: Reaction, target: HTMLElement): Observable<ReactionMouseEvent> {
-        const events$ = ReactionSelectMouse.EVENTS.map(eventName => fromEvent(target, eventName));
-        const type = 'mouse', id = 0, data = null;
-        return merge(...events$).pipe(
-            map((event: MouseEvent) => ({id, type, data, event, reaction}))
-        );
     }
 }

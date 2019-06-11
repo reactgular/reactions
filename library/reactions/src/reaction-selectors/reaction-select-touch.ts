@@ -1,23 +1,23 @@
 import {Observable} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {ReactionEvent} from '../reaction-events/reaction-event';
-import {isReactionWheelEvent, ReactionWheelEvent} from '../reaction-events/reaction-wheel-event';
+import {isReactionUIEvent, ReactionUIEvent} from '../reaction-events/reaction-ui-event';
 
 /**
- * A selector for wheel events.
+ * A selector for touch events.
  */
-export class ReactionSelectWheel {
+export class ReactionSelectTouch {
     /**
-     * Emits only wheel events.
+     * Emits only touch events.
      */
-    public readonly events$: Observable<ReactionWheelEvent>;
+    public readonly events$: Observable<ReactionUIEvent<TouchEvent>>;
 
     /**
      * Constructor
      */
     public constructor(events: Observable<ReactionEvent>) {
         this.events$ = events.pipe(
-            filter<ReactionWheelEvent>(event => isReactionWheelEvent(event))
+            filter<ReactionUIEvent<TouchEvent>>(event => isReactionUIEvent(event) && event.event instanceof TouchEvent)
         );
     }
 }
