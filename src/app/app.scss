@@ -1,0 +1,46 @@
+@import "config";
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/card";
+@import "~bootstrap/scss/jumbotron";
+@import "~bootstrap/scss/utilities";
+
+html, body {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+
+    -ms-touch-action: none;
+    -webkit-touch-callout: none;
+    -ms-content-zooming: none;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-overflow-scrolling: touch;
+    // CSS 3.0
+    overflow-scrolling: touch;
+
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+*:focus {
+    outline: none;
+}
+
+button:focus {
+    outline: none !important;
+}
