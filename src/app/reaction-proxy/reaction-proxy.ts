@@ -31,7 +31,6 @@ export class ReactionProxy implements Reaction {
      * Emits a change to the internal snapshot.
      */
     public next(snapshot: ReactionSnapshot) {
-        console.log('next', snapshot);
         this._snapshot$.next(snapshot);
     }
 

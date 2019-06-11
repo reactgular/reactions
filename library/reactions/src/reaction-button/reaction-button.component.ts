@@ -33,7 +33,7 @@ export class ReactionButtonComponent {
     }
 
     @Input()
-    public set tool(tool: Reaction) {
-        this.snapshot$ = createSnapshot(tool);
+    public set reaction(reaction: Reaction) {
+        this.snapshot$ = createSnapshot(reaction);
     }
 }

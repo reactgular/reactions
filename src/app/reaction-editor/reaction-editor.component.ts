@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil, tap} from 'rxjs/operators';
 import {ReactionSnapshot} from '../../../library/reactions/src/reaction-snapshot/reaction-snapshot';
 
 @Component({
@@ -31,7 +31,6 @@ export class ReactionEditorComponent implements OnInit, OnDestroy {
      * Constructor
      */
     public constructor(private _fb: FormBuilder) {
-
     }
 
     /**
@@ -52,6 +51,7 @@ export class ReactionEditorComponent implements OnInit, OnDestroy {
         this.group = this._fb.group({title, toolTip, icon});
 
         this.group.valueChanges.pipe(
+            tap(console.log),
             takeUntil(this._destroyed$)
         ).subscribe(snapshot => this.snapshot.emit(snapshot));
     }
