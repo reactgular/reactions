@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subject} from 'rxjs';
-import {takeUntil, tap} from 'rxjs/operators';
+import {startWith, takeUntil, tap} from 'rxjs/operators';
 import {ReactionSnapshot} from '../../../library/reactions/src/reaction-snapshot/reaction-snapshot';
 
 @Component({
@@ -45,13 +45,14 @@ export class ReactionEditorComponent implements OnInit, OnDestroy {
      * Initialization
      */
     public ngOnInit(): void {
-        const title = this._fb.control('');
-        const toolTip = this._fb.control('');
-        const icon = this._fb.control('');
+        const title = this._fb.control('Create Document');
+        const toolTip = this._fb.control('Create a new document.');
+        const icon = this._fb.control('fa-plus');
         this.group = this._fb.group({title, toolTip, icon});
 
         this.group.valueChanges.pipe(
-            tap(console.log),
+            startWith<ReactionSnapshot, ReactionSnapshot>(this.group.value),
+            tap(value => console.log(value)),
             takeUntil(this._destroyed$)
         ).subscribe(snapshot => this.snapshot.emit(snapshot));
     }

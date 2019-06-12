@@ -1,20 +1,19 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ReactionTextComponent} from './reaction-text.component';
 
-import {ReactionLabelComponent} from './reaction-label.component';
-
-describe('ReactionLabelComponent', () => {
-    let component: ReactionLabelComponent;
-    let fixture: ComponentFixture<ReactionLabelComponent>;
+describe(ReactionTextComponent.name, () => {
+    let component: ReactionTextComponent;
+    let fixture: ComponentFixture<ReactionTextComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ReactionLabelComponent]
+            declarations: [ReactionTextComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ReactionLabelComponent);
+        fixture = TestBed.createComponent(ReactionTextComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

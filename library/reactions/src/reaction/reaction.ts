@@ -23,3 +23,11 @@ export interface Reaction {
     toolTip(): Observable<string>;
 }
 
+/**
+ * Checks if an object is a reaction
+ */
+export function isReaction(value: any): value is Reaction {
+    return typeof (<Reaction>value).icon === 'function'
+        && typeof (<Reaction>value).title === 'function'
+        && typeof (<Reaction>value).toolTip === 'function';
+}

@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
+import {MatButtonModule} from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactionsModule} from '../../library/reactions/src/reactions.module';
@@ -11,7 +12,8 @@ import {ReactionEditorComponent} from './reaction-editor/reaction-editor.compone
         BrowserModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
-        ReactionsModule
+        ReactionsModule,
+        MatButtonModule
     ],
     declarations: [
         DemoComponent,
