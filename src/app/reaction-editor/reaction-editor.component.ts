@@ -48,7 +48,8 @@ export class ReactionEditorComponent implements OnInit, OnDestroy {
         const title = this._fb.control('Create Document');
         const toolTip = this._fb.control('Create a new document.');
         const icon = this._fb.control('fa-plus');
-        this.group = this._fb.group({title, toolTip, icon});
+        const css = this._fb.control('text-danger');
+        this.group = this._fb.group({title, toolTip, icon, css});
 
         this.group.valueChanges.pipe(
             startWith<ReactionSnapshot, ReactionSnapshot>(this.group.value),

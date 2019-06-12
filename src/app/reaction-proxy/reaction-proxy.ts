@@ -1,13 +1,14 @@
-import {Observable, ReplaySubject} from 'rxjs';
+import {Observable, of, ReplaySubject} from 'rxjs';
 import {first, map} from 'rxjs/operators';
 import {ReactionConfig} from '../../../library/reactions/src/reaction-config/reaction-config';
 import {ReactionSnapshot} from '../../../library/reactions/src/reaction-snapshot/reaction-snapshot';
 import {Reaction} from '../../../library/reactions/src/reaction/reaction';
+import {ReactionStyle} from '../../../library/reactions/src/reaction/reaction-style';
 
 /**
  * Emits reaction values from the internal snapshot.
  */
-export class ReactionProxy implements Reaction {
+export class ReactionProxy implements Reaction, ReactionStyle {
     /**
      * The internal state of the reaction.
      */
@@ -60,5 +61,9 @@ export class ReactionProxy implements Reaction {
      */
     public toolTip(): Observable<string> {
         return this._snapshot$.pipe(map(snapshot => snapshot.toolTip));
+    }
+
+    public css(): Observable<string | string[] | void> {
+        return of('rg-danger');
     }
 }

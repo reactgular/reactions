@@ -1,8 +1,7 @@
 import {Directive, OnDestroy, OnInit, Optional} from '@angular/core';
-import {of, Subject} from 'rxjs';
-import {defaultIfEmpty, pairwise, startWith, switchMap, takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {pairwise, startWith, switchMap, takeUntil} from 'rxjs/operators';
 import {assertReactionModel, ReactionModelDirective} from '../reaction-model/reaction-model.directive';
-import {isReactionStyle, ReactionColor} from '../reaction/reaction-style';
 
 /**
  * Applies CSS classes to the reaction component.
@@ -33,13 +32,12 @@ export class ReactionStyleDirective implements OnInit, OnDestroy {
      */
     public ngOnInit(): void {
 
-        this._reactionModel.reaction$.pipe(
-            switchMap(reaction => isReactionStyle(reaction) ? reaction.color() : of(undefined)),
-            startWith<ReactionColor, ReactionColor>(undefined),
-            defaultIfEmpty(undefined),
+        this._reactionModel.state$.pipe(
+            switchMap(state$ => state$.css$),
+            startWith<string[], string[]>([]),
             pairwise()
-        ).subscribe(([prev, next]: [ReactionColor, ReactionColor]) => {
-
+        ).subscribe(([prev, next]: [string[], string[]]) => {
+            console.log('color', prev, next);
         });
 
         this._reactionModel.snapshot$.pipe(
