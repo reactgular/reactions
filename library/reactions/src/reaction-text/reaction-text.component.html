@@ -1,8 +1,10 @@
 <ng-container *ngIf="snapshot$ | async as snapshot">
   <fa-icon *ngIf="icon && snapshot.icon"
+           class="rg-reaction-icon"
            [fixedWidth]="true"
            [icon]="snapshot.icon"
            [pulse]="snapshot.animate === 'pulse'"
            [spin]="snapshot.animate === 'spin'"></fa-icon>
-  <span *ngIf="title">{{snapshot.title}}</span>
+  <span *ngIf="title"
+        class="rg-reaction-text">{{snapshot.title}}</span>
 </ng-container>

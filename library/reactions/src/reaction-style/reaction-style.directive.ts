@@ -1,5 +1,5 @@
 import {Directive, ElementRef, OnDestroy, OnInit, Optional, Renderer2} from '@angular/core';
-import {Subject} from 'rxjs';
+import {combineLatest, Subject} from 'rxjs';
 import {map, pairwise, startWith, switchMap, takeUntil} from 'rxjs/operators';
 import {assertReactionModel, ReactionModelDirective} from '../reaction-model/reaction-model.directive';
 
@@ -36,28 +36,25 @@ export class ReactionStyleDirective implements OnInit, OnDestroy {
      * Initializer
      */
     public ngOnInit(): void {
+        this._renderer.addClass(this._el.nativeElement, 'rg-reaction');
 
-        this._reactionModel.state$.pipe(
-            switchMap(state$ => state$.css$),
+        const css$ = this._reactionModel.state$.pipe(switchMap(state$ => state$.css$));
+        const icon$ = this._reactionModel.state$.pipe(switchMap(state$ => state$.icon$), map(icon => icon ? ['rg-reaction-icon'] : []));
+
+        combineLatest([css$, icon$]).pipe(
+            map(([css, icon]) => [...css, ...icon]),
             startWith<string[], string[]>([]),
             pairwise(),
             map(([prev, next]: [string[], string[]]) => {
                 return {
                     add: next.filter(x => !prev.includes(x)),
                     remove: prev.filter(x => !next.includes(x))
-                }
+                };
             }),
             takeUntil(this._destroyed$)
         ).subscribe((change: { add: string[], remove: string[] }) => {
             change.add.forEach(css => this._renderer.addClass(this._el.nativeElement, css));
             change.remove.forEach(css => this._renderer.removeClass(this._el.nativeElement, css));
-            console.log('color', change);
-        });
-
-        this._reactionModel.snapshot$.pipe(
-            takeUntil(this._destroyed$)
-        ).subscribe(snapshot => {
-            console.log(snapshot);
         });
     }
 }
