@@ -2,7 +2,7 @@ import {combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Reaction} from '../reaction/reaction';
 import {ReactionAnimateMode} from '../reaction/reaction-animate';
-import {toReactionState} from '../reaction-state/reaction-state';
+import {toReactionStates} from '../reaction-states/reaction-states';
 
 /**
  * A snapshot of the reaction state.
@@ -29,7 +29,7 @@ export interface ReactionSnapshot {
  * Creates an observable that emits a snapshots (state object) of a reaction.
  */
 export function toReactionSnapshot(reaction: Reaction): Observable<ReactionSnapshot> {
-    const state$ = toReactionState(reaction);
+    const state$ = toReactionStates(reaction);
     return combineLatest([
         state$.icon$,
         state$.toolTip$,

@@ -1,4 +1,5 @@
 import {Observable} from 'rxjs';
+import {Reaction} from './reaction';
 
 /**
  * Supported types of animation.
@@ -17,7 +18,17 @@ export interface ReactionAnimate {
     /**
      * Emits the animation state of the tool. Can be "spin" or "pulse" or undefined.
      */
-    animate(): Observable<ReactionAnimateMode | void>;
+    animate(): Observable<ReactionAnimateMode | void> | ReactionAnimateMode | void;
+}
+
+/**
+ * Reaction state
+ */
+export interface ReactionAnimateState {
+    /**
+     * Animation state
+     */
+    animate$: Observable<ReactionAnimateMode | void>;
 }
 
 /**
@@ -25,4 +36,12 @@ export interface ReactionAnimate {
  */
 export function isReactionAnimate(value: any): value is ReactionAnimate {
     return typeof (<ReactionAnimate>value).animate === 'function';
+}
+
+/**
+ * Updates a state object with more observable properties from the reaction.
+ */
+export function reactionAnimateReducer(acc: any, next: Reaction): ReactionAnimateState {
+    const animate$ = isReactionAnimate(next) ? next.animate() : undefined;
+    return {...acc, ...{animate$}};
 }

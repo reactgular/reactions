@@ -3,7 +3,7 @@ import {Observable, ReplaySubject} from 'rxjs';
 import {distinctUntilChanged, filter, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ReactionSnapshot, toReactionSnapshot} from '../reaction-snapshot/reaction-snapshot';
 import {isReaction, Reaction} from '../reaction/reaction';
-import {ReactionState, toReactionState} from '../reaction-state/reaction-state';
+import {ReactionStates, toReactionStates} from '../reaction-states/reaction-states';
 
 /**
  * Asserts that the rgReaction directive is present.
@@ -29,7 +29,7 @@ export class ReactionModelDirective implements OnInit {
     /**
      * Emits the reaction as a state object.
      */
-    public state$: Observable<ReactionState>;
+    public state$: Observable<ReactionStates>;
 
     /**
      * Emits snapshots of the reaction.
@@ -60,7 +60,7 @@ export class ReactionModelDirective implements OnInit {
         );
 
         this.state$ = this.reaction$.pipe(
-            map(reaction => toReactionState(reaction)),
+            map(reaction => toReactionStates(reaction)),
             shareReplay(1)
         );
 
