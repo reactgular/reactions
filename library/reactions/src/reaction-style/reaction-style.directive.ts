@@ -1,6 +1,6 @@
-import {Directive, OnDestroy, OnInit, Optional} from '@angular/core';
+import {Directive, ElementRef, OnDestroy, OnInit, Optional, Renderer2} from '@angular/core';
 import {Subject} from 'rxjs';
-import {pairwise, startWith, switchMap, takeUntil} from 'rxjs/operators';
+import {map, pairwise, startWith, switchMap, takeUntil} from 'rxjs/operators';
 import {assertReactionModel, ReactionModelDirective} from '../reaction-model/reaction-model.directive';
 
 /**
@@ -10,12 +10,17 @@ import {assertReactionModel, ReactionModelDirective} from '../reaction-model/rea
     selector: '[rgReactionStyle]'
 })
 export class ReactionStyleDirective implements OnInit, OnDestroy {
+    /**
+     * Destructor event
+     */
     private readonly _destroyed$: Subject<void> = new Subject();
 
     /**
      * Constructor
      */
-    public constructor(@Optional() private _reactionModel: ReactionModelDirective) {
+    public constructor(@Optional() private _reactionModel: ReactionModelDirective,
+                       private _el: ElementRef<HTMLElement>,
+                       private _renderer: Renderer2) {
         assertReactionModel('rgReactionStyle', _reactionModel);
     }
 
@@ -35,9 +40,18 @@ export class ReactionStyleDirective implements OnInit, OnDestroy {
         this._reactionModel.state$.pipe(
             switchMap(state$ => state$.css$),
             startWith<string[], string[]>([]),
-            pairwise()
-        ).subscribe(([prev, next]: [string[], string[]]) => {
-            console.log('color', prev, next);
+            pairwise(),
+            map(([prev, next]: [string[], string[]]) => {
+                return {
+                    add: next.filter(x => !prev.includes(x)),
+                    remove: prev.filter(x => !next.includes(x))
+                }
+            }),
+            takeUntil(this._destroyed$)
+        ).subscribe((change: { add: string[], remove: string[] }) => {
+            change.add.forEach(css => this._renderer.addClass(this._el.nativeElement, css));
+            change.remove.forEach(css => this._renderer.removeClass(this._el.nativeElement, css));
+            console.log('color', change);
         });
 
         this._reactionModel.snapshot$.pipe(

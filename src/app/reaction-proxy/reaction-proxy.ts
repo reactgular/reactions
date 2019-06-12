@@ -64,6 +64,6 @@ export class ReactionProxy implements Reaction, ReactionStyle {
     }
 
     public css(): Observable<string | string[] | void> {
-        return of('rg-danger');
+        return this._snapshot$.pipe(map(snapshot => snapshot.css));
     }
 }

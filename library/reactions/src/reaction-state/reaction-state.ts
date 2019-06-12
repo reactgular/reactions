@@ -36,7 +36,7 @@ export function toReactionState(reaction: Reaction): ReactionState {
     state$.css$ = state$.css$.pipe(
         map((value: string | string[] | void) => {
             const values: string[] = typeof value === 'string' ? value.split(' ') : (value || []);
-            return values.map(str => str.trim()).filter(Boolean);
+            return Array.from(new Set(values.map(str => str.trim()).filter(Boolean)));
         })
     );
 
