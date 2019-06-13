@@ -49,8 +49,6 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
             filter<ReactionUIEvent<UIEvent>>(event => isReactionUIEvent<UIEvent>(event)),
             takeUntil(this._destroyed$)
         ).subscribe(event => this._handleUIEvent(event));
-
-        console.error(this.config);
     }
 
     /**
