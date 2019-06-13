@@ -65,7 +65,10 @@ export class ReactionCoreService extends ReactionSelector {
     /**
      * Selects only events for a given reaction.
      */
-    public select(reaction: ReactionTitle): ReactionSelectReaction {
-        return new ReactionSelectReaction(this.events$, reaction);
+    public select(reaction: ReactionTitle, destroyed$?: Observable<void>): ReactionSelectReaction {
+        const events$ = destroyed$
+            ? this.events$.pipe(takeUntil(destroyed$))
+            : this.events$;
+        return new ReactionSelectReaction(events$, reaction);
     }
 }
