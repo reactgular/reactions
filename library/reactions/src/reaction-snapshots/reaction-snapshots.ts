@@ -1,11 +1,10 @@
 import {combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {toReactionStates} from '../reaction-states/reaction-states';
-import {ReactionTitle, ReactionTitleSnapshot} from '../reaction-types/reaction-title';
-import {ReactionAnimateSnapshot} from '../reaction-types/reaction-animate';
 import {ReactionDisabledSnapshot} from '../reaction-types/reaction-disabled';
 import {ReactionIconSnapshot} from '../reaction-types/reaction-icon';
 import {ReactionStyleSnapshot} from '../reaction-types/reaction-style';
+import {ReactionTitle, ReactionTitleSnapshot} from '../reaction-types/reaction-title';
 import {ReactionTooltipSnapshot} from '../reaction-types/reaction-tooltip';
 import {ReactionVisibleSnapshot} from '../reaction-types/reaction-visible';
 
@@ -13,7 +12,6 @@ import {ReactionVisibleSnapshot} from '../reaction-types/reaction-visible';
  * A snapshot of the reaction state.
  */
 export interface ReactionSnapshots extends ReactionTitleSnapshot,
-    ReactionAnimateSnapshot,
     ReactionDisabledSnapshot,
     ReactionIconSnapshot,
     ReactionStyleSnapshot,

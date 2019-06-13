@@ -1,10 +1,9 @@
 import {isObservable, of} from 'rxjs';
 import {defaultIfEmpty, distinctUntilChanged, shareReplay} from 'rxjs/operators';
-import {ReactionTitle, reactionTitleReducer, ReactionTitleState} from '../reaction-types/reaction-title';
-import {reactionAnimateReducer, ReactionAnimateState} from '../reaction-types/reaction-animate';
 import {reactionDisabledReducer, ReactionDisabledState} from '../reaction-types/reaction-disabled';
 import {reactionIconReducer, ReactionIconState} from '../reaction-types/reaction-icon';
 import {reactionStyleReducer, ReactionStyleState} from '../reaction-types/reaction-style';
+import {ReactionTitle, reactionTitleReducer, ReactionTitleState} from '../reaction-types/reaction-title';
 import {reactionTooltipReducer, ReactionTooltipState} from '../reaction-types/reaction-tooltip';
 import {reactionVisibleReducer, ReactionVisibleState} from '../reaction-types/reaction-visible';
 
@@ -12,7 +11,6 @@ import {reactionVisibleReducer, ReactionVisibleState} from '../reaction-types/re
  * Combines all the states into a single interface.
  */
 export interface ReactionStates extends ReactionTitleState,
-    ReactionAnimateState,
     ReactionDisabledState,
     ReactionIconState,
     ReactionStyleState,
@@ -26,7 +24,6 @@ export interface ReactionStates extends ReactionTitleState,
 export function toReactionStates(reaction: ReactionTitle): ReactionStates {
     let state$ = {};
     state$ = reactionTitleReducer(state$, reaction);
-    state$ = reactionAnimateReducer(state$, reaction);
     state$ = reactionDisabledReducer(state$, reaction);
     state$ = reactionIconReducer(state$, reaction);
     state$ = reactionStyleReducer(state$, reaction);

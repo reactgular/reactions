@@ -2,24 +2,48 @@ import {Observable} from 'rxjs';
 import {ReactionTitle} from './reaction-title';
 
 /**
+ * Supported types of animation.
+ *
+ * These are currently limited to what FontAwesome supports.
+ */
+export enum ReactionIconAnimate {
+    SPIN = 'spin',
+    PULSE = 'pulse'
+}
+
+/**
  * Adds support for showing an icon.
  */
 export interface ReactionIcon {
+    /**
+     * Emits the animation state of the tool. Can be "spin" or "pulse" or undefined.
+     */
+    animate(): Observable<ReactionIconAnimate> | ReactionIconAnimate;
+
     /**
      * The visual icon for the tool.
      */
     icon(): Observable<string> | string;
 
     /**
-     * (Optional) secondary icon shown after the text.
+     * Secondary icon shown after the text.
      */
-    secondary?(): Observable<string> | string;
+    secondary(): Observable<string> | string;
+
+    /**
+     * Emits the animation state of the tool. Can be "spin" or "pulse" or undefined.
+     */
+    secondaryAnimate(): Observable<ReactionIconAnimate> | ReactionIconAnimate;
 }
 
 /**
  * State object for ReactionIcon
  */
 export interface ReactionIconState {
+    /**
+     * Animation state
+     */
+    animate$: Observable<ReactionIconAnimate>;
     /**
      * Icon state
      */
@@ -28,12 +52,20 @@ export interface ReactionIconState {
      * Secondary state
      */
     secondary$: Observable<string>;
+    /**
+     * Animation state
+     */
+    secondaryAnimate$: Observable<ReactionIconAnimate>;
 }
 
 /**
  * Snapshot of icon state
  */
 export interface ReactionIconSnapshot {
+    /**
+     * Animation state
+     */
+    animate: ReactionIconAnimate;
     /**
      * Icon state
      */
@@ -42,13 +74,20 @@ export interface ReactionIconSnapshot {
      * Secondary state
      */
     secondary: string;
+    /**
+     * Animation state
+     */
+    secondaryAnimate: ReactionIconAnimate;
 }
 
 /**
  * Checks if an object is a reaction
  */
 export function isReactionIcon(value: any): value is ReactionIcon {
-    return typeof (<ReactionIcon>value).icon === 'function';
+    return typeof (<ReactionIcon>value).icon === 'function'
+        && typeof (<ReactionIcon>value).animate === 'function'
+        && typeof (<ReactionIcon>value).secondary === 'function'
+        && typeof (<ReactionIcon>value).secondaryAnimate === 'function';
 }
 
 /**
@@ -56,6 +95,8 @@ export function isReactionIcon(value: any): value is ReactionIcon {
  */
 export function reactionIconReducer(acc: any, next: ReactionTitle): ReactionIconState {
     const icon$ = isReactionIcon(next) ? next.icon() : undefined;
-    const secondary$ = isReactionIcon(next) && typeof next.secondary === 'function' ? next.secondary() : undefined;
-    return {...acc, ...{icon$, secondary$}};
+    const animate$ = isReactionIcon(next) ? next.animate() : undefined;
+    const secondary$ = isReactionIcon(next) ? next.secondary() : undefined;
+    const secondaryAnimate$ = isReactionIcon(next) ? next.secondaryAnimate() : undefined;
+    return {...acc, ...{icon$, animate$, secondary$, secondaryAnimate$}};
 }
