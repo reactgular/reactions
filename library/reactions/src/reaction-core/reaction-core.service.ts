@@ -9,13 +9,14 @@ import {ReactionSelectReaction} from '../reaction-selectors/reaction-select-reac
 import {ReactionSelectTouch} from '../reaction-selectors/reaction-select-touch';
 import {ReactionSelector} from '../reaction-selectors/reaction-selector';
 import {Reaction} from '../reaction/reaction';
+import {ReactionCore} from './reaction-core';
 
 /**
  * UI events are broadcast from this service and reactions can act upon those events. Events are things like mouse events, keyboard
  * events, etc.. etc..
  */
 @Injectable({providedIn: 'root'})
-export class ReactionCoreService extends ReactionSelector {
+export class ReactionCoreService extends ReactionSelector implements ReactionCore {
     /**
      * Emitter of the events.
      */

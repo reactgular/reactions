@@ -1,19 +1,30 @@
+import {Injector} from '@angular/core';
 import {Observable} from 'rxjs';
 import {ReactionConfig} from '../reaction-config/reaction-config';
+import {ReactionCoreService} from '../reaction-core/reaction-core.service';
 
 /**
  *
  */
-export interface Reaction {
+export abstract class Reaction {
     /**
      * Configuration options for the tool.
      */
     readonly config?: Partial<ReactionConfig>;
 
+    protected _reactionCore: ReactionCoreService;
+
+    /**
+     * Constructor
+     */
+    protected constructor(injector: Injector) {
+        this._reactionCore = injector.get(ReactionCoreService);
+    }
+
     /**
      * The title shown in the body of a button or menu item.
      */
-    title(): Observable<string> | string;
+    public abstract title(): Observable<string> | string;
 }
 
 /**
