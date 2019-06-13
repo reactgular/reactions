@@ -22,13 +22,23 @@ export interface ReactionAnimate {
 }
 
 /**
- * Reaction state
+ * Animation state
  */
 export interface ReactionAnimateState {
     /**
      * Animation state
      */
     animate$: Observable<ReactionAnimateMode | void>;
+}
+
+/**
+ * Snapshot of animation.
+ */
+export interface ReactionAnimateSnapshot {
+    /**
+     * Animation state
+     */
+    animate: ReactionAnimateMode;
 }
 
 /**

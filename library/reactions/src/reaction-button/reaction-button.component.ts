@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, ElementRef, Input, QueryList, ViewChildren, ViewContainerRef} from '@angular/core';
 import {MatTooltip} from '@angular/material';
 import {Observable} from 'rxjs';
-import {toReactionSnapshot, ReactionSnapshot} from '../reaction-snapshot/reaction-snapshot';
+import {toReactionSnapshots, ReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
 import {Reaction} from '../reaction/reaction';
 
 @Component({
@@ -20,7 +20,7 @@ export class ReactionButtonComponent {
     @Input()
     public muted: boolean;
 
-    public snapshot$: Observable<ReactionSnapshot>;
+    public snapshot$: Observable<ReactionSnapshots>;
 
     @Input()
     public title = true;
@@ -34,6 +34,6 @@ export class ReactionButtonComponent {
 
     @Input()
     public set reaction(reaction: Reaction) {
-        this.snapshot$ = toReactionSnapshot(reaction);
+        this.snapshot$ = toReactionSnapshots(reaction);
     }
 }

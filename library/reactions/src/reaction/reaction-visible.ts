@@ -22,6 +22,16 @@ export interface ReactionVisibleState {
 }
 
 /**
+ * Snapshot of visible state
+ */
+export interface ReactionVisibleSnapshot {
+    /**
+     * Visible state
+     */
+    visible: boolean;
+}
+
+/**
  * Checks if a reaction supports visibility.
  */
 export function isReactionVisible(value: any): value is ReactionVisible {

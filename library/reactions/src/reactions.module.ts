@@ -7,7 +7,7 @@ import {ReactionIconComponent} from './reaction-icon/reaction-icon.component';
 import {ReactionMenuItemComponent} from './reaction-menu-item/reaction-menu-item.component';
 import {ReactionModelDirective} from './reaction-model/reaction-model.directive';
 import {ReactionOrderPipe} from './reaction-order/reaction-order.pipe';
-import {ReactionSnapshotPipe} from './reaction-snapshot/reaction-snapshot.pipe';
+import {ReactionSnapshotsPipe} from './reaction-snapshots/reaction-snapshots.pipe';
 import {ReactionStyleDirective} from './reaction-style/reaction-style.directive';
 import {ReactionTextComponent} from './reaction-text/reaction-text.component';
 
@@ -25,13 +25,13 @@ import {ReactionTextComponent} from './reaction-text/reaction-text.component';
         ReactionMenuItemComponent,
         ReactionModelDirective,
         ReactionOrderPipe,
-        ReactionSnapshotPipe,
+        ReactionSnapshotsPipe,
         ReactionStyleDirective,
         ReactionTextComponent
     ],
     providers: [
         ReactionOrderPipe,
-        ReactionSnapshotPipe
+        ReactionSnapshotsPipe
     ],
     exports: [
         ReactionButtonComponent,
@@ -39,7 +39,7 @@ import {ReactionTextComponent} from './reaction-text/reaction-text.component';
         ReactionMenuItemComponent,
         ReactionModelDirective,
         ReactionOrderPipe,
-        ReactionSnapshotPipe,
+        ReactionSnapshotsPipe,
         ReactionStyleDirective,
         ReactionTextComponent
     ]

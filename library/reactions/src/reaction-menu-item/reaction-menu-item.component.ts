@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {Observable} from 'rxjs';
-import {toReactionSnapshot, ReactionSnapshot} from '../reaction-snapshot/reaction-snapshot';
+import {toReactionSnapshots, ReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
 import {Reaction} from '../reaction/reaction';
 
 @Component({
@@ -16,13 +16,13 @@ export class ReactionMenuItemComponent {
     @Input()
     public muted: boolean;
 
-    public snapshot$: Observable<ReactionSnapshot>;
+    public snapshot$: Observable<ReactionSnapshots>;
 
     @Input()
     public title = true;
 
     @Input()
     public set reaction(r: Reaction) {
-        this.snapshot$ = toReactionSnapshot(r);
+        this.snapshot$ = toReactionSnapshots(r);
     }
 }

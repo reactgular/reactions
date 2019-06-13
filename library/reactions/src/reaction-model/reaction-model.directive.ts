@@ -1,7 +1,7 @@
 import {Directive, Input, OnInit} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs';
 import {distinctUntilChanged, filter, map, shareReplay, switchMap} from 'rxjs/operators';
-import {ReactionSnapshot, toReactionSnapshot} from '../reaction-snapshot/reaction-snapshot';
+import {ReactionSnapshots, toReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
 import {isReaction, Reaction} from '../reaction/reaction';
 import {ReactionStates, toReactionStates} from '../reaction-states/reaction-states';
 
@@ -34,7 +34,7 @@ export class ReactionModelDirective implements OnInit {
     /**
      * Emits snapshots of the reaction.
      */
-    public snapshot$: Observable<ReactionSnapshot>;
+    public snapshot$: Observable<ReactionSnapshots>;
 
     /**
      * Emits the reaction object.
@@ -65,7 +65,7 @@ export class ReactionModelDirective implements OnInit {
         );
 
         this.snapshot$ = this.reaction$.pipe(
-            switchMap(reaction => toReactionSnapshot(reaction)),
+            switchMap(reaction => toReactionSnapshots(reaction)),
             shareReplay(1)
         );
     }

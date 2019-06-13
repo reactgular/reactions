@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit, Optional} from '@angular/core';
 import {Observable} from 'rxjs';
 import {assertReactionModel, ReactionModelDirective} from '../reaction-model/reaction-model.directive';
-import {ReactionSnapshot} from '../reaction-snapshot/reaction-snapshot';
+import {ReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
 
 /**
  * Displays the body of a reaction control. Mostly the icon and title.
@@ -22,7 +22,7 @@ export class ReactionTextComponent implements OnInit {
     /**
      * Emits snapshots of the reaction
      */
-    public snapshot$: Observable<ReactionSnapshot>;
+    public snapshot$: Observable<ReactionSnapshots>;
 
     /**
      * Show the title

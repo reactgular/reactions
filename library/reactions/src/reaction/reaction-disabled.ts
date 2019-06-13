@@ -22,6 +22,16 @@ export interface ReactionDisabledState {
 }
 
 /**
+ * Snapshot of disabled
+ */
+export interface ReactionDisabledSnapshot {
+    /**
+     * Disabled state
+     */
+    disabled: boolean;
+}
+
+/**
  * Checks if a reaction supports being disabled.
  */
 export function isReactionDisabled(value: any): value is ReactionDisabled {

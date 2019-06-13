@@ -23,6 +23,16 @@ export interface ReactionStyleState {
 }
 
 /**
+ * Snapshot of styles
+ */
+export interface ReactionStyleSnapshot {
+    /**
+     * CSS state
+     */
+    css: string[];
+}
+
+/**
  * Checks if the reaction supports styles.
  */
 export function isReactionStyle(value: any): value is ReactionStyle {
