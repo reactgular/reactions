@@ -8,7 +8,6 @@ import {ReactionMenuItemComponent} from './reaction-menu-item/reaction-menu-item
 import {ReactionModelDirective} from './reaction-model/reaction-model.directive';
 import {ReactionOrderPipe} from './reaction-order/reaction-order.pipe';
 import {ReactionSnapshotsPipe} from './reaction-snapshots/reaction-snapshots.pipe';
-import {ReactionStyleDirective} from './reaction-style/reaction-style.directive';
 import {ReactionTextComponent} from './reaction-text/reaction-text.component';
 
 @NgModule({
@@ -26,7 +25,6 @@ import {ReactionTextComponent} from './reaction-text/reaction-text.component';
         ReactionModelDirective,
         ReactionOrderPipe,
         ReactionSnapshotsPipe,
-        ReactionStyleDirective,
         ReactionTextComponent
     ],
     providers: [
@@ -40,7 +38,6 @@ import {ReactionTextComponent} from './reaction-text/reaction-text.component';
         ReactionModelDirective,
         ReactionOrderPipe,
         ReactionSnapshotsPipe,
-        ReactionStyleDirective,
         ReactionTextComponent
     ]
 })

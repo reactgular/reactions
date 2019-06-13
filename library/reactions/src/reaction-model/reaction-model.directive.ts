@@ -1,9 +1,9 @@
-import {Directive, Input, OnInit} from '@angular/core';
-import {Observable, ReplaySubject} from 'rxjs';
-import {distinctUntilChanged, filter, map, shareReplay, switchMap} from 'rxjs/operators';
+import {Directive, ElementRef, Input, OnDestroy, OnInit, Renderer2} from '@angular/core';
+import {combineLatest, Observable, ReplaySubject, Subject} from 'rxjs';
+import {distinctUntilChanged, filter, map, pairwise, shareReplay, startWith, switchMap, takeUntil} from 'rxjs/operators';
 import {ReactionSnapshots, toReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
-import {isReaction, Reaction} from '../reaction/reaction';
 import {ReactionStates, toReactionStates} from '../reaction-states/reaction-states';
+import {isReaction, Reaction} from '../reaction/reaction';
 
 /**
  * Asserts that the rgReaction directive is present.
@@ -20,16 +20,11 @@ export function assertReactionModel(name: string, reactionModel?: ReactionModelD
 @Directive({
     selector: '[rgReaction]'
 })
-export class ReactionModelDirective implements OnInit {
+export class ReactionModelDirective implements OnInit, OnDestroy {
     /**
      * Emits changes to the reaction object.
      */
     public reaction$: Observable<Reaction>;
-
-    /**
-     * Emits the reaction as a state object.
-     */
-    public state$: Observable<ReactionStates>;
 
     /**
      * Emits snapshots of the reaction.
@@ -37,9 +32,26 @@ export class ReactionModelDirective implements OnInit {
     public snapshot$: Observable<ReactionSnapshots>;
 
     /**
+     * Emits the reaction as a state object.
+     */
+    public state$: Observable<ReactionStates>;
+
+    /**
+     * Destructor event
+     */
+    private readonly _destroyed$: Subject<void> = new Subject();
+
+    /**
      * Emits the reaction object.
      */
     private readonly _reaction$: ReplaySubject<Reaction> = new ReplaySubject(1);
+
+    /**
+     * Constructor
+     */
+    public constructor(private _el: ElementRef<HTMLElement>,
+                       private _renderer: Renderer2) {
+    }
 
     /**
      * Sets the reaction object.
@@ -47,6 +59,14 @@ export class ReactionModelDirective implements OnInit {
     @Input('rgReaction')
     public set reaction(reaction: Reaction) {
         this._reaction$.next(reaction);
+    }
+
+    /**
+     * Destructor
+     */
+    public ngOnDestroy(): void {
+        this._destroyed$.next();
+        this._destroyed$.complete();
     }
 
     /**
@@ -68,5 +88,35 @@ export class ReactionModelDirective implements OnInit {
             switchMap(reaction => toReactionSnapshots(reaction)),
             shareReplay(1)
         );
+
+        this._renderer.addClass(this._el.nativeElement, 'rg-reaction');
+
+        const toArray = (cond: any, value: string): string[] => cond ? [value] : [];
+        const snapshot$ = this.snapshot$;
+        const styles$ = [
+            snapshot$.pipe(map(s => s.css)),
+            snapshot$.pipe(map(s => toArray(s.icon, 'rg-reaction-icon'))),
+            snapshot$.pipe(map(s => toArray(s.title, 'rg-reaction-title'))),
+            snapshot$.pipe(map(s => toArray(s.tooltip, 'rg-reaction-tooltip'))),
+            snapshot$.pipe(map(s => toArray(s.animate, 'rg-reaction-animate'))),
+            snapshot$.pipe(map(s => toArray(s.disabled, 'rg-reaction-disabled')))
+        ];
+
+        combineLatest(styles$).pipe(
+            // merge all the CSS arrays into a single array
+            map((values) => values.reduce((acc, next) => ([...acc, ...next]), [])),
+            startWith([]),
+            pairwise(),
+            map(([prev, next]: [string[], string[]]) => {
+                return {
+                    add: next.filter(x => !prev.includes(x)),
+                    remove: prev.filter(x => !next.includes(x))
+                };
+            }),
+            takeUntil(this._destroyed$)
+        ).subscribe((change: { add: string[], remove: string[] }) => {
+            change.add.forEach(css => this._renderer.addClass(this._el.nativeElement, css));
+            change.remove.forEach(css => this._renderer.removeClass(this._el.nativeElement, css));
+        });
     }
 }
