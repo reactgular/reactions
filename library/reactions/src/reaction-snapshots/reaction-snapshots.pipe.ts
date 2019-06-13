@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {isReaction} from '../reaction/reaction';
+import {isReaction} from '../reaction-types/reaction-title';
 import {ReactionSnapshots, toReactionSnapshots} from './reaction-snapshots';
 
 @Pipe({name: 'reactionSnapshots', pure: true})

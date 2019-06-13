@@ -1,16 +1,17 @@
-import {Observable, of, ReplaySubject} from 'rxjs';
+import {Observable, ReplaySubject} from 'rxjs';
 import {first, map} from 'rxjs/operators';
 import {ReactionConfig} from '../../../library/reactions/src/reaction-config/reaction-config';
 import {ReactionSnapshots} from '../../../library/reactions/src/reaction-snapshots/reaction-snapshots';
+import {ReactionIcon} from '../../../library/reactions/src/reaction-types/reaction-icon';
+import {ReactionStyle} from '../../../library/reactions/src/reaction-types/reaction-style';
+import {ReactionTooltip} from '../../../library/reactions/src/reaction-types/reaction-tooltip';
 import {Reaction} from '../../../library/reactions/src/reaction/reaction';
-import {ReactionIcon} from '../../../library/reactions/src/reaction/reaction-icon';
-import {ReactionStyle} from '../../../library/reactions/src/reaction/reaction-style';
-import {ReactionTooltip} from '../../../library/reactions/src/reaction/reaction-tooltip';
+import {Injector} from '@angular/core';
 
 /**
  * Emits reaction values from the internal snapshot.
  */
-export class ReactionProxy implements Reaction, ReactionStyle, ReactionIcon, ReactionTooltip {
+export class ReactionProxy extends Reaction implements ReactionStyle, ReactionIcon, ReactionTooltip {
     /**
      * The internal state of the reaction.
      */
@@ -19,8 +20,9 @@ export class ReactionProxy implements Reaction, ReactionStyle, ReactionIcon, Rea
     /**
      * Constructor
      */
-    public constructor(public readonly config: Partial<ReactionConfig>) {
-
+    public constructor(public readonly config: Partial<ReactionConfig>,
+                       injector: Injector) {
+        super(injector);
     }
 
     /**

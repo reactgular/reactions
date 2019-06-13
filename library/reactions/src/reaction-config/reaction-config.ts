@@ -1,4 +1,4 @@
-import {Reaction} from '../reaction/reaction';
+import {ReactionTitle} from '../reaction-types/reaction-title';
 
 /**
  * Configuration options for a reaction.
@@ -13,7 +13,7 @@ export interface ReactionConfig {
 /**
  * Gets the configuration from a reaction with applied defaults.
  */
-export function reactionConfig(tool: Reaction): ReactionConfig {
+export function reactionConfig(tool: ReactionTitle): ReactionConfig {
     const config = tool.config || {};
     const order = config.order || '0000:0000';
     return Object.assign({order}, config);

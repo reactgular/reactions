@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {Observable} from 'rxjs';
 import {toReactionSnapshots, ReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
-import {Reaction} from '../reaction/reaction';
+import {ReactionTitle} from '../reaction-types/reaction-title';
 
 @Component({
     selector: 'rg-reaction-menu-item',
@@ -22,7 +22,7 @@ export class ReactionMenuItemComponent {
     public title = true;
 
     @Input()
-    public set reaction(r: Reaction) {
+    public set reaction(r: ReactionTitle) {
         this.snapshot$ = toReactionSnapshots(r);
     }
 }

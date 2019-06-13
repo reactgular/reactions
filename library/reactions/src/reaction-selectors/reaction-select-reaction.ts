@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {isReactionEvent, ReactionEvent} from '../reaction-events/reaction-event';
-import {Reaction} from '../reaction/reaction';
+import {ReactionTitle} from '../reaction-types/reaction-title';
 import {ReactionSelector} from './reaction-selector';
 
 /**
@@ -12,7 +12,7 @@ export class ReactionSelectReaction extends ReactionSelector {
      * Constructor
      */
     public constructor(events$: Observable<ReactionEvent>,
-                       public readonly reaction: Reaction) {
+                       public readonly reaction: ReactionTitle) {
         super(events$.pipe(filter(event => isReactionEvent(reaction, event))));
     }
 }

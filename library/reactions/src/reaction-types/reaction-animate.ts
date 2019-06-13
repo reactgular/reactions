@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs';
-import {Reaction} from './reaction';
+import {ReactionTitle} from './reaction-title';
 
 /**
  * Supported types of animation.
@@ -51,7 +51,7 @@ export function isReactionAnimate(value: any): value is ReactionAnimate {
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionAnimateReducer(acc: any, next: Reaction): ReactionAnimateState {
+export function reactionAnimateReducer(acc: any, next: ReactionTitle): ReactionAnimateState {
     const animate$ = isReactionAnimate(next) ? next.animate() : undefined;
     return {...acc, ...{animate$}};
 }

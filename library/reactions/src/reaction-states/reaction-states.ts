@@ -1,17 +1,17 @@
 import {isObservable, of} from 'rxjs';
 import {defaultIfEmpty, distinctUntilChanged, shareReplay} from 'rxjs/operators';
-import {Reaction, reactionReducer, ReactionState} from '../reaction/reaction';
-import {reactionAnimateReducer, ReactionAnimateState} from '../reaction/reaction-animate';
-import {reactionDisabledReducer, ReactionDisabledState} from '../reaction/reaction-disabled';
-import {reactionIconReducer, ReactionIconState} from '../reaction/reaction-icon';
-import {reactionStyleReducer, ReactionStyleState} from '../reaction/reaction-style';
-import {reactionTooltipReducer, ReactionTooltipState} from '../reaction/reaction-tooltip';
-import {reactionVisibleReducer, ReactionVisibleState} from '../reaction/reaction-visible';
+import {ReactionTitle, reactionTitleReducer, ReactionTitleState} from '../reaction-types/reaction-title';
+import {reactionAnimateReducer, ReactionAnimateState} from '../reaction-types/reaction-animate';
+import {reactionDisabledReducer, ReactionDisabledState} from '../reaction-types/reaction-disabled';
+import {reactionIconReducer, ReactionIconState} from '../reaction-types/reaction-icon';
+import {reactionStyleReducer, ReactionStyleState} from '../reaction-types/reaction-style';
+import {reactionTooltipReducer, ReactionTooltipState} from '../reaction-types/reaction-tooltip';
+import {reactionVisibleReducer, ReactionVisibleState} from '../reaction-types/reaction-visible';
 
 /**
  * Combines all the states into a single interface.
  */
-export interface ReactionStates extends ReactionState,
+export interface ReactionStates extends ReactionTitleState,
     ReactionAnimateState,
     ReactionDisabledState,
     ReactionIconState,
@@ -23,9 +23,9 @@ export interface ReactionStates extends ReactionState,
 /**
  * Converts a reaction object into a ReactionStates object.
  */
-export function toReactionStates(reaction: Reaction): ReactionStates {
+export function toReactionStates(reaction: ReactionTitle): ReactionStates {
     let state$ = {};
-    state$ = reactionReducer(state$, reaction);
+    state$ = reactionTitleReducer(state$, reaction);
     state$ = reactionAnimateReducer(state$, reaction);
     state$ = reactionDisabledReducer(state$, reaction);
     state$ = reactionIconReducer(state$, reaction);

@@ -1,6 +1,6 @@
 import {isObservable, Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Reaction} from './reaction';
+import {ReactionTitle} from './reaction-title';
 
 /**
  * Adds support for applying CSS styles to a reaction.
@@ -42,7 +42,7 @@ export function isReactionStyle(value: any): value is ReactionStyle {
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionStyleReducer(acc: any, next: Reaction): ReactionStyleState {
+export function reactionStyleReducer(acc: any, next: ReactionTitle): ReactionStyleState {
     let css$;
     css$ = isReactionStyle(next) ? next.css() : undefined;
     css$ = isObservable(css$) ? css$ : of(css$);

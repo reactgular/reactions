@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs';
-import {Reaction} from './reaction';
+import {ReactionTitle} from './reaction-title';
 
 export interface ReactionTooltip {
     /**
@@ -38,7 +38,7 @@ export function isReactionTooltip(value: any): value is ReactionTooltip {
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionTooltipReducer(acc: any, next: Reaction): ReactionTooltipState {
+export function reactionTooltipReducer(acc: any, next: ReactionTitle): ReactionTooltipState {
     const tooltip$ = isReactionTooltip(next) ? next.tooltip() : undefined;
     return {...acc, ...{tooltip$}};
 }

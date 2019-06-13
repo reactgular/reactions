@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs';
-import {Reaction} from './reaction';
+import {ReactionTitle} from './reaction-title';
 
 /**
  * Adds support for showing an icon.
@@ -41,7 +41,7 @@ export function isReactionIcon(value: any): value is ReactionIcon {
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionIconReducer(acc: any, next: Reaction): ReactionIconState {
+export function reactionIconReducer(acc: any, next: ReactionTitle): ReactionIconState {
     const icon$ = isReactionIcon(next) ? next.icon() : undefined;
     return {...acc, ...{icon$}};
 }
