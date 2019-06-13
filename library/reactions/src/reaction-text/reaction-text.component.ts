@@ -20,6 +20,12 @@ export class ReactionTextComponent implements OnInit {
     public icon: boolean = true;
 
     /**
+     * Show the secondary icon
+     */
+    @Input()
+    public secondary: boolean = true;
+
+    /**
      * Emits snapshots of the reaction
      */
     public snapshot$: Observable<ReactionSnapshots>;

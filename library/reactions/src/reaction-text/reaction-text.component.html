@@ -7,4 +7,8 @@
            [spin]="snapshot.animate === 'spin'"></fa-icon>
   <span *ngIf="title"
         class="rg-reaction-text">{{snapshot.title}}</span>
+  <fa-icon *ngIf="secondary && snapshot.secondary"
+           class="rg-reaction-secondary"
+           [fixedWidth]="true"
+           [icon]="snapshot.secondary"></fa-icon>
 </ng-container>

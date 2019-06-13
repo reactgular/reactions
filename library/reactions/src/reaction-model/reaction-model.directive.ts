@@ -112,6 +112,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
         const styles$ = [
             snapshot$.pipe(map(s => s.css)),
             snapshot$.pipe(map(s => toArray(s.icon, 'rg-reaction-icon'))),
+            snapshot$.pipe(map(s => toArray(s.secondary, 'rg-reaction-secondary'))),
             snapshot$.pipe(map(s => toArray(s.title, 'rg-reaction-title'))),
             snapshot$.pipe(map(s => toArray(s.tooltip, 'rg-reaction-tooltip'))),
             snapshot$.pipe(map(s => toArray(s.animate, 'rg-reaction-animate'))),

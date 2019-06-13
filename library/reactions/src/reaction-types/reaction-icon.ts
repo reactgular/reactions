@@ -9,6 +9,11 @@ export interface ReactionIcon {
      * The visual icon for the tool.
      */
     icon(): Observable<string> | string;
+
+    /**
+     * (Optional) secondary icon shown after the text.
+     */
+    secondary?(): Observable<string> | string;
 }
 
 /**
@@ -19,6 +24,10 @@ export interface ReactionIconState {
      * Icon state
      */
     icon$: Observable<string>;
+    /**
+     * Secondary state
+     */
+    secondary$: Observable<string>;
 }
 
 /**
@@ -29,6 +38,10 @@ export interface ReactionIconSnapshot {
      * Icon state
      */
     icon: string;
+    /**
+     * Secondary state
+     */
+    secondary: string;
 }
 
 /**
@@ -43,5 +56,6 @@ export function isReactionIcon(value: any): value is ReactionIcon {
  */
 export function reactionIconReducer(acc: any, next: ReactionTitle): ReactionIconState {
     const icon$ = isReactionIcon(next) ? next.icon() : undefined;
-    return {...acc, ...{icon$}};
+    const secondary$ = isReactionIcon(next) && typeof next.secondary === 'function' ? next.secondary() : undefined;
+    return {...acc, ...{icon$, secondary$}};
 }
