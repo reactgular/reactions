@@ -1,6 +1,6 @@
 import {Directive, ElementRef, OnDestroy, OnInit, Optional, Renderer2} from '@angular/core';
-import {combineLatest, Subject} from 'rxjs';
-import {map, pairwise, startWith, switchMap, takeUntil} from 'rxjs/operators';
+import {combineLatest, of, Subject} from 'rxjs';
+import {map, pairwise, startWith, takeUntil} from 'rxjs/operators';
 import {assertReactionModel, ReactionModelDirective} from '../reaction-model/reaction-model.directive';
 
 /**
@@ -38,12 +38,23 @@ export class ReactionStyleDirective implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this._renderer.addClass(this._el.nativeElement, 'rg-reaction');
 
-        const css$ = this._reactionModel.state$.pipe(switchMap(state$ => state$.css$));
-        const icon$ = this._reactionModel.state$.pipe(switchMap(state$ => state$.icon$), map(icon => icon ? ['rg-reaction-icon'] : []));
+        const toArray = (cond: any, value: string): string[] => cond ? [value] : [];
+        const snapshot$ = this._reactionModel.snapshot$;
+        const styles$ = [
+            snapshot$.pipe(map(s => s.css)),
+            snapshot$.pipe(map(s => toArray(s.icon, 'rg-reaction-icon'))),
+            snapshot$.pipe(map(s => toArray(s.title, 'rg-reaction-title'))),
+            snapshot$.pipe(map(s => toArray(s.toolTip, 'rg-reaction-tooltip'))),
+            snapshot$.pipe(map(s => toArray(s.animate, 'rg-reaction-animate'))),
+            snapshot$.pipe(map(s => toArray(s.disabled, 'rg-reaction-disabled')))
+        ];
 
-        combineLatest([css$, icon$]).pipe(
-            map(([css, icon]) => [...css, ...icon]),
-            startWith<string[], string[]>([]),
+        const x: any = true;
+        of(false).pipe(startWith(x));
+
+        combineLatest(styles$).pipe(
+            map((values) => values.reduce((acc, next) => ([...acc, ...next]), [])),
+            startWith([]),
             pairwise(),
             map(([prev, next]: [string[], string[]]) => {
                 return {
