@@ -141,7 +141,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
             takeUntil(this._destroyed$)
         ).subscribe(reaction => {
             changed$.next();
-            this._reactionCore.from(reaction, this._el, this._view, this._data$, merge(changed$, this._destroyed$));
+            this._reactionCore.fromUI(reaction, this._el, this._view, this._data$, merge(changed$, this._destroyed$));
         });
     }
 }

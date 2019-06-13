@@ -2587,8 +2587,8 @@ function getPluralCategory(value, cases, ngLocalization, locale) {
  */
 var NgLocaleLocalization = /** @class */ (function (_super) {
     Object(tslib__WEBPACK_IMPORTED_MODULE_1__["__extends"])(NgLocaleLocalization, _super);
-    function NgLocaleLocalization(locale, 
-    /** @deprecated from v5 */
+    function NgLocaleLocalization(locale,
+                                  /** @deprecated fromUI v5 */
     deprecatedPluralFn) {
         var _this = _super.call(this) || this;
         _this.locale = locale;
@@ -30898,7 +30898,7 @@ var StaticSymbolResolver = /** @class */ (function () {
                         if (typeof exportSymbol !== 'string') {
                             symName = unescapeIdentifier(exportSymbol.name);
                         }
-                        var resolvedModule = _this.resolveModule(moduleExport.from, filePath);
+                        var resolvedModule = _this.resolveModule(moduleExport.fromUI, filePath);
                         if (resolvedModule) {
                             var targetSymbol = _this.getStaticSymbol(resolvedModule, symName);
                             var sourceSymbol = _this.getStaticSymbol(filePath, symbolName);
@@ -30908,7 +30908,7 @@ var StaticSymbolResolver = /** @class */ (function () {
                 }
                 else {
                     // handle the symbols via export * directives.
-                    var resolvedModule = this_1.resolveModule(moduleExport.from, filePath);
+                    var resolvedModule = this_1.resolveModule(moduleExport.fromUI, filePath);
                     if (resolvedModule) {
                         var nestedExports = this_1.getSymbolsOf(resolvedModule);
                         nestedExports.forEach(function (targetSymbol) {
@@ -67444,7 +67444,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "forkJoin", function() { return _internal_observable_forkJoin__WEBPACK_IMPORTED_MODULE_32__["forkJoin"]; });
 
 /* harmony import */ var _internal_observable_from__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./internal/observable/from */ "./node_modules/rxjs/_esm5/internal/observable/from.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "from", function() { return _internal_observable_from__WEBPACK_IMPORTED_MODULE_33__["from"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "from", function() { return _internal_observable_from__WEBPACK_IMPORTED_MODULE_33__["fromUI"]; });
 
 /* harmony import */ var _internal_observable_fromEvent__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./internal/observable/fromEvent */ "./node_modules/rxjs/_esm5/internal/observable/fromEvent.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fromEvent", function() { return _internal_observable_fromEvent__WEBPACK_IMPORTED_MODULE_34__["fromEvent"]; });
@@ -69542,7 +69542,7 @@ function defer(observableFactory) {
             subscriber.error(err);
             return undefined;
         }
-        var source = input ? Object(_from__WEBPACK_IMPORTED_MODULE_1__["from"])(input) : Object(_empty__WEBPACK_IMPORTED_MODULE_2__["empty"])();
+        var source = input ? Object(_from__WEBPACK_IMPORTED_MODULE_1__["fromUI"])(input) : Object(_empty__WEBPACK_IMPORTED_MODULE_2__["empty"])();
         return source.subscribe(subscriber);
     });
 }
@@ -69631,7 +69631,7 @@ function forkJoinInternal(sources, keys) {
         var completed = 0;
         var emitted = 0;
         var _loop_1 = function (i) {
-            var source = Object(_from__WEBPACK_IMPORTED_MODULE_4__["from"])(sources[i]);
+            var source = Object(_from__WEBPACK_IMPORTED_MODULE_4__["fromUI"])(sources[i]);
             var hasValue = false;
             subscriber.add(source.subscribe({
                 next: function (value) {
@@ -70215,7 +70215,7 @@ function onErrorResumeNext() {
     }
     return new _Observable__WEBPACK_IMPORTED_MODULE_0__["Observable"](function (subscriber) {
         var subNext = function () { return subscriber.add(onErrorResumeNext.apply(void 0, remainder).subscribe(subscriber)); };
-        return Object(_from__WEBPACK_IMPORTED_MODULE_1__["from"])(first).subscribe({
+        return Object(_from__WEBPACK_IMPORTED_MODULE_1__["fromUI"])(first).subscribe({
             next: function (value) { subscriber.next(value); },
             error: subNext,
             complete: subNext,
@@ -70600,7 +70600,7 @@ function using(resourceFactory, observableFactory) {
             subscriber.error(err);
             return undefined;
         }
-        var source = result ? Object(_from__WEBPACK_IMPORTED_MODULE_1__["from"])(result) : _empty__WEBPACK_IMPORTED_MODULE_2__["EMPTY"];
+        var source = result ? Object(_from__WEBPACK_IMPORTED_MODULE_1__["fromUI"])(result) : _empty__WEBPACK_IMPORTED_MODULE_2__["EMPTY"];
         var subscription = source.subscribe(subscriber);
         return function () {
             subscription.unsubscribe();
@@ -71638,7 +71638,7 @@ function combineLatest() {
     if (observables.length === 1 && Object(_util_isArray__WEBPACK_IMPORTED_MODULE_0__["isArray"])(observables[0])) {
         observables = observables[0].slice();
     }
-    return function (source) { return source.lift.call(Object(_observable_from__WEBPACK_IMPORTED_MODULE_2__["from"])([source].concat(observables)), new _observable_combineLatest__WEBPACK_IMPORTED_MODULE_1__["CombineLatestOperator"](project)); };
+    return function (source) { return source.lift.call(Object(_observable_from__WEBPACK_IMPORTED_MODULE_2__["fromUI"])([source].concat(observables)), new _observable_combineLatest__WEBPACK_IMPORTED_MODULE_1__["CombineLatestOperator"](project)); };
 }
 //# sourceMappingURL=combineLatest.js.map
 
@@ -72736,7 +72736,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function exhaustMap(project, resultSelector) {
     if (resultSelector) {
-        return function (source) { return source.pipe(exhaustMap(function (a, i) { return Object(_observable_from__WEBPACK_IMPORTED_MODULE_5__["from"])(project(a, i)).pipe(Object(_map__WEBPACK_IMPORTED_MODULE_4__["map"])(function (b, ii) { return resultSelector(a, b, i, ii); })); })); };
+        return function (source) { return source.pipe(exhaustMap(function (a, i) { return Object(_observable_from__WEBPACK_IMPORTED_MODULE_5__["fromUI"])(project(a, i)).pipe(Object(_map__WEBPACK_IMPORTED_MODULE_4__["map"])(function (b, ii) { return resultSelector(a, b, i, ii); })); })); };
     }
     return function (source) {
         return source.lift(new ExhaustMapOperator(project));
@@ -73760,7 +73760,7 @@ function mergeMap(project, resultSelector, concurrent) {
         concurrent = Number.POSITIVE_INFINITY;
     }
     if (typeof resultSelector === 'function') {
-        return function (source) { return source.pipe(mergeMap(function (a, i) { return Object(_observable_from__WEBPACK_IMPORTED_MODULE_5__["from"])(project(a, i)).pipe(Object(_map__WEBPACK_IMPORTED_MODULE_4__["map"])(function (b, ii) { return resultSelector(a, b, i, ii); })); }, concurrent)); };
+        return function (source) { return source.pipe(mergeMap(function (a, i) { return Object(_observable_from__WEBPACK_IMPORTED_MODULE_5__["fromUI"])(project(a, i)).pipe(Object(_map__WEBPACK_IMPORTED_MODULE_4__["map"])(function (b, ii) { return resultSelector(a, b, i, ii); })); }, concurrent)); };
     }
     else if (typeof resultSelector === 'number') {
         concurrent = resultSelector;
@@ -74210,7 +74210,7 @@ function onErrorResumeNextStatic() {
         nextSources = nextSources[0];
     }
     source = nextSources.shift();
-    return Object(_observable_from__WEBPACK_IMPORTED_MODULE_1__["from"])(source, null).lift(new OnErrorResumeNextOperator(nextSources));
+    return Object(_observable_from__WEBPACK_IMPORTED_MODULE_1__["fromUI"])(source, null).lift(new OnErrorResumeNextOperator(nextSources));
 }
 var OnErrorResumeNextOperator = /*@__PURE__*/ (function () {
     function OnErrorResumeNextOperator(nextSources) {
@@ -75828,7 +75828,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function switchMap(project, resultSelector) {
     if (typeof resultSelector === 'function') {
-        return function (source) { return source.pipe(switchMap(function (a, i) { return Object(_observable_from__WEBPACK_IMPORTED_MODULE_5__["from"])(project(a, i)).pipe(Object(_map__WEBPACK_IMPORTED_MODULE_4__["map"])(function (b, ii) { return resultSelector(a, b, i, ii); })); })); };
+        return function (source) { return source.pipe(switchMap(function (a, i) { return Object(_observable_from__WEBPACK_IMPORTED_MODULE_5__["fromUI"])(project(a, i)).pipe(Object(_map__WEBPACK_IMPORTED_MODULE_4__["map"])(function (b, ii) { return resultSelector(a, b, i, ii); })); })); };
     }
     return function (source) { return source.lift(new SwitchMapOperator(project)); };
 }

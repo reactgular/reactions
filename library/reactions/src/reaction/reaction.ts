@@ -1,10 +1,23 @@
 import {Injector, OnDestroy} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
+import {filter, takeUntil} from 'rxjs/operators';
 import {ReactionConfig} from '../reaction-config/reaction-config';
 import {ReactionCoreService} from '../reaction-core/reaction-core.service';
-import {ReactionSelectReaction} from '../reaction-selectors/reaction-select-reaction';
+import {REACTION_DRAG_EVENTS} from '../reaction-events/reaction-drag-events';
+import {isReactionEvent} from '../reaction-events/reaction-event';
+import {REACTION_FOCUS_EVENTS} from '../reaction-events/reaction-focus-events';
+import {REACTION_MOUSE_EVENTS} from '../reaction-events/reaction-mouse-events';
+import {REACTION_TOUCH_EVENTS} from '../reaction-events/reaction-touch-events';
+import {isReactionUIEvent, ReactionUIEvent} from '../reaction-events/reaction-ui-event';
 import {ReactionTitle} from '../reaction-types/reaction-title';
 import {ReactionTooltip} from '../reaction-types/reaction-tooltip';
+
+const REACTION_EVENT_WHITELIST = [
+    ...REACTION_MOUSE_EVENTS,
+    ...REACTION_DRAG_EVENTS,
+    ...REACTION_FOCUS_EVENTS,
+    ...REACTION_TOUCH_EVENTS
+];
 
 /**
  * Base class for reaction objects.
@@ -13,7 +26,7 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
     /**
      * The configuration
      */
-    public readonly config: Partial<ReactionConfig>;
+    public readonly config: ReactionConfig;
 
     /**
      * Destructor event
@@ -26,17 +39,18 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
     protected readonly _reactionCore: ReactionCoreService;
 
     /**
-     * Selector for querying events
-     */
-    protected readonly _select: ReactionSelectReaction;
-
-    /**
      * Constructor
      */
-    protected constructor(injector: Injector) {
+    protected constructor(config: ReactionConfig, injector: Injector) {
+        this.config = this._updateConfig(config);
         this._reactionCore = injector.get(ReactionCoreService);
-        this._select = this._reactionCore.select(this, this._destroyed$);
-        this._initialize(this._select);
+        this._reactionCore.events$.pipe(
+            filter(event => isReactionEvent(this, event)),
+            filter<ReactionUIEvent<UIEvent>>(event => isReactionUIEvent<UIEvent>(event)),
+            takeUntil(this._destroyed$)
+        ).subscribe(event => this._handleUIEvent(event));
+
+        console.error(this.config);
     }
 
     /**
@@ -60,7 +74,23 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
     }
 
     /**
-     * Initialization handler
+     * Dispatches the event to the handler.
      */
-    protected abstract _initialize(select: ReactionSelectReaction);
+    private _handleUIEvent(event: ReactionUIEvent<UIEvent>) {
+        const type = event.event.type;
+        if (typeof this[type] === 'function') {
+            this[type](event);
+        } else {
+            throw new Error(`UIEvent [${type}] has no handler.`);
+        }
+    }
+
+    /**
+     * Updates the events list on the config.
+     */
+    private _updateConfig(config: ReactionConfig): ReactionConfig {
+        const events = config.events || [];
+        const handled = REACTION_EVENT_WHITELIST.filter(eventName => typeof this[eventName] === 'function');
+        return {...config, events: Array.from(new Set([...events, ...handled]))};
+    }
 }

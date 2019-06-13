@@ -2,7 +2,8 @@ import {Injector} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs';
 import {first, map} from 'rxjs/operators';
 import {ReactionConfig} from '../../../library/reactions/src/reaction-config/reaction-config';
-import {ReactionSelectReaction} from '../../../library/reactions/src/reaction-selectors/reaction-select-reaction';
+import {ReactionClickEvent} from '../../../library/reactions/src/reaction-events/reaction-mouse-events';
+import {ReactionUIEvent} from '../../../library/reactions/src/reaction-events/reaction-ui-event';
 import {ReactionSnapshots} from '../../../library/reactions/src/reaction-snapshots/reaction-snapshots';
 import {ReactionIcon} from '../../../library/reactions/src/reaction-types/reaction-icon';
 import {ReactionStyle} from '../../../library/reactions/src/reaction-types/reaction-style';
@@ -12,7 +13,7 @@ import {Reaction} from '../../../library/reactions/src/reaction/reaction';
 /**
  * Emits reaction values from the internal snapshot.
  */
-export class ReactionProxy extends Reaction implements ReactionStyle, ReactionIcon, ReactionTooltip {
+export class ReactionProxy extends Reaction implements ReactionStyle, ReactionIcon, ReactionTooltip, ReactionClickEvent {
     /**
      * The internal state of the reaction.
      */
@@ -21,9 +22,12 @@ export class ReactionProxy extends Reaction implements ReactionStyle, ReactionIc
     /**
      * Constructor
      */
-    public constructor(public readonly config: Partial<ReactionConfig>,
-                       injector: Injector) {
-        super(injector);
+    public constructor(config: ReactionConfig, injector: Injector) {
+        super(config, injector);
+    }
+
+    public click(event: ReactionUIEvent<MouseEvent>) {
+        console.log('click!!!', event);
     }
 
     public css(): Observable<string | string[] | void> {
@@ -70,9 +74,5 @@ export class ReactionProxy extends Reaction implements ReactionStyle, ReactionIc
      */
     public tooltip(): Observable<string> {
         return this._snapshot$.pipe(map(snapshot => snapshot.tooltip));
-    }
-
-    protected _initialize(select: ReactionSelectReaction) {
-        select.mouse().click().subscribe(value => console.log('click', value));
     }
 }
