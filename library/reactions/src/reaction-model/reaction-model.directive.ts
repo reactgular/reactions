@@ -1,6 +1,7 @@
-import {Directive, ElementRef, Input, OnDestroy, OnInit, Renderer2} from '@angular/core';
-import {combineLatest, Observable, ReplaySubject, Subject} from 'rxjs';
+import {Directive, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewContainerRef} from '@angular/core';
+import {BehaviorSubject, combineLatest, merge, Observable, ReplaySubject, Subject} from 'rxjs';
 import {distinctUntilChanged, filter, map, pairwise, shareReplay, startWith, switchMap, takeUntil} from 'rxjs/operators';
+import {ReactionCoreService} from '../reaction-core/reaction-core.service';
 import {ReactionSnapshots, toReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
 import {ReactionStates, toReactionStates} from '../reaction-states/reaction-states';
 import {isReaction, Reaction} from '../reaction/reaction';
@@ -37,6 +38,11 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
     public state$: Observable<ReactionStates>;
 
     /**
+     * Data inputted by the DOM
+     */
+    private readonly _data$: BehaviorSubject<any> = new BehaviorSubject(undefined);
+
+    /**
      * Destructor event
      */
     private readonly _destroyed$: Subject<void> = new Subject();
@@ -49,8 +55,18 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
     /**
      * Constructor
      */
-    public constructor(private _el: ElementRef<HTMLElement>,
+    public constructor(private _reactionCore: ReactionCoreService,
+                       private _el: ElementRef<HTMLElement>,
+                       private _view: ViewContainerRef,
                        private _renderer: Renderer2) {
+    }
+
+    /**
+     * User defined data
+     */
+    @Input()
+    public set data(value: any) {
+        this._data$.next(value);
     }
 
     /**
@@ -117,6 +133,15 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
         ).subscribe((change: { add: string[], remove: string[] }) => {
             change.add.forEach(css => this._renderer.addClass(this._el.nativeElement, css));
             change.remove.forEach(css => this._renderer.removeClass(this._el.nativeElement, css));
+        });
+
+        const changed$: Subject<void> = new Subject();
+
+        this.reaction$.pipe(
+            takeUntil(this._destroyed$)
+        ).subscribe(reaction => {
+            changed$.next();
+            this._reactionCore.from(reaction, this._el, this._view, this._data$, merge(changed$, this._destroyed$));
         });
     }
 }

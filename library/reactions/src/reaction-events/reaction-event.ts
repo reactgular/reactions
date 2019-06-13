@@ -1,3 +1,4 @@
+import {ElementRef, ViewContainerRef} from '@angular/core';
 import {Reaction} from '../reaction/reaction';
 
 /**
@@ -8,6 +9,10 @@ export interface ReactionEvent {
      * A data object provided by the UI component that contains the reaction control.
      */
     data: any;
+    /**
+     * The element for ReactionModel
+     */
+    el: ElementRef<HTMLElement>;
     /**
      * Unique ID for debugging
      */
@@ -20,6 +25,10 @@ export interface ReactionEvent {
      * The type of event (mouse, keyboard, touch, drag, etc..)
      */
     type: string;
+    /**
+     * The view for ReactionModel
+     */
+    view: ViewContainerRef;
 }
 
 /**

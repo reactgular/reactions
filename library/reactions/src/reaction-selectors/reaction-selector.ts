@@ -1,9 +1,7 @@
 import {Observable} from 'rxjs';
 import {ReactionEvent} from '../reaction-events/reaction-event';
-import {Reaction} from '../reaction/reaction';
 import {ReactionSelectDrag} from './reaction-select-drag';
 import {ReactionSelectMouse} from './reaction-select-mouse';
-import {ReactionSelectReaction} from './reaction-select-reaction';
 import {ReactionSelectTouch} from './reaction-select-touch';
 
 export abstract class ReactionSelector {
@@ -31,13 +29,6 @@ export abstract class ReactionSelector {
      */
     public mouse(): ReactionSelectMouse {
         return new ReactionSelectMouse(this.events$);
-    }
-
-    /**
-     * Selects only events for a given reaction.
-     */
-    public select(reaction: Reaction): ReactionSelectReaction {
-        return new ReactionSelectReaction(this.events$, reaction);
     }
 
     /**

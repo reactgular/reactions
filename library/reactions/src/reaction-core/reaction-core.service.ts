@@ -1,10 +1,11 @@
-import {ElementRef, Injectable} from '@angular/core';
+import {ElementRef, Injectable, ViewContainerRef} from '@angular/core';
 import {fromEvent, merge, Observable, Subject} from 'rxjs';
 import {defaultIfEmpty, first, map, scan, switchMap, takeUntil} from 'rxjs/operators';
 import {ReactionEvent} from '../reaction-events/reaction-event';
 import {ReactionSelectDrag} from '../reaction-selectors/reaction-select-drag';
 import {ReactionSelectFocus} from '../reaction-selectors/reaction-select-focus';
 import {ReactionSelectMouse} from '../reaction-selectors/reaction-select-mouse';
+import {ReactionSelectReaction} from '../reaction-selectors/reaction-select-reaction';
 import {ReactionSelectTouch} from '../reaction-selectors/reaction-select-touch';
 import {ReactionSelector} from '../reaction-selectors/reaction-selector';
 import {Reaction} from '../reaction/reaction';
@@ -35,7 +36,11 @@ export class ReactionCoreService extends ReactionSelector {
     /**
      * Subscribes to multiple UI events on the target, and broadcasts events for the reaction.
      */
-    public from(reaction: Reaction, target: ElementRef<HTMLElement>, data$: Observable<any>, destroy$: Observable<void>) {
+    public from(reaction: Reaction,
+                el: ElementRef<HTMLElement>,
+                view: ViewContainerRef,
+                data$: Observable<any>,
+                destroy$: Observable<void>) {
         const eventNames = [
             ...ReactionSelectDrag.EVENTS,
             ...ReactionSelectFocus.EVENTS,
@@ -43,11 +48,11 @@ export class ReactionCoreService extends ReactionSelector {
             ...ReactionSelectTouch.EVENTS
         ];
 
-        const events$ = eventNames.map(eventName => fromEvent(target.nativeElement, eventName));
+        const events$ = eventNames.map(eventName => fromEvent(el.nativeElement, eventName));
         const type = 'uiEvent', id = 0, data = null;
 
         merge(...events$).pipe(
-            map(event => ({id, type, data, event, reaction})),
+            map(event => ({id, type, data, el, view, event, reaction})),
             switchMap(event => data$.pipe(
                 defaultIfEmpty(undefined),
                 first(),
@@ -55,5 +60,12 @@ export class ReactionCoreService extends ReactionSelector {
             )),
             takeUntil(destroy$)
         ).subscribe(event => this._events$.next(event));
+    }
+
+    /**
+     * Selects only events for a given reaction.
+     */
+    public select(reaction: Reaction): ReactionSelectReaction {
+        return new ReactionSelectReaction(this.events$, reaction);
     }
 }
