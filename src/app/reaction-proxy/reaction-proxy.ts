@@ -1,7 +1,7 @@
 import {Observable, ReplaySubject} from 'rxjs';
 import {first, map} from 'rxjs/operators';
 import {ReactionConfig} from '../../../library/reactions/src/reaction-config/reaction-config';
-import {ReactionHook} from '../../../library/reactions/src/reaction-decorators/reaction-hook';
+import {ReactionHook} from '../../../library/reactions/src/reaction-hook/reaction-hook';
 import {ReactionEvent} from '../../../library/reactions/src/reaction-events/reaction-event';
 import {ReactionSnapshots} from '../../../library/reactions/src/reaction-snapshots/reaction-snapshots';
 import {ReactionIcon, ReactionIconAnimate} from '../../../library/reactions/src/reaction-types/reaction-icon';
@@ -9,6 +9,7 @@ import {ReactionStyle} from '../../../library/reactions/src/reaction-types/react
 import {ReactionTooltip} from '../../../library/reactions/src/reaction-types/reaction-tooltip';
 import {Reaction} from '../../../library/reactions/src/reaction/reaction';
 import {ReactionCoreService} from '../../../library/reactions/src/reaction-core/reaction-core.service';
+import {ReactionShortcut} from '../../../library/reactions/src/reaction-shortcut/reaction-shortcut';
 
 /**
  * Emits reaction values from the internal snapshot.
@@ -34,7 +35,7 @@ export class ReactionProxy extends Reaction implements ReactionStyle, ReactionIc
         return this._snapshot$.pipe(map(snapshot => snapshot.css));
     }
 
-    @ReactionHook('click')
+    @ReactionShortcut('CTRL+M', 'A test shortcut')
     public example1(event: ReactionEvent) {
         console.error('ONE!');
     }

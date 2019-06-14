@@ -4,6 +4,7 @@ import {defaultIfEmpty, first, map, scan, switchMap, takeUntil, throttleTime} fr
 import {ReactionEvent} from '../reaction-events/reaction-event';
 import {ReactionCore} from './reaction-core';
 import {Reaction} from '../reaction/reaction';
+import {ReactionModel} from '../reaction-model/reaction-model';
 
 /**
  * UI events are broadcast from this service and reactions can act upon those events. Events are things like mouse events, keyboard
@@ -31,19 +32,36 @@ export class ReactionCoreService implements ReactionCore {
 
     /**
      * Subscribes to multiple UI events on the target and broadcasts events for the reaction.
+     *
+     * @deprecated
      */
     public fromUI(reaction: Reaction,
                   el: ElementRef<HTMLElement>,
                   view: ViewContainerRef,
                   data$: Observable<any>,
                   destroy$: Observable<void>) {
+        throw new Error('not implemented');
+    }
+
+    /**
+     * Bootstraps a reaction when it's being created.
+     */
+    public bootstrap(reaction: Reaction) {
+    }
+
+    /**
+     * Publishes events from the model for the reaction.
+     */
+    public publish({el, view, data$}: ReactionModel, reaction: Reaction, destroyed$: Observable<void>) {
         const type = 'uiEvent', id = 0, data = null;
+
         const events$ = reaction.hocks.map(hook => {
             let event$ = fromEvent(el.nativeElement, hook.eventType);
             return hook.debounce
                 ? event$.pipe(throttleTime(hook.debounce))
                 : event$;
         });
+
         merge(...events$).pipe(
             map<any, ReactionEvent>(payload => ({id, type, data, el, view, payload, reaction})),
             switchMap(event => data$.pipe(
@@ -51,10 +69,11 @@ export class ReactionCoreService implements ReactionCore {
                 first(),
                 map(data => ({...event, data}))
             )),
-            takeUntil(destroy$)
+            takeUntil(destroyed$)
         ).subscribe(event => {
             (<UIEvent>event.payload).preventDefault();
             this._events$.next(event);
         });
     }
+
 }

@@ -6,6 +6,7 @@ import {ReactionSnapshots, toReactionSnapshots} from '../reaction-snapshots/reac
 import {ReactionStates, toReactionStates} from '../reaction-states/reaction-states';
 import {isReaction} from '../reaction-types/reaction-title';
 import {Reaction} from '../reaction/reaction';
+import {ReactionModel} from './reaction-model';
 
 /**
  * Asserts that the rgReaction directive is present.
@@ -22,7 +23,7 @@ export function assertReactionModel(name: string, reactionModel?: ReactionModelD
 @Directive({
     selector: '[rgReaction]'
 })
-export class ReactionModelDirective implements OnInit, OnDestroy {
+export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel {
     /**
      * Emits changes to the reaction object.
      */
@@ -41,12 +42,12 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
     /**
      * Data inputted by the DOM
      */
-    private readonly _data$: BehaviorSubject<any> = new BehaviorSubject(undefined);
+    public readonly data$: BehaviorSubject<any> = new BehaviorSubject(undefined);
 
     /**
      * Destructor event
      */
-    private readonly _destroyed$: Subject<void> = new Subject();
+    public readonly destroyed$: Subject<void> = new Subject();
 
     /**
      * Emits the reaction object.
@@ -57,8 +58,8 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
      * Constructor
      */
     public constructor(private _reactionCore: ReactionCoreService,
-                       private _el: ElementRef<HTMLElement>,
-                       private _view: ViewContainerRef,
+                       public readonly el: ElementRef<HTMLElement>,
+                       public readonly view: ViewContainerRef,
                        private _renderer: Renderer2) {
     }
 
@@ -67,7 +68,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
      */
     @Input()
     public set data(value: any) {
-        this._data$.next(value);
+        this.data$.next(value);
     }
 
     /**
@@ -82,8 +83,8 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
      * Destructor
      */
     public ngOnDestroy(): void {
-        this._destroyed$.next();
-        this._destroyed$.complete();
+        this.destroyed$.next();
+        this.destroyed$.complete();
     }
 
     /**
@@ -106,7 +107,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
             shareReplay(1)
         );
 
-        this._renderer.addClass(this._el.nativeElement, 'rg-reaction');
+        this._renderer.addClass(this.el.nativeElement, 'rg-reaction');
 
         const toArray = (cond: any, value: string): string[] => cond ? [value] : [];
         const snapshot$ = this.snapshot$;
@@ -131,7 +132,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
                     remove: prev.filter(x => !next.includes(x))
                 };
             }),
-            takeUntil(this._destroyed$)
+            takeUntil(this.destroyed$)
         ).subscribe((change: { add: string[], remove: string[] }) => {
             change.add.forEach(css => this._renderer.addClass(this._el.nativeElement, css));
             change.remove.forEach(css => this._renderer.removeClass(this._el.nativeElement, css));
@@ -140,10 +141,11 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
         const changed$: Subject<void> = new Subject();
 
         this.reaction$.pipe(
-            takeUntil(this._destroyed$)
+            takeUntil(this.destroyed$)
         ).subscribe(reaction => {
             changed$.next();
-            this._reactionCore.fromUI(reaction, this._el, this._view, this._data$, merge(changed$, this._destroyed$));
+            // @todo this doesn't have to use "this" could create an object and keep things private and move destroy back
+            this._reactionCore.publish(this, reaction, merge(changed$, this.destroyed$));
         });
     }
 }

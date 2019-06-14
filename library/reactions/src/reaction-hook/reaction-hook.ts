@@ -2,8 +2,19 @@ import {ReactionEvent} from '../reaction-events/reaction-event';
 import {Reaction} from '../reaction/reaction';
 
 export interface ReactionHookOptions {
+    /**
+     * Applies a throttle operator to events to reduce their emission rate.
+     */
     debounce?: number;
+
+    /**
+     * The type of event (click, mousemove, shortcut)
+     */
     eventType?: string;
+
+    /**
+     * Method to be triggered
+     */
     method?: (event: ReactionEvent) => void;
 }
 
