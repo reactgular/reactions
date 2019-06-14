@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Injector, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {ReactionCoreService} from '../../../library/reactions/src/reaction-core/reaction-core.service';
@@ -24,8 +24,7 @@ export class DemoComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      */
-    public constructor(private _reactionCore: ReactionCoreService,
-                       private _injector: Injector) {
+    public constructor(private _reactionCore: ReactionCoreService) {
 
     }
 
@@ -41,7 +40,7 @@ export class DemoComponent implements OnInit, OnDestroy {
      * Initialization
      */
     public ngOnInit(): void {
-        this.proxy = new ReactionProxy({order: 'A:001'}, this._injector);
+        this.proxy = new ReactionProxy({order: 'A:001'}, this._reactionCore);
 
         this._reactionCore.events$.pipe(
             takeUntil(this._destroyed$)

@@ -9,6 +9,7 @@ import {ReactionIcon, ReactionIconAnimate} from '../../../library/reactions/src/
 import {ReactionStyle} from '../../../library/reactions/src/reaction-types/reaction-style';
 import {ReactionTooltip} from '../../../library/reactions/src/reaction-types/reaction-tooltip';
 import {Reaction} from '../../../library/reactions/src/reaction/reaction';
+import {ReactionCoreService} from '../../../library/reactions/src/reaction-core/reaction-core.service';
 
 /**
  * Emits reaction values from the internal snapshot.
@@ -22,8 +23,8 @@ export class ReactionProxy extends Reaction implements ReactionStyle, ReactionIc
     /**
      * Constructor
      */
-    public constructor(config: ReactionConfig, injector: Injector) {
-        super(config, injector);
+    public constructor(config: ReactionConfig, core: ReactionCoreService) {
+        super(config, core);
     }
 
     public animate(): Observable<ReactionIconAnimate> | ReactionIconAnimate {

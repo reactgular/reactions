@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs';
-import {ReactionTitle} from './reaction-title';
+import {Reaction} from '../reaction/reaction';
 
 /**
  * Adds support for showing/hiding a reaction.
@@ -41,7 +41,7 @@ export function isReactionVisible(value: any): value is ReactionVisible {
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionVisibleReducer(acc: any, next: ReactionTitle): ReactionVisibleState {
+export function reactionVisibleReducer(acc: any, next: Reaction): ReactionVisibleState {
     const visible$ = isReactionVisible(next) ? next.visible() : true;
     return {...acc, ...{visible$}};
 }

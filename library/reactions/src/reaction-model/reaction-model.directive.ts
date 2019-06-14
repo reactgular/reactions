@@ -4,7 +4,8 @@ import {distinctUntilChanged, filter, map, pairwise, shareReplay, startWith, swi
 import {ReactionCoreService} from '../reaction-core/reaction-core.service';
 import {ReactionSnapshots, toReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
 import {ReactionStates, toReactionStates} from '../reaction-states/reaction-states';
-import {isReaction, ReactionTitle} from '../reaction-types/reaction-title';
+import {isReaction} from '../reaction-types/reaction-title';
+import {Reaction} from '../reaction/reaction';
 
 /**
  * Asserts that the rgReaction directive is present.
@@ -25,7 +26,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
     /**
      * Emits changes to the reaction object.
      */
-    public reaction$: Observable<ReactionTitle>;
+    public reaction$: Observable<Reaction>;
 
     /**
      * Emits snapshots of the reaction.
@@ -50,7 +51,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
     /**
      * Emits the reaction object.
      */
-    private readonly _reaction$: ReplaySubject<ReactionTitle> = new ReplaySubject(1);
+    private readonly _reaction$: ReplaySubject<Reaction> = new ReplaySubject(1);
 
     /**
      * Constructor
@@ -73,7 +74,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
      * Sets the reaction object.
      */
     @Input('rgReaction')
-    public set reaction(reaction: ReactionTitle) {
+    public set reaction(reaction: Reaction) {
         this._reaction$.next(reaction);
     }
 

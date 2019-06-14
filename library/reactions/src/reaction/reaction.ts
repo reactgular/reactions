@@ -1,12 +1,12 @@
-import {Injector, OnDestroy} from '@angular/core';
+import {OnDestroy} from '@angular/core';
 import {from, Observable, Subject} from 'rxjs';
 import {filter, map, mergeMap, takeUntil} from 'rxjs/operators';
 import {ReactionConfig} from '../reaction-config/reaction-config';
-import {ReactionCoreService} from '../reaction-core/reaction-core.service';
 import {ReactionHookOptions} from '../reaction-decorators/reaction-hook';
 import {isEventForReaction, ReactionEvent} from '../reaction-events/reaction-event';
 import {ReactionTitle} from '../reaction-types/reaction-title';
 import {ReactionTooltip} from '../reaction-types/reaction-tooltip';
+import {ReactionCode} from '../reaction-core/reaction-code';
 
 /**
  * Base class for reaction objects.
@@ -23,11 +23,6 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
     protected _destroyed$: Subject<void> = new Subject();
 
     /**
-     * The reaction service
-     */
-    protected readonly _core: ReactionCoreService;
-
-    /**
      * Decorated hooks for the methods
      */
     private _hooks: ReactionHookOptions[];
@@ -35,9 +30,9 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
     /**
      * Constructor
      */
-    protected constructor(config: ReactionConfig, injector: Injector) {
+    protected constructor(config: ReactionConfig,
+                          protected readonly _core: ReactionCode) {
         this.config = config;
-        this._core = injector.get(ReactionCoreService);
 
         this._core.events$.pipe(
             filter(event => isEventForReaction(this, event)),

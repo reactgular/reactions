@@ -1,15 +1,9 @@
 import {Observable} from 'rxjs';
-import {ReactionConfig} from '../reaction-config/reaction-config';
 
 /**
  *
  */
 export interface ReactionTitle {
-    /**
-     * Configuration options for the tool.
-     */
-    readonly config?: Partial<ReactionConfig>;
-
     /**
      * The title shown in the body of a button or menu item.
      */

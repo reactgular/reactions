@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs';
-import {ReactionTitle} from './reaction-title';
+import {Reaction} from '../reaction/reaction';
 
 /**
  * Adds support for disabling a reaction.
@@ -41,7 +41,7 @@ export function isReactionDisabled(value: any): value is ReactionDisabled {
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionDisabledReducer(acc: any, next: ReactionTitle): ReactionDisabledState {
+export function reactionDisabledReducer(acc: any, next: Reaction): ReactionDisabledState {
     const disabled$ = isReactionDisabled(next) ? next.disabled() : false;
     return {...acc, ...{disabled$}};
 }

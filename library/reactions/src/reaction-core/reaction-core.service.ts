@@ -2,14 +2,15 @@ import {ElementRef, Injectable, ViewContainerRef} from '@angular/core';
 import {merge, Observable, Subject} from 'rxjs';
 import {defaultIfEmpty, first, map, scan, switchMap, takeUntil} from 'rxjs/operators';
 import {ReactionEvent} from '../reaction-events/reaction-event';
-import {ReactionTitle} from '../reaction-types/reaction-title';
+import {ReactionCode} from './reaction-code';
+import {Reaction} from '../reaction/reaction';
 
 /**
  * UI events are broadcast from this service and reactions can act upon those events. Events are things like mouse events, keyboard
  * events, etc.. etc..
  */
 @Injectable({providedIn: 'root'})
-export class ReactionCoreService {
+export class ReactionCoreService implements ReactionCode {
     /**
      * All of the reaction events.
      */
@@ -31,7 +32,7 @@ export class ReactionCoreService {
     /**
      * Subscribes to multiple UI events on the target and broadcasts events for the reaction.
      */
-    public fromUI(reaction: ReactionTitle,
+    public fromUI(reaction: Reaction,
                   el: ElementRef<HTMLElement>,
                   view: ViewContainerRef,
                   data$: Observable<any>,
