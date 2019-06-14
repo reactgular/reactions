@@ -1,6 +1,6 @@
 import {ElementRef, Injectable, ViewContainerRef} from '@angular/core';
 import {fromEvent, merge, Observable, Subject} from 'rxjs';
-import {defaultIfEmpty, first, map, scan, switchMap, takeUntil} from 'rxjs/operators';
+import {defaultIfEmpty, first, map, scan, switchMap, takeUntil, throttleTime} from 'rxjs/operators';
 import {ReactionEvent} from '../reaction-events/reaction-event';
 import {ReactionCore} from './reaction-core';
 import {Reaction} from '../reaction/reaction';
@@ -38,7 +38,12 @@ export class ReactionCoreService implements ReactionCore {
                   data$: Observable<any>,
                   destroy$: Observable<void>) {
         const type = 'uiEvent', id = 0, data = null;
-        const events$ = reaction.hocks.map(hook => fromEvent(el.nativeElement, hook.eventType));
+        const events$ = reaction.hocks.map(hook => {
+            let event$ = fromEvent(el.nativeElement, hook.eventType);
+            return hook.debounce
+                ? event$.pipe(throttleTime(hook.debounce))
+                : event$;
+        });
         merge(...events$).pipe(
             map<any, ReactionEvent>(payload => ({id, type, data, el, view, payload, reaction})),
             switchMap(event => data$.pipe(

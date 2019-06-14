@@ -1,4 +1,3 @@
-import {Injector} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs';
 import {first, map} from 'rxjs/operators';
 import {ReactionConfig} from '../../../library/reactions/src/reaction-config/reaction-config';
@@ -35,14 +34,14 @@ export class ReactionProxy extends Reaction implements ReactionStyle, ReactionIc
         return this._snapshot$.pipe(map(snapshot => snapshot.css));
     }
 
-    @ReactionHook('dblclick')
+    @ReactionHook('click')
     public example1(event: ReactionEvent) {
         console.error('ONE!');
     }
 
-    @ReactionHook('click')
+    @ReactionHook('mousemove', {debounce: 250})
     public example2(event: ReactionEvent) {
-        console.error('TWO!');
+        console.log(event);
     }
 
     /**
