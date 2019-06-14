@@ -1,8 +1,8 @@
 import {ElementRef, Injectable, ViewContainerRef} from '@angular/core';
-import {merge, Observable, Subject} from 'rxjs';
+import {fromEvent, merge, Observable, Subject} from 'rxjs';
 import {defaultIfEmpty, first, map, scan, switchMap, takeUntil} from 'rxjs/operators';
 import {ReactionEvent} from '../reaction-events/reaction-event';
-import {ReactionCode} from './reaction-code';
+import {ReactionCore} from './reaction-core';
 import {Reaction} from '../reaction/reaction';
 
 /**
@@ -10,7 +10,7 @@ import {Reaction} from '../reaction/reaction';
  * events, etc.. etc..
  */
 @Injectable({providedIn: 'root'})
-export class ReactionCoreService implements ReactionCode {
+export class ReactionCoreService implements ReactionCore {
     /**
      * All of the reaction events.
      */
@@ -38,10 +38,7 @@ export class ReactionCoreService implements ReactionCode {
                   data$: Observable<any>,
                   destroy$: Observable<void>) {
         const type = 'uiEvent', id = 0, data = null;
-
-        // @todo this should use hooks instead.
-        // const events$ = reaction.config.events.map(eventName => fromEvent(el.nativeElement, eventName));
-        const events$ = [];
+        const events$ = reaction.hocks.map(hook => fromEvent(el.nativeElement, hook.eventType));
         merge(...events$).pipe(
             map<any, ReactionEvent>(payload => ({id, type, data, el, view, payload, reaction})),
             switchMap(event => data$.pipe(
@@ -50,6 +47,9 @@ export class ReactionCoreService implements ReactionCode {
                 map(data => ({...event, data}))
             )),
             takeUntil(destroy$)
-        ).subscribe(event => this._events$.next(event));
+        ).subscribe(event => {
+            (<UIEvent>event.payload).preventDefault();
+            this._events$.next(event);
+        });
     }
 }

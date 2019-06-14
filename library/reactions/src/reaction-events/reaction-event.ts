@@ -41,4 +41,3 @@ export interface ReactionEvent {
 export function isEventForReaction(reaction: Reaction, event: ReactionEvent): boolean {
     return event.reaction === reaction;
 }
-

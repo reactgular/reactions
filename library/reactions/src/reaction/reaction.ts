@@ -6,7 +6,7 @@ import {ReactionHookOptions} from '../reaction-decorators/reaction-hook';
 import {isEventForReaction, ReactionEvent} from '../reaction-events/reaction-event';
 import {ReactionTitle} from '../reaction-types/reaction-title';
 import {ReactionTooltip} from '../reaction-types/reaction-tooltip';
-import {ReactionCode} from '../reaction-core/reaction-code';
+import {ReactionCore} from '../reaction-core/reaction-core';
 
 /**
  * Base class for reaction objects.
@@ -31,31 +31,29 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
      * Constructor
      */
     protected constructor(config: ReactionConfig,
-                          protected readonly _core: ReactionCode) {
+                          protected readonly _core: ReactionCore) {
         this.config = config;
 
         this._core.events$.pipe(
             filter(event => isEventForReaction(this, event)),
+            filter(event => event.payload && typeof event.payload.type === 'string'),
             map<ReactionEvent, [ReactionEvent, ReactionHookOptions[]]>(event => {
-                const hooks = this._hooks
-                    .filter(hook => event.payload instanceof hook.eventClass && event.payload.type === hook.eventType);
+                const hooks = this._hooks.filter(hook => event.payload.type === hook.eventType);
                 return [event, hooks];
             }),
             mergeMap(([event, hooks]) => from(hooks).pipe(map(hook => [event, hook]))),
             takeUntil(this._destroyed$)
         ).subscribe(([event, hook]: [ReactionEvent, ReactionHookOptions]) => {
-            console.error('subscribe', event, hook);
+            // console.error('subscribe', event, hook);
             hook.method(event);
         });
-
-        console.error(this._hooks);
     }
 
     /**
      * Gets the hooks attached to this reaction.
      */
     public get hocks(): ReactionHookOptions[] {
-        return this._hooks;
+        return this._hooks || [];
     }
 
     /**

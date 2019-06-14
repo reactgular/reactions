@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs';
 import {ReactionEvent} from '../reaction-events/reaction-event';
 
-export interface ReactionCode {
+export interface ReactionCore {
     /**
      * All of the reaction events.
      */

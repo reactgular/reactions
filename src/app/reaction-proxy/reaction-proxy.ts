@@ -35,14 +35,14 @@ export class ReactionProxy extends Reaction implements ReactionStyle, ReactionIc
         return this._snapshot$.pipe(map(snapshot => snapshot.css));
     }
 
-    @ReactionHook(MouseEvent, 'click')
+    @ReactionHook('dblclick')
     public example1(event: ReactionEvent) {
-        console.error('CALLED!');
+        console.error('ONE!');
     }
 
-    @ReactionHook(MouseEvent, 'click')
+    @ReactionHook('click')
     public example2(event: ReactionEvent) {
-        console.error('CALLED!');
+        console.error('TWO!');
     }
 
     /**
