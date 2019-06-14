@@ -35,12 +35,12 @@ export class ReactionProxy extends Reaction implements ReactionStyle, ReactionIc
     }
 
     @ReactionHook(MouseEvent, 'click')
-    public example1(event: ReactionEvent<MouseEvent>) {
+    public example1(event: ReactionEvent) {
         console.error('CALLED!');
     }
 
     @ReactionHook(MouseEvent, 'click')
-    public example2(event: ReactionEvent<MouseEvent>) {
+    public example2(event: ReactionEvent) {
         console.error('CALLED!');
     }
 

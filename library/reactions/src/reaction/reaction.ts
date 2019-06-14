@@ -4,7 +4,7 @@ import {filter, map, mergeMap, takeUntil} from 'rxjs/operators';
 import {ReactionConfig} from '../reaction-config/reaction-config';
 import {ReactionCoreService} from '../reaction-core/reaction-core.service';
 import {ReactionHookOptions} from '../reaction-decorators/reaction-hook';
-import {isReactionEvent, ReactionEvent} from '../reaction-events/reaction-event';
+import {isEventForReaction, ReactionEvent} from '../reaction-events/reaction-event';
 import {ReactionTitle} from '../reaction-types/reaction-title';
 import {ReactionTooltip} from '../reaction-types/reaction-tooltip';
 
@@ -25,35 +25,42 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
     /**
      * The reaction service
      */
-    protected readonly _reactionCore: ReactionCoreService;
+    protected readonly _core: ReactionCoreService;
 
     /**
      * Decorated hooks for the methods
      */
-    private _hooks: ReactionHookOptions<UIEvent>[];
+    private _hooks: ReactionHookOptions[];
 
     /**
      * Constructor
      */
     protected constructor(config: ReactionConfig, injector: Injector) {
         this.config = config;
-        this._reactionCore = injector.get(ReactionCoreService);
+        this._core = injector.get(ReactionCoreService);
 
-        this._reactionCore.events$.pipe(
-            filter(event => isReactionEvent(this, event)),
-            map<ReactionEvent<UIEvent>, [ReactionEvent<UIEvent>, ReactionHookOptions<UIEvent>[]]>(event => {
+        this._core.events$.pipe(
+            filter(event => isEventForReaction(this, event)),
+            map<ReactionEvent, [ReactionEvent, ReactionHookOptions[]]>(event => {
                 const hooks = this._hooks
                     .filter(hook => event.payload instanceof hook.eventClass && event.payload.type === hook.eventType);
                 return [event, hooks];
             }),
             mergeMap(([event, hooks]) => from(hooks).pipe(map(hook => [event, hook]))),
             takeUntil(this._destroyed$)
-        ).subscribe(([event, hook]: [ReactionEvent<UIEvent>, ReactionHookOptions<UIEvent>]) => {
-            // console.error('subscribe', event, hook);
+        ).subscribe(([event, hook]: [ReactionEvent, ReactionHookOptions]) => {
+            console.error('subscribe', event, hook);
             hook.method(event);
         });
 
         console.error(this._hooks);
+    }
+
+    /**
+     * Gets the hooks attached to this reaction.
+     */
+    public get hocks(): ReactionHookOptions[] {
+        return this._hooks;
     }
 
     /**
@@ -66,10 +73,8 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
 
     /**
      * Registers a event hook to this class instance.
-     *
-     * @internal This is used by the decorator only.
      */
-    public register(options: ReactionHookOptions<any>) {
+    public hook(options: ReactionHookOptions) {
         if (!this._hooks) {
             this._hooks = [];
         }
@@ -82,7 +87,7 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
     public abstract title(): Observable<string> | string;
 
     /**
-     * Defaults to the title if not provided above.
+     * Defaults to the title if not overridden.
      */
     public tooltip(): Observable<string> | string {
         return this.title();

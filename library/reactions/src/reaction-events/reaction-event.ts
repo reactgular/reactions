@@ -4,7 +4,7 @@ import {ReactionTitle} from '../reaction-types/reaction-title';
 /**
  * Base interface for all reaction events.
  */
-export interface ReactionEvent<TType> {
+export interface ReactionEvent {
     /**
      * A data object provided by the UI component that contains the reaction control.
      */
@@ -18,9 +18,9 @@ export interface ReactionEvent<TType> {
      */
     id: number;
     /**
-     * THe original event that triggered this event.
+     * The original event that triggered this event.
      */
-    payload: TType;
+    payload: any;
     /**
      * The reaction associated with the event.
      */
@@ -38,7 +38,7 @@ export interface ReactionEvent<TType> {
 /**
  * Checks if an event belongs to a reaction instance.
  */
-export function isReactionEvent(reaction: ReactionTitle, event: ReactionEvent<any>): boolean {
+export function isEventForReaction(reaction: ReactionTitle, event: ReactionEvent): boolean {
     return event.reaction === reaction;
 }
 

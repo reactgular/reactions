@@ -13,19 +13,19 @@ export class ReactionCoreService {
     /**
      * All of the reaction events.
      */
-    public readonly events$: Observable<ReactionEvent<any>>;
+    public readonly events$: Observable<ReactionEvent>;
 
     /**
      * Emitter of the events.
      */
-    private readonly _events$: Subject<ReactionEvent<any>>;
+    private readonly _events$: Subject<ReactionEvent>;
 
     /**
      * Constructor
      */
     public constructor() {
-        this._events$ = new Subject<ReactionEvent<any>>();
-        this.events$ = this._events$.pipe(scan((acc, next) => ({...next, id: acc.id + 1}), {id: 0} as ReactionEvent<any>));
+        this._events$ = new Subject<ReactionEvent>();
+        this.events$ = this._events$.pipe(scan((acc, next) => ({...next, id: acc.id + 1}), {id: 0} as ReactionEvent));
     }
 
     /**
@@ -37,11 +37,12 @@ export class ReactionCoreService {
                   data$: Observable<any>,
                   destroy$: Observable<void>) {
         const type = 'uiEvent', id = 0, data = null;
+
         // @todo this should use hooks instead.
         // const events$ = reaction.config.events.map(eventName => fromEvent(el.nativeElement, eventName));
         const events$ = [];
         merge(...events$).pipe(
-            map(event => ({id, type, data, el, view, event, reaction})),
+            map<any, ReactionEvent>(payload => ({id, type, data, el, view, payload, reaction})),
             switchMap(event => data$.pipe(
                 defaultIfEmpty(undefined),
                 first(),
