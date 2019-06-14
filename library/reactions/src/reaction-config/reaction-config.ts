@@ -5,10 +5,6 @@ import {ReactionTitle} from '../reaction-types/reaction-title';
  */
 export interface ReactionConfig {
     /**
-     * List of UIEvent types that are bound to the reaction.
-     */
-    events?: string[];
-    /**
      * The order of the tool.
      */
     order: string;

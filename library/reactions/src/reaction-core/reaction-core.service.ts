@@ -1,5 +1,5 @@
 import {ElementRef, Injectable, ViewContainerRef} from '@angular/core';
-import {fromEvent, merge, Observable, Subject} from 'rxjs';
+import {merge, Observable, Subject} from 'rxjs';
 import {defaultIfEmpty, first, map, scan, switchMap, takeUntil} from 'rxjs/operators';
 import {ReactionEvent} from '../reaction-events/reaction-event';
 import {ReactionTitle} from '../reaction-types/reaction-title';
@@ -13,19 +13,19 @@ export class ReactionCoreService {
     /**
      * All of the reaction events.
      */
-    public readonly events$: Observable<ReactionEvent>;
+    public readonly events$: Observable<ReactionEvent<any>>;
 
     /**
      * Emitter of the events.
      */
-    private readonly _events$: Subject<ReactionEvent>;
+    private readonly _events$: Subject<ReactionEvent<any>>;
 
     /**
      * Constructor
      */
     public constructor() {
-        this._events$ = new Subject<ReactionEvent>();
-        this.events$ = this._events$.pipe(scan((acc, next) => ({...next, id: acc.id + 1}), {id: 0} as ReactionEvent));
+        this._events$ = new Subject<ReactionEvent<any>>();
+        this.events$ = this._events$.pipe(scan((acc, next) => ({...next, id: acc.id + 1}), {id: 0} as ReactionEvent<any>));
     }
 
     /**
@@ -37,7 +37,9 @@ export class ReactionCoreService {
                   data$: Observable<any>,
                   destroy$: Observable<void>) {
         const type = 'uiEvent', id = 0, data = null;
-        const events$ = reaction.config.events.map(eventName => fromEvent(el.nativeElement, eventName));
+        // @todo this should use hooks instead.
+        // const events$ = reaction.config.events.map(eventName => fromEvent(el.nativeElement, eventName));
+        const events$ = [];
         merge(...events$).pipe(
             map(event => ({id, type, data, el, view, event, reaction})),
             switchMap(event => data$.pipe(

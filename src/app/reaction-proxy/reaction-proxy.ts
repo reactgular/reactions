@@ -2,10 +2,10 @@ import {Injector} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs';
 import {first, map} from 'rxjs/operators';
 import {ReactionConfig} from '../../../library/reactions/src/reaction-config/reaction-config';
-import {ReactionClickEvent} from '../../../library/reactions/src/reaction-events/reaction-mouse-events';
-import {ReactionUIEvent} from '../../../library/reactions/src/reaction-events/reaction-ui-event';
+import {ReactionHook} from '../../../library/reactions/src/reaction-decorators/reaction-hook';
+import {ReactionEvent} from '../../../library/reactions/src/reaction-events/reaction-event';
 import {ReactionSnapshots} from '../../../library/reactions/src/reaction-snapshots/reaction-snapshots';
-import {ReactionIcon} from '../../../library/reactions/src/reaction-types/reaction-icon';
+import {ReactionIcon, ReactionIconAnimate} from '../../../library/reactions/src/reaction-types/reaction-icon';
 import {ReactionStyle} from '../../../library/reactions/src/reaction-types/reaction-style';
 import {ReactionTooltip} from '../../../library/reactions/src/reaction-types/reaction-tooltip';
 import {Reaction} from '../../../library/reactions/src/reaction/reaction';
@@ -13,7 +13,7 @@ import {Reaction} from '../../../library/reactions/src/reaction/reaction';
 /**
  * Emits reaction values from the internal snapshot.
  */
-export class ReactionProxy extends Reaction implements ReactionStyle, ReactionIcon, ReactionTooltip, ReactionClickEvent {
+export class ReactionProxy extends Reaction implements ReactionStyle, ReactionIcon, ReactionTooltip {
     /**
      * The internal state of the reaction.
      */
@@ -26,12 +26,22 @@ export class ReactionProxy extends Reaction implements ReactionStyle, ReactionIc
         super(config, injector);
     }
 
-    public click(event: ReactionUIEvent<MouseEvent>) {
-        console.log('click!!!', event);
+    public animate(): Observable<ReactionIconAnimate> | ReactionIconAnimate {
+        return undefined;
     }
 
     public css(): Observable<string | string[] | void> {
         return this._snapshot$.pipe(map(snapshot => snapshot.css));
+    }
+
+    @ReactionHook(MouseEvent, 'click')
+    public example1(event: ReactionEvent<MouseEvent>) {
+        console.error('CALLED!');
+    }
+
+    @ReactionHook(MouseEvent, 'click')
+    public example2(event: ReactionEvent<MouseEvent>) {
+        console.error('CALLED!');
     }
 
     /**
@@ -46,6 +56,14 @@ export class ReactionProxy extends Reaction implements ReactionStyle, ReactionIc
      */
     public next(snapshot: ReactionSnapshots) {
         this._snapshot$.next(snapshot);
+    }
+
+    public secondary(): Observable<string> | string {
+        return undefined;
+    }
+
+    public secondaryAnimate(): Observable<ReactionIconAnimate> | ReactionIconAnimate {
+        return undefined;
     }
 
     /**

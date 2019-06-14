@@ -1,23 +1,12 @@
 import {Injector, OnDestroy} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
-import {filter, takeUntil} from 'rxjs/operators';
+import {from, Observable, Subject} from 'rxjs';
+import {filter, map, mergeMap, takeUntil} from 'rxjs/operators';
 import {ReactionConfig} from '../reaction-config/reaction-config';
 import {ReactionCoreService} from '../reaction-core/reaction-core.service';
-import {REACTION_DRAG_EVENTS} from '../reaction-events/reaction-drag-events';
-import {isReactionEvent} from '../reaction-events/reaction-event';
-import {REACTION_FOCUS_EVENTS} from '../reaction-events/reaction-focus-events';
-import {REACTION_MOUSE_EVENTS} from '../reaction-events/reaction-mouse-events';
-import {REACTION_TOUCH_EVENTS} from '../reaction-events/reaction-touch-events';
-import {isReactionUIEvent, ReactionUIEvent} from '../reaction-events/reaction-ui-event';
+import {ReactionHookOptions} from '../reaction-decorators/reaction-hook';
+import {isReactionEvent, ReactionEvent} from '../reaction-events/reaction-event';
 import {ReactionTitle} from '../reaction-types/reaction-title';
 import {ReactionTooltip} from '../reaction-types/reaction-tooltip';
-
-const REACTION_EVENT_WHITELIST = [
-    ...REACTION_MOUSE_EVENTS,
-    ...REACTION_DRAG_EVENTS,
-    ...REACTION_FOCUS_EVENTS,
-    ...REACTION_TOUCH_EVENTS
-];
 
 /**
  * Base class for reaction objects.
@@ -39,16 +28,32 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
     protected readonly _reactionCore: ReactionCoreService;
 
     /**
+     * Decorated hooks for the methods
+     */
+    private _hooks: ReactionHookOptions<UIEvent>[];
+
+    /**
      * Constructor
      */
     protected constructor(config: ReactionConfig, injector: Injector) {
-        this.config = this._updateConfig(config);
+        this.config = config;
         this._reactionCore = injector.get(ReactionCoreService);
+
         this._reactionCore.events$.pipe(
             filter(event => isReactionEvent(this, event)),
-            filter<ReactionUIEvent<UIEvent>>(event => isReactionUIEvent<UIEvent>(event)),
+            map<ReactionEvent<UIEvent>, [ReactionEvent<UIEvent>, ReactionHookOptions<UIEvent>[]]>(event => {
+                const hooks = this._hooks
+                    .filter(hook => event.payload instanceof hook.eventClass && event.payload.type === hook.eventType);
+                return [event, hooks];
+            }),
+            mergeMap(([event, hooks]) => from(hooks).pipe(map(hook => [event, hook]))),
             takeUntil(this._destroyed$)
-        ).subscribe(event => this._handleUIEvent(event));
+        ).subscribe(([event, hook]: [ReactionEvent<UIEvent>, ReactionHookOptions<UIEvent>]) => {
+            // console.error('subscribe', event, hook);
+            hook.method(event);
+        });
+
+        console.error(this._hooks);
     }
 
     /**
@@ -57,6 +62,18 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
     public ngOnDestroy(): void {
         this._destroyed$.next();
         this._destroyed$.complete();
+    }
+
+    /**
+     * Registers a event hook to this class instance.
+     *
+     * @internal This is used by the decorator only.
+     */
+    public register(options: ReactionHookOptions<any>) {
+        if (!this._hooks) {
+            this._hooks = [];
+        }
+        this._hooks.push(options);
     }
 
     /**
@@ -69,26 +86,5 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
      */
     public tooltip(): Observable<string> | string {
         return this.title();
-    }
-
-    /**
-     * Dispatches the event to the handler.
-     */
-    private _handleUIEvent(event: ReactionUIEvent<UIEvent>) {
-        const type = event.event.type;
-        if (typeof this[type] === 'function') {
-            this[type](event);
-        } else {
-            throw new Error(`UIEvent [${type}] has no handler.`);
-        }
-    }
-
-    /**
-     * Updates the events list on the config.
-     */
-    private _updateConfig(config: ReactionConfig): ReactionConfig {
-        const events = config.events || [];
-        const handled = REACTION_EVENT_WHITELIST.filter(eventName => typeof this[eventName] === 'function');
-        return {...config, events: Array.from(new Set([...events, ...handled]))};
     }
 }
