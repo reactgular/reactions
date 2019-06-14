@@ -1,4 +1,3 @@
-import {isObservable, of} from 'rxjs';
 import {defaultIfEmpty, distinctUntilChanged, shareReplay} from 'rxjs/operators';
 import {reactionDisabledReducer, ReactionDisabledState} from '../reaction-types/reaction-disabled';
 import {reactionIconReducer, ReactionIconState} from '../reaction-types/reaction-icon';
@@ -6,6 +5,7 @@ import {reactionStyleReducer, ReactionStyleState} from '../reaction-types/reacti
 import {reactionTitleReducer, ReactionTitleState} from '../reaction-types/reaction-title';
 import {reactionTooltipReducer, ReactionTooltipState} from '../reaction-types/reaction-tooltip';
 import {reactionVisibleReducer, ReactionVisibleState} from '../reaction-types/reaction-visible';
+import {toObservable} from '../reaction-utils/observables';
 import {Reaction} from '../reaction/reaction';
 
 /**
@@ -32,7 +32,7 @@ export function toReactionStates(reaction: Reaction): ReactionStates {
     state$ = reactionVisibleReducer(state$, reaction);
 
     Object.keys(state$).forEach(key => {
-        state$[key] = isObservable(state$[key]) ? state$[key] : of(state$[key]);
+        state$[key] = toObservable(state$[key]);
         state$[key] = state$[key].pipe(
             defaultIfEmpty(undefined),
             distinctUntilChanged(),

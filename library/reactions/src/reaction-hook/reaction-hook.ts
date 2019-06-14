@@ -1,6 +1,9 @@
 import {ReactionEvent} from '../reaction-events/reaction-event';
 import {Reaction} from '../reaction/reaction';
 
+/**
+ * Configured hook that triggers a reaction
+ */
 export interface ReactionHookOptions {
     /**
      * Applies a throttle operator to events to reduce their emission rate.

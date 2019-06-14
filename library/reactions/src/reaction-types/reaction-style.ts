@@ -1,5 +1,6 @@
-import {isObservable, Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {toObservable} from '../reaction-utils/observables';
 import {Reaction} from '../reaction/reaction';
 
 /**
@@ -43,10 +44,7 @@ export function isReactionStyle(value: any): value is ReactionStyle {
  * Updates a state object with more observable properties from the reaction.
  */
 export function reactionStyleReducer(acc: any, next: Reaction): ReactionStyleState {
-    let css$;
-    css$ = isReactionStyle(next) ? next.css() : undefined;
-    css$ = isObservable(css$) ? css$ : of(css$);
-    css$ = css$.pipe(
+    const css$ = toObservable(isReactionStyle(next) ? next.css() : undefined).pipe(
         map((value: string | string[] | void) => {
             const values: string[] = typeof value === 'string' ? value.split(' ') : (value || []);
             return Array.from(new Set(values.map(str => str.trim()).filter(Boolean)));

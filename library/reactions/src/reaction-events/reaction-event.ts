@@ -8,31 +8,32 @@ export interface ReactionEvent {
     /**
      * A data object provided by the UI component that contains the reaction control.
      */
-    data: any;
+    data?: any;
+
     /**
-     * The element for ReactionModel
+     * The element for ReactionModel if emitted from a DOM event.
      */
-    el: ElementRef<HTMLElement>;
+    el?: ElementRef<HTMLElement>;
+
     /**
      * Unique ID for debugging
      */
     id: number;
+
     /**
      * The original event that triggered this event.
      */
     payload: any;
+
     /**
      * The reaction associated with the event.
      */
     reaction: Reaction;
+
     /**
-     * The type of event (mouse, keyboard, touch, drag, etc..)
+     * The view for ReactionModel if emitted from a DOM event.
      */
-    type: string;
-    /**
-     * The view for ReactionModel
-     */
-    view: ViewContainerRef;
+    view?: ViewContainerRef;
 }
 
 /**

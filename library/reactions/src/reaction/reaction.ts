@@ -1,12 +1,12 @@
 import {OnDestroy} from '@angular/core';
-import {from, Observable, Subject, Subscription} from 'rxjs';
+import {from, Observable, Subject} from 'rxjs';
 import {filter, map, mergeMap, takeUntil} from 'rxjs/operators';
 import {ReactionConfig} from '../reaction-config/reaction-config';
-import {ReactionHookOptions} from '../reaction-hook/reaction-hook';
+import {ReactionCore} from '../reaction-core/reaction-core';
 import {isEventForReaction, ReactionEvent} from '../reaction-events/reaction-event';
+import {ReactionHookOptions} from '../reaction-hook/reaction-hook';
 import {ReactionTitle} from '../reaction-types/reaction-title';
 import {ReactionTooltip} from '../reaction-types/reaction-tooltip';
-import {ReactionCore} from '../reaction-core/reaction-core';
 
 /**
  * Base class for reaction objects.
@@ -16,11 +16,6 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
      * The configuration
      */
     public readonly config: ReactionConfig;
-
-    /**
-     * Destructor event
-     */
-    protected _destroyed$: Subject<void> = new Subject();
 
     /**
      * Decorated hooks for the methods
@@ -47,6 +42,17 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
             // console.error('subscribe', event, hook);
             hook.method(event);
         });
+
+        this._core.bootstrap(this);
+    }
+
+    /**
+     * Destructor event
+     */
+    protected _destroyed$: Subject<void> = new Subject();
+
+    public get destroyed$(): Observable<void> {
+        return this._destroyed$.asObservable();
     }
 
     /**
@@ -57,14 +63,6 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
     }
 
     /**
-     * Destructor
-     */
-    public ngOnDestroy(): void {
-        this._destroyed$.next();
-        this._destroyed$.complete();
-    }
-
-    /**
      * Registers a event hook to this class instance.
      */
     public hook(options: ReactionHookOptions) {
@@ -72,6 +70,14 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
             this._hooks = [];
         }
         this._hooks.push(options);
+    }
+
+    /**
+     * Destructor
+     */
+    public ngOnDestroy(): void {
+        this._destroyed$.next();
+        this._destroyed$.complete();
     }
 
     /**

@@ -1,13 +1,40 @@
-import {Reaction} from '../reaction/reaction';
 import {ReactionEvent} from '../reaction-events/reaction-event';
 import {ReactionHookOptions} from '../reaction-hook/reaction-hook';
+import {Reaction} from '../reaction/reaction';
+
+export const REACTION_SHORTCUT = 'shortcut';
+
+/**
+ * Compiled shortcut code.
+ */
+export interface ReactionShortcutCode {
+    /**
+     * Alt key required
+     */
+    altKey: boolean;
+
+    /**
+     * Ctrl key required
+     */
+    ctrlKey: boolean;
+
+    /**
+     * Keyboard key required
+     */
+    key: string;
+
+    /**
+     * Shift key required
+     */
+    shiftKey: boolean;
+}
 
 export interface ReactionShortcutOptions extends ReactionHookOptions {
     /**
      * The code for the binding (i.e. CTRL+M).
      * Keys that require a shift must also bind the SHIFT key (i.e. SHIFT+?)
      */
-    code: string;
+    code: ReactionShortcutCode;
 
     /**
      * Hides this hot key from the keyboards short cut dialog. This might be
@@ -31,6 +58,13 @@ export interface ReactionShortcutOptions extends ReactionHookOptions {
     section?: string;
 }
 
+/**
+ * Checks if a hook is a shortcut hook.
+ */
+export function isReactionShortcutOptions(value: ReactionHookOptions): value is ReactionShortcutOptions {
+    return value.eventType === REACTION_SHORTCUT;
+}
+
 export function ReactionShortcut(options: ReactionShortcutOptions);
 export function ReactionShortcut(code: string, message: string, options?: ReactionShortcutOptions);
 
@@ -40,15 +74,54 @@ export function ReactionShortcut(code: string, message: string, options?: Reacti
 export function ReactionShortcut(...args: any[]) {
     return function (target: Reaction, name: string, descriptor: TypedPropertyDescriptor<(event: ReactionEvent) => void>) {
         const method = descriptor.value;
-        const eventType = 'shortcut';
+        const eventType = REACTION_SHORTCUT;
+
         if (args.length === 1) {
             const options = args[0];
-            target.hook({...options, eventType, method});
+            target.hook({...options, eventType, method, code: compileShortcutCode(options.code)});
         } else if (args.length === 2 || args.length === 3) {
             const code = args[0];
             const message = args[1];
             const options = args[2] || {};
-            target.hook({...options, code, message, eventType, method});
+            target.hook({...options, message, eventType, method, code: compileShortcutCode(code)});
         }
+    };
+}
+
+function compileShortcutCode(value: string): ReactionShortcutCode {
+    const parts = value.trim().toUpperCase().replace(/\s/g, '').split('+');
+    const code = {
+        altKey: false,
+        ctrlKey: false,
+        key: parts[parts.length - 1].toLowerCase(),
+        shiftKey: false
+    } as ReactionShortcutCode;
+    if (code.key === 'shift') {
+        code.shiftKey = true;
     }
+    const remap = {
+        del: 'delete',
+        esc: 'escape',
+        back: 'backspace'
+    };
+    if (remap[code.key]) {
+        code.key = remap[code.key];
+    }
+    parts.pop();
+    parts.forEach(part => {
+        switch (part) {
+            case 'CTRL':
+                code.ctrlKey = true;
+                break;
+            case 'ALT':
+                code.altKey = true;
+                break;
+            case 'SHIFT':
+                code.shiftKey = true;
+                break;
+            default:
+                throw new Error(`Invalid special key: ${part}`);
+        }
+    });
+    return code;
 }
