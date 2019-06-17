@@ -1,6 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit, Optional} from '@angular/core';
-import {Observable} from 'rxjs';
-import {assertReactionModel, ReactionModelDirective} from '../reaction-model/reaction-model.directive';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
 
 /**
@@ -12,7 +10,7 @@ import {ReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
     styleUrls: ['./reaction-text.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ReactionTextComponent implements OnInit {
+export class ReactionTextComponent {
     /***
      * Show the icon
      */
@@ -26,27 +24,14 @@ export class ReactionTextComponent implements OnInit {
     public secondary: boolean = true;
 
     /**
-     * Emits snapshots of the reaction
+     * Snapshot of the reaction
      */
-    public snapshot$: Observable<ReactionSnapshots>;
+    @Input()
+    public snapshot: ReactionSnapshots;
 
     /**
      * Show the title
      */
     @Input()
     public title: boolean = true;
-
-    /**
-     * Constructor
-     */
-    public constructor(@Optional() private _reactionModel: ReactionModelDirective) {
-        assertReactionModel('rg-reaction-text', _reactionModel);
-    }
-
-    /**
-     * Initialize
-     */
-    public ngOnInit(): void {
-        this.snapshot$ = this._reactionModel.snapshot$;
-    }
 }

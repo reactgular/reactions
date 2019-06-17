@@ -6,8 +6,8 @@
     <div class="mb-5">
       Buttons
     </div>
-    <button [rgReaction]="proxy">
-      <rg-reaction-text [icon]="false"></rg-reaction-text>
+    <button [rgReaction]="proxy" #reaction="rgReaction">
+      <rg-reaction-text [icon]="false" [snapshot]="reaction.snapshot$ | async"></rg-reaction-text>
     </button>
   </div>
 </div>

@@ -21,9 +21,20 @@ export function assertReactionModel(name: string, reactionModel?: ReactionModelD
  * Dependency provider for other components to gain access to the reaction object.
  */
 @Directive({
-    selector: '[rgReaction]'
+    selector: '[rgReaction]',
+    exportAs: 'rgReaction'
 })
 export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel {
+    /**
+     * Data inputted by the DOM
+     */
+    public readonly data$: BehaviorSubject<any> = new BehaviorSubject(undefined);
+
+    /**
+     * Destructor event
+     */
+    public readonly destroyed$: Subject<void> = new Subject();
+
     /**
      * Emits changes to the reaction object.
      */
@@ -38,16 +49,6 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
      * Emits the reaction as a state object.
      */
     public state$: Observable<ReactionStates>;
-
-    /**
-     * Data inputted by the DOM
-     */
-    public readonly data$: BehaviorSubject<any> = new BehaviorSubject(undefined);
-
-    /**
-     * Destructor event
-     */
-    public readonly destroyed$: Subject<void> = new Subject();
 
     /**
      * Emits the reaction object.
