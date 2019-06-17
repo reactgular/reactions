@@ -92,7 +92,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
      */
     public ngOnInit(): void {
         this.reaction$ = this._reaction$.pipe(
-            filter(value => isReaction(value)),
+            filter(value => value && isReaction(value)),
             distinctUntilChanged(),
             shareReplay(1)
         );
@@ -134,8 +134,8 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
             }),
             takeUntil(this.destroyed$)
         ).subscribe((change: { add: string[], remove: string[] }) => {
-            change.add.forEach(css => this._renderer.addClass(this._el.nativeElement, css));
-            change.remove.forEach(css => this._renderer.removeClass(this._el.nativeElement, css));
+            change.add.forEach(css => this._renderer.addClass(this.el.nativeElement, css));
+            change.remove.forEach(css => this._renderer.removeClass(this.el.nativeElement, css));
         });
 
         const changed$: Subject<void> = new Subject();
