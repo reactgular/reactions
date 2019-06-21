@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs';
-import {Reaction} from '../reaction/reaction';
+import {ReactionBase} from '../reaction-base/reaction-base';
 
 /**
  * Supported types of animation.
@@ -93,7 +93,7 @@ export function isReactionIcon(value: any): value is ReactionIcon {
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionIconReducer(acc: any, next: Reaction): ReactionIconState {
+export function reactionIconReducer(acc: any, next: ReactionBase): ReactionIconState {
     const icon$ = isReactionIcon(next) ? next.icon() : undefined;
     const animate$ = isReactionIcon(next) ? next.animate() : undefined;
     const secondary$ = isReactionIcon(next) ? next.secondary() : undefined;

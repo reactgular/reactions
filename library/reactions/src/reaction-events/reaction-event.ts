@@ -1,5 +1,5 @@
 import {ElementRef, ViewContainerRef} from '@angular/core';
-import {Reaction} from '../reaction/reaction';
+import {ReactionBase} from '../reaction-base/reaction-base';
 
 /**
  * Base interface for all reaction events.
@@ -28,7 +28,7 @@ export interface ReactionEvent {
     /**
      * The reaction associated with the event.
      */
-    reaction: Reaction;
+    reaction: ReactionBase;
 
     /**
      * The view for ReactionModel if emitted from a DOM event.
@@ -39,6 +39,6 @@ export interface ReactionEvent {
 /**
  * Checks if an event belongs to a reaction instance.
  */
-export function isEventForReaction(reaction: Reaction, event: ReactionEvent): boolean {
+export function isEventForReaction(reaction: ReactionBase, event: ReactionEvent): boolean {
     return event.reaction === reaction;
 }

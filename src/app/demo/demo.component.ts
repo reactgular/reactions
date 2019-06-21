@@ -2,19 +2,23 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/co
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {ReactionCoreService} from '../../../library/reactions/src/reaction-core/reaction-core.service';
-import {ReactionProxy} from '../reaction-proxy/reaction-proxy';
+import {DemoReaction} from '../demo-reaction/demo-reaction';
+import {DemoStateService} from '../demo-state/demo-state.service';
 
 @Component({
     selector: 'rg-demo',
     templateUrl: './demo.component.html',
     styleUrls: ['./demo.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
+    // @todo provide the proxy here
 })
 export class DemoComponent implements OnInit, OnDestroy {
     /**
      * Reaction being edited.
+     *
+     * @todo use injection instead
      */
-    public proxy: ReactionProxy;
+    public proxy: DemoReaction;
 
     /**
      * Destructor event
@@ -24,7 +28,8 @@ export class DemoComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      */
-    public constructor(private _reactionCore: ReactionCoreService) {
+    public constructor(private _reactionCore: ReactionCoreService,
+                       private _state: DemoStateService) {
 
     }
 
@@ -40,7 +45,7 @@ export class DemoComponent implements OnInit, OnDestroy {
      * Initialization
      */
     public ngOnInit(): void {
-        this.proxy = new ReactionProxy({order: 'A:001'}, this._reactionCore);
+        this.proxy = new DemoReaction({order: 'A:001'}, this._reactionCore, this._state);
 
         this._reactionCore.events$.pipe(
             takeUntil(this._destroyed$)

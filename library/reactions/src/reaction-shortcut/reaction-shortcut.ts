@@ -1,6 +1,6 @@
 import {ReactionEvent} from '../reaction-events/reaction-event';
 import {ReactionHookOptions} from '../reaction-hook/reaction-hook';
-import {Reaction} from '../reaction/reaction';
+import {ReactionBase} from '../reaction-base/reaction-base';
 
 export const REACTION_SHORTCUT = 'shortcut';
 
@@ -72,7 +72,7 @@ export function ReactionShortcut(code: string, message: string, options?: Reacti
  * Decorates a method of a reaction class as a consumer of a keyboard short cut.
  */
 export function ReactionShortcut(...args: any[]) {
-    return function (target: Reaction, name: string, descriptor: TypedPropertyDescriptor<(event: ReactionEvent) => void>) {
+    return function (target: ReactionBase, name: string, descriptor: TypedPropertyDescriptor<(event: ReactionEvent) => void>) {
         const method = descriptor.value;
         const eventType = REACTION_SHORTCUT;
 

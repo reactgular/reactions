@@ -5,7 +5,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactionsModule} from '../../library/reactions/src/reactions.module';
 import {DemoComponent} from './demo/demo.component';
-import {ReactionEditorComponent} from './reaction-editor/reaction-editor.component';
+import {DemoEditorComponent} from './demo-editor/demo-editor.component';
 
 @NgModule({
     imports: [
@@ -17,7 +17,7 @@ import {ReactionEditorComponent} from './reaction-editor/reaction-editor.compone
     ],
     declarations: [
         DemoComponent,
-        ReactionEditorComponent
+        DemoEditorComponent
     ],
     providers: [],
     bootstrap: [

@@ -10,8 +10,10 @@ import {ReactionTooltip} from '../reaction-types/reaction-tooltip';
 
 /**
  * Base class for reaction objects.
+ *
+ * @deprecated This will be removed, and replaced by a reactions decorators.
  */
-export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTooltip {
+export abstract class ReactionBase implements OnDestroy, ReactionTitle, ReactionTooltip {
     /**
      * The configuration
      */
@@ -29,6 +31,7 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
                           protected readonly _core: ReactionCore) {
         this.config = config;
 
+        // @todo this work should be done in the service
         this._core.events$.pipe(
             filter(event => isEventForReaction(this, event)),
             filter(event => event.payload && typeof event.payload.type === 'string'),
@@ -64,6 +67,8 @@ export abstract class Reaction implements OnDestroy, ReactionTitle, ReactionTool
 
     /**
      * Registers a event hook to this class instance.
+     *
+     * @todo can be done in a hidden way
      */
     public hook(options: ReactionHookOptions) {
         if (!this._hooks) {

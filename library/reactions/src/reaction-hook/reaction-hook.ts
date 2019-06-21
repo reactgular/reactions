@@ -1,5 +1,5 @@
 import {ReactionEvent} from '../reaction-events/reaction-event';
-import {Reaction} from '../reaction/reaction';
+import {ReactionBase} from '../reaction-base/reaction-base';
 
 /**
  * Configured hook that triggers a reaction
@@ -28,7 +28,7 @@ export function ReactionHook(eventType: string, options?: ReactionHookOptions);
  * Decorates a method of a reaction class as a consumer for a specific event.
  */
 export function ReactionHook(...args: any[]) {
-    return function (target: Reaction, name: string, descriptor: TypedPropertyDescriptor<(event: ReactionEvent) => void>) {
+    return function (target: ReactionBase, name: string, descriptor: TypedPropertyDescriptor<(event: ReactionEvent) => void>) {
         const method = descriptor.value;
         if (args.length === 1 && typeof args[0] === 'string') {
             const eventType = args[0];

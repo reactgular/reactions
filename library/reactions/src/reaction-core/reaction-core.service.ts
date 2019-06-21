@@ -21,7 +21,7 @@ import {ReactionModel} from '../reaction-model/reaction-model';
 import {isReactionShortcutOptions, ReactionShortcutOptions} from '../reaction-shortcut/reaction-shortcut';
 import {isReactionDisabled} from '../reaction-types/reaction-disabled';
 import {toObservable} from '../reaction-utils/observables';
-import {Reaction} from '../reaction/reaction';
+import {ReactionBase} from '../reaction-base/reaction-base';
 import {ReactionCore} from './reaction-core';
 
 /**
@@ -87,7 +87,7 @@ export class ReactionCoreService implements ReactionCore, OnDestroy {
     /**
      * Bootstraps a reaction when it's being created.
      */
-    public bootstrap(reaction: Reaction) {
+    public bootstrap(reaction: ReactionBase) {
         const reactionDisabled$ = toObservable(isReactionDisabled(reaction) ? reaction.disabled() : false);
         const disabled$ = combineLatest([reactionDisabled$, this.disabled$]).pipe(
             map(([disabledA, disabledB]) => disabledA || disabledB)
@@ -140,7 +140,7 @@ export class ReactionCoreService implements ReactionCore, OnDestroy {
     /**
      * Publishes events from the model for the reaction.
      */
-    public publish({el, view, data$}: ReactionModel, reaction: Reaction, destroyed$: Observable<void>) {
+    public publish({el, view, data$}: ReactionModel, reaction: ReactionBase, destroyed$: Observable<void>) {
         const events$ = reaction.hocks.map(hook => {
             const event$ = fromEvent<UIEvent>(el.nativeElement, hook.eventType);
             return hook.debounce

@@ -7,7 +7,7 @@ import {ReactionStyleSnapshot} from '../reaction-types/reaction-style';
 import {ReactionTitleSnapshot} from '../reaction-types/reaction-title';
 import {ReactionTooltipSnapshot} from '../reaction-types/reaction-tooltip';
 import {ReactionVisibleSnapshot} from '../reaction-types/reaction-visible';
-import {Reaction} from '../reaction/reaction';
+import {ReactionBase} from '../reaction-base/reaction-base';
 
 /**
  * A snapshot of the reaction state.
@@ -23,7 +23,7 @@ export interface ReactionSnapshots extends ReactionTitleSnapshot,
 /**
  * Creates an observable that emits a snapshots (state object) of a reaction.
  */
-export function toReactionSnapshots(reaction: Reaction): Observable<ReactionSnapshots> {
+export function toReactionSnapshots(reaction: ReactionBase): Observable<ReactionSnapshots> {
     const state$ = toReactionStates(reaction);
 
     const combined$: Observable<{ key: string, value: any }>[] = Object.keys(state$).map(key => {

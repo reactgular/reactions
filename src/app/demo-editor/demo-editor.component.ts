@@ -1,26 +1,21 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {startWith, takeUntil, tap} from 'rxjs/operators';
 import {ReactionSnapshots} from '../../../library/reactions/src/reaction-snapshots/reaction-snapshots';
+import {DemoStateService} from '../demo-state/demo-state.service';
 
 @Component({
-    selector: 'rg-reaction-editor',
-    templateUrl: './reaction-editor.component.html',
-    styleUrls: ['./reaction-editor.component.scss'],
+    selector: 'rg-demo-editor',
+    templateUrl: './demo-editor.component.html',
+    styleUrls: ['./demo-editor.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ReactionEditorComponent implements OnInit, OnDestroy {
+export class DemoEditorComponent implements OnInit, OnDestroy {
     /**
      * The form to be edited.
      */
     public group: FormGroup;
-
-    /**
-     * Emits changes to a reaction's internal snapshot.
-     */
-    @Output()
-    public snapshot: EventEmitter<ReactionSnapshots> = new EventEmitter();
 
     /**
      * Destructor event
@@ -30,7 +25,8 @@ export class ReactionEditorComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      */
-    public constructor(private _fb: FormBuilder) {
+    public constructor(private _fb: FormBuilder,
+                       private _state: DemoStateService) {
     }
 
     /**
@@ -55,6 +51,6 @@ export class ReactionEditorComponent implements OnInit, OnDestroy {
             startWith<ReactionSnapshots, ReactionSnapshots>(this.group.value),
             tap(value => console.log(value)),
             takeUntil(this._destroyed$)
-        ).subscribe(snapshot => this.snapshot.emit(snapshot));
+        ).subscribe(snapshot => this._state.next(snapshot));
     }
 }
