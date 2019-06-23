@@ -1,4 +1,5 @@
 import {Observable} from 'rxjs';
+import {ReactionProperty} from './reaction';
 
 /**
  *
@@ -7,7 +8,7 @@ export interface ReactionTitle {
     /**
      * The title shown in the body of a button or menu item.
      */
-    title(): Observable<string> | string;
+    title(): ReactionProperty<string>;
 }
 
 /**

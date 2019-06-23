@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs';
-import {ReactionBase} from '../reaction-base/reaction-base';
+import {ReactionProperty} from './reaction';
 
 /**
  * Adds support for showing/hiding a reaction.
@@ -8,7 +8,7 @@ export interface ReactionVisible {
     /**
      * Emits if the tool should be shown.
      */
-    visible(): Observable<boolean> | boolean;
+    visible(): ReactionProperty<boolean>;
 }
 
 /**

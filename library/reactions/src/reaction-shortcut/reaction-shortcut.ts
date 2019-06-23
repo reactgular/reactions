@@ -1,6 +1,6 @@
 import {ReactionEvent} from '../reaction-events/reaction-event';
 import {ReactionHookOptions} from '../reaction-hook/reaction-hook';
-import {ReactionBase} from '../reaction-base/reaction-base';
+import {ReactionObject} from '../reaction/reaction';
 
 export const REACTION_SHORTCUT = 'shortcut';
 
@@ -74,7 +74,7 @@ export function ReactionShortcut(code: string, message: string, options?: Reacti
  * @deprecated will be combined with ReactionHook
  */
 export function ReactionShortcut(...args: any[]) {
-    return function (target: ReactionBase, name: string, descriptor: TypedPropertyDescriptor<(event: ReactionEvent) => void>) {
+    return function (target: ReactionObject, name: string, descriptor: TypedPropertyDescriptor<(event: ReactionEvent) => void>) {
         const method = descriptor.value;
         const eventType = REACTION_SHORTCUT;
 

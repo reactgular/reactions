@@ -1,12 +1,11 @@
 import {defaultIfEmpty, distinctUntilChanged, shareReplay} from 'rxjs/operators';
-import {reactionDisabledReducer, ReactionDisabledState} from '../reaction-types/reaction-disabled';
-import {reactionIconReducer, ReactionIconState} from '../reaction-types/reaction-icon';
-import {reactionStyleReducer, ReactionStyleState} from '../reaction-types/reaction-style';
-import {reactionTitleReducer, ReactionTitleState} from '../reaction-types/reaction-title';
-import {reactionTooltipReducer, ReactionTooltipState} from '../reaction-types/reaction-tooltip';
-import {reactionVisibleReducer, ReactionVisibleState} from '../reaction-types/reaction-visible';
+import {reactionDisabledReducer, ReactionDisabledState} from '../reaction/reaction-disabled';
+import {reactionIconReducer, ReactionIconState} from '../reaction/reaction-icon';
+import {reactionStyleReducer, ReactionStyleState} from '../reaction/reaction-style';
+import {reactionTitleReducer, ReactionTitleState} from '../reaction/reaction-title';
+import {reactionTooltipReducer, ReactionTooltipState} from '../reaction/reaction-tooltip';
+import {reactionVisibleReducer, ReactionVisibleState} from '../reaction/reaction-visible';
 import {toObservable} from '../reaction-utils/observables';
-import {ReactionBase} from '../reaction-base/reaction-base';
 
 /**
  * Combines all the states into a single interface.

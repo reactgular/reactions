@@ -1,4 +1,5 @@
 import {Observable} from 'rxjs';
+import {ReactionObject, ReactionProperty, toReactionValue} from './reaction';
 
 /**
  * Supported types of animation.
@@ -17,22 +18,22 @@ export interface ReactionIcon {
     /**
      * Emits the animation state of the tool. Can be "spin" or "pulse" or undefined.
      */
-    animate?(): Observable<ReactionIconAnimate> | ReactionIconAnimate;
+    animate?: ReactionProperty<ReactionIconAnimate>;
 
     /**
      * The visual icon for the tool.
      */
-    icon(): Observable<string> | string;
+    icon: ReactionProperty<string>;
 
     /**
      * Secondary icon shown after the text.
      */
-    secondary?(): Observable<string> | string;
+    secondary?: ReactionProperty<string>;
 
     /**
      * Emits the animation state of the tool. Can be "spin" or "pulse" or undefined.
      */
-    secondaryAnimate?(): Observable<ReactionIconAnimate> | ReactionIconAnimate;
+    secondaryAnimate?: ReactionProperty<ReactionIconAnimate>;
 }
 
 /**
@@ -42,22 +43,22 @@ export interface ReactionIconState {
     /**
      * Animation state
      */
-    animate$: Observable<ReactionIconAnimate>;
+    animate: Observable<ReactionIconAnimate>;
 
     /**
      * Icon state
      */
-    icon$: Observable<string>;
+    icon: Observable<string>;
 
     /**
      * Secondary state
      */
-    secondary$: Observable<string>;
+    secondary: Observable<string>;
 
     /**
      * Animation state
      */
-    secondaryAnimate$: Observable<ReactionIconAnimate>;
+    secondaryAnimate: Observable<ReactionIconAnimate>;
 }
 
 /**
@@ -86,19 +87,12 @@ export interface ReactionIconSnapshot {
 }
 
 /**
- * Checks if an object is a reaction
- */
-export function isReactionIcon(value: any): value is ReactionIcon {
-    return typeof (<ReactionIcon>value).icon === 'function';
-}
-
-/**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionIconReducer(acc: any, next: unknown): ReactionIconState {
-    const icon$ = isReactionIcon(next) ? next.icon() : undefined;
-    const animate$ = isReactionIcon(next) && next.animate ? next.animate() : undefined;
-    const secondary$ = isReactionIcon(next) && next.secondary ? next.secondary() : undefined;
-    const secondaryAnimate$ = isReactionIcon(next) && next.secondaryAnimate ? next.secondaryAnimate() : undefined;
-    return {...acc, ...{icon$, animate$, secondary$, secondaryAnimate$}};
+export function reactionIconReducer(acc: ReactionObject, [next, data]: [ReactionObject, any]): ReactionObject {
+    const icon = toReactionValue(next['icon'], data);
+    const animate = toReactionValue(next['animate'], data);
+    const secondary = toReactionValue(next['secondary'], data);
+    const secondaryAnimate = toReactionValue(next['secondaryAnimate'], data);
+    return {...acc, icon, animate, secondary, secondaryAnimate};
 }

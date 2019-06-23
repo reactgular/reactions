@@ -12,18 +12,17 @@ import {
     scan,
     takeUntil,
     tap,
-    throttleTime,
     withLatestFrom
 } from 'rxjs/operators';
 import {ReactionEvent} from '../reaction-events/reaction-event';
 import {ReactionKeyboardService} from '../reaction-keyboard/reaction-keyboard.service';
 import {ReactionModel} from '../reaction-model/reaction-model';
 import {isReactionShortcutOptions, ReactionShortcutOptions} from '../reaction-shortcut/reaction-shortcut';
-import {isReactionDisabled} from '../reaction-types/reaction-disabled';
+import {isReactionDisabled} from '../reaction/reaction-disabled';
 import {toObservable} from '../reaction-utils/observables';
-import {ReactionBase} from '../reaction-base/reaction-base';
 import {ReactionCore} from './reaction-core';
 import {ReactionInstance} from '../reaction-hook/reaction-hook';
+import {ReactionObject} from '../reaction/reaction';
 
 /**
  * UI events are broadcast from this service and reactions can act upon those events. Events are things like mouse events, keyboard
@@ -88,7 +87,7 @@ export class ReactionCoreService implements ReactionCore, OnDestroy {
     /**
      * Bootstraps a reaction when it's being created.
      */
-    public bootstrap(reaction: ReactionBase) {
+    public bootstrap(reaction: ReactionObject) {
         const reactionDisabled$ = toObservable(isReactionDisabled(reaction) ? reaction.disabled() : false);
         const disabled$ = combineLatest([reactionDisabled$, this.disabled$]).pipe(
             map(([disabledA, disabledB]) => disabledA || disabledB)

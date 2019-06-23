@@ -4,7 +4,7 @@ import {distinctUntilChanged, filter, map, pairwise, shareReplay, startWith, swi
 import {ReactionCoreService} from '../reaction-core/reaction-core.service';
 import {ReactionSnapshots, toReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
 import {ReactionStates, toReactionStates} from '../reaction-states/reaction-states';
-import {isReactionTitle} from '../reaction-types/reaction-title';
+import {isReactionTitle} from '../reaction/reaction-title';
 import {ReactionModel} from './reaction-model';
 import {ReactionInstance} from '../reaction-hook/reaction-hook';
 

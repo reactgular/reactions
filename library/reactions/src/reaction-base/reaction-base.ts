@@ -5,8 +5,8 @@ import {ReactionConfig} from '../reaction-config/reaction-config';
 import {ReactionCore} from '../reaction-core/reaction-core';
 import {isEventForReaction, ReactionEvent} from '../reaction-events/reaction-event';
 import {ReactionHookOptions} from '../reaction-hook/reaction-hook';
-import {ReactionTitle} from '../reaction-types/reaction-title';
-import {ReactionTooltip} from '../reaction-types/reaction-tooltip';
+import {ReactionTitle} from '../reaction/reaction-title';
+import {ReactionTooltip} from '../reaction/reaction-tooltip';
 
 /**
  * Base class for reaction objects.

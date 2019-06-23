@@ -23,6 +23,8 @@ export interface ReactionHookOptions {
 
 /**
  * A reaction object that has hooks applied.
+ *
+ * @deprecated Use ReactionObject instead.
  */
 export interface ReactionInstance {
     [REACTION_KEY]: ReactionHookOptions[];

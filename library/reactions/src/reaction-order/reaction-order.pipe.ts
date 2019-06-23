@@ -1,12 +1,12 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {ReactionBase} from '../reaction-base/reaction-base';
+import {ReactionObject} from '../reaction/reaction';
 
 /**
  * This pipe sorts the order of a reaction collection by their configured order.
  */
 @Pipe({name: 'reactiveOrder', pure: true})
 export class ReactionOrderPipe implements PipeTransform {
-    public transform(value: ReactionBase[]): any {
+    public transform(value: ReactionObject[]): any {
         if (value instanceof Array) {
             value = [...value];
             value.sort((a, b) => {

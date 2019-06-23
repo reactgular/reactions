@@ -1,11 +1,11 @@
 import {Observable} from 'rxjs';
-import {ReactionBase} from '../reaction-base/reaction-base';
+import {ReactionProperty} from './reaction';
 
 export interface ReactionTooltip {
     /**
      * The tooltip shown when mouse hovering.
      */
-    tooltip(): Observable<string> | string;
+    tooltip(): ReactionProperty<string>;
 }
 
 /**

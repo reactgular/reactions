@@ -1,8 +1,8 @@
 import {Observable} from 'rxjs';
 import {ReactionEvent} from '../reaction-events/reaction-event';
-import {ReactionBase} from '../reaction-base/reaction-base';
 import {ReactionModel} from '../reaction-model/reaction-model';
 import {ReactionInstance} from '../reaction-hook/reaction-hook';
+import {ReactionObject} from '../reaction/reaction';
 
 export interface ReactionCore {
     /**
@@ -18,5 +18,5 @@ export interface ReactionCore {
     /**
      * Bootstraps a reaction when it's being created.
      */
-    bootstrap(reaction: ReactionBase);
+    bootstrap(reaction: ReactionObject);
 }

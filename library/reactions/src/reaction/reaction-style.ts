@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {toObservable} from '../reaction-utils/observables';
-import {ReactionBase} from '../reaction-base/reaction-base';
+import {ReactionProperty} from './reaction';
 
 /**
  * Adds support for applying CSS styles to a reaction.
@@ -10,7 +10,7 @@ export interface ReactionStyle {
     /**
      * Emits CSS styles for the reaction component.
      */
-    css(): Observable<string | string[] | void> | string | string[] | void;
+    css(): ReactionProperty<string | string[] | void>;
 }
 
 /**

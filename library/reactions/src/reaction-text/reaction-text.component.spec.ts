@@ -2,8 +2,8 @@ import {Component, Input, ViewChild} from '@angular/core';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {ReactionModelDirective} from '../reaction-model/reaction-model.directive';
-import {ReactionBase} from '../reaction-base/reaction-base';
 import {ReactionTextComponent} from './reaction-text.component';
+import {ReactionObject} from '../reaction/reaction';
 
 // noinspection AngularMissingOrInvalidDeclarationInModule
 @Component({
@@ -15,7 +15,7 @@ import {ReactionTextComponent} from './reaction-text.component';
 })
 class ReactionTextProxyComponent {
     @Input()
-    public reaction: ReactionBase;
+    public reaction: ReactionObject;
 
     @ViewChild(ReactionTextComponent, {static: true})
     public reactionText: ReactionTextComponent;

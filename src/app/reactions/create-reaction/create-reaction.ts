@@ -1,9 +1,9 @@
 import {Observable} from 'rxjs';
 import {ReactionHook} from '../../../../library/reactions/src/reaction-hook/reaction-hook';
 import {ReactionEvent} from '../../../../library/reactions/src/reaction-events/reaction-event';
-import {ReactionIcon} from '../../../../library/reactions/src/reaction-types/reaction-icon';
+import {ReactionIcon} from '../../../../library/reactions/src/reaction/reaction-icon';
 import {Reaction} from '../../../../library/reactions/src/reaction/reaction';
-import {ReactionTitle} from '../../../../library/reactions/src/reaction-types/reaction-title';
+import {ReactionTitle} from '../../../../library/reactions/src/reaction/reaction-title';
 import {LogService} from '@reactgular/logger';
 
 @Reaction({order: 'demo:000'})
