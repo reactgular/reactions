@@ -1,25 +1,12 @@
 import {of} from 'rxjs';
 import {syncToArray} from '../../tests/observable.helper';
-import {ReactionSnapshot, toReactionSnapshot} from './reaction-snapshot';
+import {reactionSnapshotDefaults} from '../../tests/reaction-snapshot.helper';
+import {toReactionSnapshot} from './reaction-snapshot';
 
 describe(toReactionSnapshot.name, () => {
-    const defaults = () => ({
-        description: undefined,
-        disabled: false,
-        icon: undefined,
-        animate: undefined,
-        secondary: undefined,
-        secondaryAnimate: undefined,
-        order: '0',
-        css: [],
-        title: 'n/a',
-        tooltip: undefined,
-        visible: true
-    } as ReactionSnapshot);
-
     it('should emit a snapshot of defaults', () => {
         const snapshot$ = toReactionSnapshot({});
-        expect(syncToArray(snapshot$)).toEqual([defaults()]);
+        expect(syncToArray(snapshot$)).toEqual([reactionSnapshotDefaults()]);
     });
 
     it('should emit snapshots of changes', () => {
@@ -30,7 +17,7 @@ describe(toReactionSnapshot.name, () => {
         });
 
         expect(syncToArray(snapshot$)).toEqual([{
-            ...defaults(),
+            ...reactionSnapshotDefaults(),
             title: 'Create',
             icon: 'fa-plus',
             description: 'Creates a new document'

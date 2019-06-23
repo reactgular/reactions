@@ -1,3 +1,4 @@
+import {Observable} from 'rxjs';
 import {defaultIfEmpty, distinctUntilChanged, shareReplay} from 'rxjs/operators';
 import {ReactionObject} from '../reaction/reaction';
 import {reactionDescriptionReducer, ReactionDescriptionState} from '../reaction/reaction-description';
@@ -25,7 +26,7 @@ export interface ReactionState extends ReactionDescriptionState,
 /**
  * Applies all the reducers to create a state object.
  */
-function reactionReducer(acc: ReactionObject, reaction: ReactionObject): ReactionObject {
+export function reactionReducer(acc: ReactionObject, reaction: ReactionObject): ReactionState {
     acc = reactionDescriptionReducer(acc, reaction);
     acc = reactionDisabledReducer(acc, reaction);
     acc = reactionIconReducer(acc, reaction);
@@ -33,27 +34,25 @@ function reactionReducer(acc: ReactionObject, reaction: ReactionObject): Reactio
     acc = reactionStyleReducer(acc, reaction);
     acc = reactionTitleReducer(acc, reaction);
     acc = reactionTooltipReducer(acc, reaction);
-    return reactionVisibleReducer(acc, reaction);
+    return reactionVisibleReducer(acc, reaction) as ReactionState;
 }
 
 /**
  * Applies operators to all of the object properties.
  */
-function reactionSharable(state: ReactionState): ReactionState {
-    Object.keys(state).forEach(key => {
-        state[key] = state[key].pipe(
-            defaultIfEmpty(undefined),
-            distinctUntilChanged(),
-            shareReplay(1)
-        );
-    });
-    return state;
+export function reactionSharable(state: ReactionState): ReactionState {
+    const lift = (source: Observable<any>) => source.pipe(
+        defaultIfEmpty(undefined),
+        distinctUntilChanged(),
+        shareReplay(1)
+    );
+    return Object.keys(state).reduce((acc, key) => (acc[key] = lift(state[key]), acc), {}) as ReactionState;
 }
 
 /**
  * Converts a reaction object into a ReactionStates object.
  */
 export function toReactionState(reaction: ReactionObject): ReactionState {
-    return reactionSharable(reactionReducer({}, reaction) as ReactionState);
+    return reactionSharable(reactionReducer({}, reaction));
 }
 
