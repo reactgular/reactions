@@ -1,5 +1,6 @@
 import {Observable} from 'rxjs';
-import {ReactionObject, ReactionProperty, toReactionValue} from './reaction';
+import {ReactionProperty} from '../reaction-types';
+import {ReactionObject, toReactionValue} from './reaction';
 
 /**
  * Tooltip settings for a reaction.
@@ -36,5 +37,5 @@ export interface ReactionTooltipSnapshot {
  */
 export function reactionTooltipReducer(acc: ReactionObject, next: ReactionObject | ReactionTooltip): ReactionObject {
     const tooltip = toReactionValue(next.tooltip);
-    return {...acc, ...tooltip};
+    return {...acc, tooltip};
 }

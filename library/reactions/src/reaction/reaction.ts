@@ -1,5 +1,6 @@
 import {Injectable, Type} from '@angular/core';
 import {Observable, of} from 'rxjs';
+import {REACTION_KEY, ReactionProperty} from '../reaction-types';
 import {toObservable} from '../reaction-utils/observables';
 
 export interface ReactionObject {
@@ -14,10 +15,6 @@ export interface ReactionObject {
     [name: string]: ReactionProperty<any>;
 }
 
-export type ReactionValue<TType> = TType | Observable<TType>;
-export type ReactionCallback<TType> = () => ReactionValue<TType>;
-export type ReactionProperty<TType> = ReactionValue<TType> | ReactionCallback<TType>;
-
 export function toReactionValue<TType>(value: any, _default: TType = undefined): Observable<TType> {
     if (value === undefined) {
         return of(_default);
@@ -28,23 +25,21 @@ export function toReactionValue<TType>(value: any, _default: TType = undefined):
     return toObservable(value);
 }
 
-export const REACTION_KEY = '__reaction__';
-
 /**
  * Sets the meta data on the constructor function.
  */
-const metaData = (clss: Function, options: ReactionObject & ReactionObject) => (clss[REACTION_KEY] = options, clss);
+export const reactionMetaData = (clss: Function, options: ReactionObject): Function => (clss[REACTION_KEY] = options, clss);
 
 /**
  * Calls the injectable decorator from Angular.
  */
-const injectable = (clss: Function, options: ReactionObject & ReactionObject) => options.hasOwnProperty('providedIn')
-    ? Injectable({providedIn: options.providedIn})(clss)
-    : Injectable()(clss);
+export const reactionInjectable = (clss: Function, options: ReactionObject): Function => options.hasOwnProperty('providedIn')
+    ? Injectable({providedIn: options.providedIn})(clss) as any
+    : Injectable()(clss) as any;
 
 /**
  * Reaction decorator for classes.
  */
-export function Reaction(options: ReactionObject & ReactionObject) {
-    return (clss: Function) => injectable(metaData(clss, options), options);
+export function Reaction(options: ReactionObject): (clss: Function) => Function {
+    return (clss: Function) => reactionInjectable(reactionMetaData(clss, options), options);
 }

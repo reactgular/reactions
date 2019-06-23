@@ -1,13 +1,11 @@
 import {Directive, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewContainerRef} from '@angular/core';
 import {BehaviorSubject, combineLatest, merge, Observable, ReplaySubject, Subject} from 'rxjs';
-import {distinctUntilChanged, filter, map, pairwise, shareReplay, startWith, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {distinctUntilChanged, map, pairwise, shareReplay, startWith, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {ReactionCoreService} from '../reaction-core/reaction-core.service';
 import {ReactionSnapshots, toReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
 import {ReactionState, toReactionState} from '../reaction-state/reaction-state';
 import {ReactionObject} from '../reaction/reaction';
-import {isReactionTitle} from '../reaction/reaction-title';
 import {ReactionModel} from './reaction-model';
-import {ReactionInstance} from '../reaction-hook/reaction-hook';
 
 /**
  * Dependency provider for other components to gain access to the reaction object.
@@ -87,7 +85,6 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
     public ngOnInit(): void {
         this.reaction$ = this._reaction$.pipe(
             tap(val => console.log('reaction$', val)),
-            filter(value => value && isReactionTitle(value)),
             distinctUntilChanged(),
             shareReplay(1)
         );

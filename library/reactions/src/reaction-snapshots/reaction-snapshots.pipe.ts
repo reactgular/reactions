@@ -1,8 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {isReactionTitle} from '../reaction/reaction-title';
-import {ReactionSnapshots, toReactionSnapshots} from './reaction-snapshots';
 import {ReactionObject} from '../reaction/reaction';
+import {ReactionSnapshots, toReactionSnapshots} from './reaction-snapshots';
 
 @Pipe({name: 'reactionSnapshots', pure: true})
 export class ReactionSnapshotsPipe implements PipeTransform {
@@ -10,6 +9,6 @@ export class ReactionSnapshotsPipe implements PipeTransform {
      * Creates an observable that emits snapshots of the reaction.
      */
     public transform(value: ReactionObject): Observable<ReactionSnapshots> {
-        return isReactionTitle(value) ? toReactionSnapshots(value) : of();
+        return typeof value === 'object' ? toReactionSnapshots(value) : of();
     }
 }

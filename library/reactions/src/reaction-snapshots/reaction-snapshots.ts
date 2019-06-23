@@ -1,6 +1,7 @@
 import {combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {toReactionState} from '../reaction-state/reaction-state';
+import {ReactionObject} from '../reaction/reaction';
 import {ReactionDisabledSnapshot} from '../reaction/reaction-disabled';
 import {ReactionIconSnapshot} from '../reaction/reaction-icon';
 import {ReactionStyleSnapshot} from '../reaction/reaction-style';
@@ -22,7 +23,7 @@ export interface ReactionSnapshots extends ReactionTitleSnapshot,
 /**
  * Creates an observable that emits a snapshots (state object) of a reaction.
  */
-export function toReactionSnapshots(reaction: unknown): Observable<ReactionSnapshots> {
+export function toReactionSnapshots(reaction: ReactionObject): Observable<ReactionSnapshots> {
     const state$ = toReactionState(reaction);
 
     const combined$: Observable<{ key: string, value: any }>[] = Object.keys(state$).map(key => {

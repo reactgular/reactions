@@ -1,5 +1,6 @@
 import {Observable} from 'rxjs';
-import {ReactionObject, ReactionProperty, toReactionValue} from './reaction';
+import {ReactionProperty} from '../reaction-types';
+import {ReactionObject, toReactionValue} from './reaction';
 
 /**
  * Adds support for showing/hiding a reaction.
@@ -35,6 +36,6 @@ export interface ReactionVisibleSnapshot {
  * Updates a state object with more observable properties from the reaction.
  */
 export function reactionVisibleReducer(acc: ReactionObject, next: ReactionObject | ReactionVisible): ReactionObject {
-    const visible = toReactionValue(next.visible);
+    const visible = toReactionValue(next.visible, true);
     return {...acc, visible};
 }

@@ -1,5 +1,6 @@
 import {Observable} from 'rxjs';
-import {ReactionObject, ReactionProperty, toReactionValue} from './reaction';
+import {ReactionProperty} from '../reaction-types';
+import {ReactionObject, toReactionValue} from './reaction';
 
 /**
  * Adds support for disabling a reaction.
@@ -35,6 +36,6 @@ export interface ReactionDisabledSnapshot {
  * Updates a state object with more observable properties from the reaction.
  */
 export function reactionDisabledReducer(acc: ReactionObject, next: ReactionObject | ReactionDisabled): ReactionObject {
-    const disabled = toReactionValue(next.disabled);
+    const disabled = toReactionValue(next.disabled, false);
     return {...acc, disabled};
 }

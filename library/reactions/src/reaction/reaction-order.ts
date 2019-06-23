@@ -1,5 +1,6 @@
 import {Observable} from 'rxjs';
-import {ReactionObject, ReactionProperty, toReactionValue} from './reaction';
+import {ReactionProperty} from '../reaction-types';
+import {ReactionObject, toReactionValue} from './reaction';
 
 /**
  * Defines the order of this reaction in a sorted list.

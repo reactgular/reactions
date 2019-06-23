@@ -1,5 +1,5 @@
 import {ReactionEvent} from '../reaction-events/reaction-event';
-import {REACTION_KEY} from '../reaction/reaction';
+import {REACTION_KEY} from '../reaction-types';
 
 /**
  * Configured hook that triggers a reaction

@@ -1,5 +1,6 @@
 import {Observable} from 'rxjs';
-import {ReactionObject, ReactionProperty, toReactionValue} from './reaction';
+import {ReactionProperty} from '../reaction-types';
+import {ReactionObject, toReactionValue} from './reaction';
 
 /**
  * Description of the reaction.

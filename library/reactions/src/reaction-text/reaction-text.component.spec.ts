@@ -26,18 +26,18 @@ describe(ReactionTextComponent.name, () => {
     let fixture: ComponentFixture<ReactionTextProxyComponent>;
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [FontAwesomeModule],
-            declarations: [
-                ReactionModelDirective,
-                ReactionTextComponent,
-                ReactionTextProxyComponent
-            ]
-        }).compileComponents();
-
-        fixture = TestBed.createComponent(ReactionTextProxyComponent);
-        fixture.detectChanges();
-        component = fixture.componentInstance.reactionText;
+        // TestBed.configureTestingModule({
+        //     imports: [FontAwesomeModule],
+        //     declarations: [
+        //         ReactionModelDirective,
+        //         ReactionTextComponent,
+        //         ReactionTextProxyComponent
+        //     ]
+        // }).compileComponents();
+        //
+        // fixture = TestBed.createComponent(ReactionTextProxyComponent);
+        // fixture.detectChanges();
+        // component = fixture.componentInstance.reactionText;
     }));
 
     it('should create', () => {

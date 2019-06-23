@@ -1,8 +1,9 @@
 import {Observable} from 'rxjs';
-import {ReactionObject, ReactionProperty, toReactionValue} from './reaction';
+import {ReactionProperty} from '../reaction-types';
+import {ReactionObject, toReactionValue} from './reaction';
 
 /**
- * A display title for a reaction.
+ * A display title for a reaction. All reactions should have a title. If none is provided then "n/a" will be the default.
  */
 export interface ReactionTitle {
     /**
@@ -35,6 +36,6 @@ export interface ReactionTitleSnapshot {
  * Updates a state object with more observable properties from the reaction.
  */
 export function reactionTitleReducer(acc: ReactionObject, next: ReactionObject | ReactionTitle): ReactionObject {
-    const title = toReactionValue(next.title);
-    return {...acc, ...title};
+    const title = toReactionValue(next.title, 'n/a');
+    return {...acc, title};
 }
