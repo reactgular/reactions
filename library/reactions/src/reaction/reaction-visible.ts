@@ -34,7 +34,7 @@ export interface ReactionVisibleSnapshot {
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionVisibleReducer(acc: ReactionObject, next: ReactionObject): ReactionObject {
-    const visible = toReactionValue(next['visible']);
+export function reactionVisibleReducer(acc: ReactionObject, next: ReactionObject | ReactionVisible): ReactionObject {
+    const visible = toReactionValue(next.visible);
     return {...acc, visible};
 }

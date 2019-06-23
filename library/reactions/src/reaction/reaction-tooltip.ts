@@ -34,7 +34,7 @@ export interface ReactionTooltipSnapshot {
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionTooltipReducer(acc: ReactionObject, next: ReactionObject): ReactionObject {
-    const tooltip = toReactionValue(next['tooltip']);
+export function reactionTooltipReducer(acc: ReactionObject, next: ReactionObject | ReactionTooltip): ReactionObject {
+    const tooltip = toReactionValue(next.tooltip);
     return {...acc, ...tooltip};
 }

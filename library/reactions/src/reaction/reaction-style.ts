@@ -35,8 +35,8 @@ export interface ReactionStyleSnapshot {
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionStyleReducer(acc: ReactionObject, next: ReactionObject): ReactionObject {
-    const css = toReactionValue<string | string[] | void>(next['css']).pipe(
+export function reactionStyleReducer(acc: ReactionObject, next: ReactionObject | ReactionStyle): ReactionObject {
+    const css = toReactionValue<string | string[] | void>(next.css).pipe(
         map((value: string | string[] | void) => {
             const values: string[] = typeof value === 'string' ? value.split(' ') : (value || []);
             return Array.from(new Set(values.map(str => str.trim()).filter(Boolean)));

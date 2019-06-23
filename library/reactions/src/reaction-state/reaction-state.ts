@@ -1,5 +1,4 @@
 import {defaultIfEmpty, distinctUntilChanged, shareReplay} from 'rxjs/operators';
-import {toObservable} from '../reaction-utils/observables';
 import {ReactionObject} from '../reaction/reaction';
 import {reactionDescriptionReducer, ReactionDescriptionState} from '../reaction/reaction-description';
 import {reactionDisabledReducer, ReactionDisabledState} from '../reaction/reaction-disabled';
@@ -24,28 +23,37 @@ export interface ReactionState extends ReactionDescriptionState,
 }
 
 /**
- * Converts a reaction object into a ReactionStates object.
+ * Applies all the reducers to create a state object.
  */
-export function toReactionStates(reaction: ReactionObject): ReactionState {
-    let state$ = {};
-    state$ = reactionDescriptionReducer(state$, reaction);
-    state$ = reactionDisabledReducer(state$, reaction);
-    state$ = reactionIconReducer(state$, reaction);
-    state$ = reactionOrderReducer(state$, reaction);
-    state$ = reactionStyleReducer(state$, reaction);
-    state$ = reactionTitleReducer(state$, reaction);
-    state$ = reactionTooltipReducer(state$, reaction);
-    state$ = reactionVisibleReducer(state$, reaction);
+function reactionReducer(acc: ReactionObject, reaction: ReactionObject): ReactionObject {
+    acc = reactionDescriptionReducer(acc, reaction);
+    acc = reactionDisabledReducer(acc, reaction);
+    acc = reactionIconReducer(acc, reaction);
+    acc = reactionOrderReducer(acc, reaction);
+    acc = reactionStyleReducer(acc, reaction);
+    acc = reactionTitleReducer(acc, reaction);
+    acc = reactionTooltipReducer(acc, reaction);
+    return reactionVisibleReducer(acc, reaction);
+}
 
-    Object.keys(state$).forEach(key => {
-        state$[key] = toObservable(state$[key]);
-        state$[key] = state$[key].pipe(
+/**
+ * Applies operators to all of the object properties.
+ */
+function reactionSharable(state: ReactionState): ReactionState {
+    Object.keys(state).forEach(key => {
+        state[key] = state[key].pipe(
             defaultIfEmpty(undefined),
             distinctUntilChanged(),
             shareReplay(1)
         );
     });
+    return state;
+}
 
-    return state$ as ReactionState;
+/**
+ * Converts a reaction object into a ReactionStates object.
+ */
+export function toReactionState(reaction: ReactionObject): ReactionState {
+    return reactionSharable(reactionReducer({}, reaction) as ReactionState);
 }
 

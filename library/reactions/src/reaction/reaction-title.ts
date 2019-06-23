@@ -34,7 +34,7 @@ export interface ReactionTitleSnapshot {
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionTitleReducer(acc: ReactionObject, next: ReactionObject): ReactionObject {
-    const title = toReactionValue(next['title']);
+export function reactionTitleReducer(acc: ReactionObject, next: ReactionObject | ReactionTitle): ReactionObject {
+    const title = toReactionValue(next.title);
     return {...acc, ...title};
 }

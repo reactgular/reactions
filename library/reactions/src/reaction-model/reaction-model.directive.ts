@@ -3,7 +3,7 @@ import {BehaviorSubject, combineLatest, merge, Observable, ReplaySubject, Subjec
 import {distinctUntilChanged, filter, map, pairwise, shareReplay, startWith, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {ReactionCoreService} from '../reaction-core/reaction-core.service';
 import {ReactionSnapshots, toReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
-import {ReactionState, toReactionStates} from '../reaction-state/reaction-state';
+import {ReactionState, toReactionState} from '../reaction-state/reaction-state';
 import {ReactionObject} from '../reaction/reaction';
 import {isReactionTitle} from '../reaction/reaction-title';
 import {ReactionModel} from './reaction-model';
@@ -93,7 +93,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
         );
 
         this.state$ = this.reaction$.pipe(
-            map(reaction => toReactionStates(reaction)),
+            map(reaction => toReactionState(reaction)),
             shareReplay(1)
         );
 

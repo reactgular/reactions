@@ -34,7 +34,7 @@ export interface ReactionDescriptionSnapshot {
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionDescriptionReducer(acc: ReactionObject, next: ReactionObject): ReactionObject {
-    const description = toReactionValue(next['description']);
+export function reactionDescriptionReducer(acc: ReactionObject, next: ReactionObject | ReactionDescription): ReactionObject {
+    const description = toReactionValue(next.description);
     return {...acc, description};
 }
