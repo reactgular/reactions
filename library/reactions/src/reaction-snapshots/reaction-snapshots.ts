@@ -23,7 +23,7 @@ export interface ReactionSnapshots extends ReactionTitleSnapshot,
 /**
  * Creates an observable that emits a snapshots (state object) of a reaction.
  */
-export function toReactionSnapshots(reaction: ReactionBase): Observable<ReactionSnapshots> {
+export function toReactionSnapshots(reaction: unknown): Observable<ReactionSnapshots> {
     const state$ = toReactionStates(reaction);
 
     const combined$: Observable<{ key: string, value: any }>[] = Object.keys(state$).map(key => {

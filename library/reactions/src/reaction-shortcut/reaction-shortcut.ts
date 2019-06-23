@@ -70,6 +70,8 @@ export function ReactionShortcut(code: string, message: string, options?: Reacti
 
 /**
  * Decorates a method of a reaction class as a consumer of a keyboard short cut.
+ *
+ * @deprecated will be combined with ReactionHook
  */
 export function ReactionShortcut(...args: any[]) {
     return function (target: ReactionBase, name: string, descriptor: TypedPropertyDescriptor<(event: ReactionEvent) => void>) {

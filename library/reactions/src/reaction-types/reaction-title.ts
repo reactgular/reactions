@@ -33,14 +33,14 @@ export interface ReactionTitleSnapshot {
 /**
  * Checks if an object is a reaction
  */
-export function isReaction(value: any): value is ReactionTitle {
+export function isReactionTitle(value: any): value is ReactionTitle {
     return typeof (<ReactionTitle>value).title === 'function';
 }
 
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionTitleReducer(acc: any, next: ReactionTitle): ReactionTitleState {
-    const title$ = next.title();
+export function reactionTitleReducer(acc: any, next: unknown): ReactionTitleState {
+    const title$ = isReactionTitle(next) ? next.title() : undefined;
     return {...acc, ...{title$}};
 }

@@ -1,5 +1,4 @@
 import {Observable} from 'rxjs';
-import {ReactionBase} from '../reaction-base/reaction-base';
 
 /**
  * Supported types of animation.
@@ -18,7 +17,7 @@ export interface ReactionIcon {
     /**
      * Emits the animation state of the tool. Can be "spin" or "pulse" or undefined.
      */
-    animate(): Observable<ReactionIconAnimate> | ReactionIconAnimate;
+    animate?(): Observable<ReactionIconAnimate> | ReactionIconAnimate;
 
     /**
      * The visual icon for the tool.
@@ -28,12 +27,12 @@ export interface ReactionIcon {
     /**
      * Secondary icon shown after the text.
      */
-    secondary(): Observable<string> | string;
+    secondary?(): Observable<string> | string;
 
     /**
      * Emits the animation state of the tool. Can be "spin" or "pulse" or undefined.
      */
-    secondaryAnimate(): Observable<ReactionIconAnimate> | ReactionIconAnimate;
+    secondaryAnimate?(): Observable<ReactionIconAnimate> | ReactionIconAnimate;
 }
 
 /**
@@ -44,14 +43,17 @@ export interface ReactionIconState {
      * Animation state
      */
     animate$: Observable<ReactionIconAnimate>;
+
     /**
      * Icon state
      */
     icon$: Observable<string>;
+
     /**
      * Secondary state
      */
     secondary$: Observable<string>;
+
     /**
      * Animation state
      */
@@ -66,14 +68,17 @@ export interface ReactionIconSnapshot {
      * Animation state
      */
     animate: ReactionIconAnimate;
+
     /**
      * Icon state
      */
     icon: string;
+
     /**
      * Secondary state
      */
     secondary: string;
+
     /**
      * Animation state
      */
@@ -84,19 +89,16 @@ export interface ReactionIconSnapshot {
  * Checks if an object is a reaction
  */
 export function isReactionIcon(value: any): value is ReactionIcon {
-    return typeof (<ReactionIcon>value).icon === 'function'
-        && typeof (<ReactionIcon>value).animate === 'function'
-        && typeof (<ReactionIcon>value).secondary === 'function'
-        && typeof (<ReactionIcon>value).secondaryAnimate === 'function';
+    return typeof (<ReactionIcon>value).icon === 'function';
 }
 
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionIconReducer(acc: any, next: ReactionBase): ReactionIconState {
+export function reactionIconReducer(acc: any, next: unknown): ReactionIconState {
     const icon$ = isReactionIcon(next) ? next.icon() : undefined;
-    const animate$ = isReactionIcon(next) ? next.animate() : undefined;
-    const secondary$ = isReactionIcon(next) ? next.secondary() : undefined;
-    const secondaryAnimate$ = isReactionIcon(next) ? next.secondaryAnimate() : undefined;
+    const animate$ = isReactionIcon(next) && next.animate ? next.animate() : undefined;
+    const secondary$ = isReactionIcon(next) && next.secondary ? next.secondary() : undefined;
+    const secondaryAnimate$ = isReactionIcon(next) && next.secondaryAnimate ? next.secondaryAnimate() : undefined;
     return {...acc, ...{icon$, animate$, secondary$, secondaryAnimate$}};
 }

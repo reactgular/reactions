@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {ReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
 
 /**
@@ -10,7 +10,7 @@ import {ReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
     styleUrls: ['./reaction-text.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ReactionTextComponent {
+export class ReactionTextComponent implements OnChanges {
     /***
      * Show the icon
      */
@@ -34,4 +34,8 @@ export class ReactionTextComponent {
      */
     @Input()
     public title: boolean = true;
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        console.log({changes});
+    }
 }

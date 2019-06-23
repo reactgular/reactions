@@ -41,7 +41,7 @@ export function isReactionDisabled(value: any): value is ReactionDisabled {
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionDisabledReducer(acc: any, next: ReactionBase): ReactionDisabledState {
+export function reactionDisabledReducer(acc: any, next: unknown): ReactionDisabledState {
     const disabled$ = isReactionDisabled(next) ? next.disabled() : false;
     return {...acc, ...{disabled$}};
 }

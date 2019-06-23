@@ -22,7 +22,7 @@ export interface ReactionStates extends ReactionTitleState,
 /**
  * Converts a reaction object into a ReactionStates object.
  */
-export function toReactionStates(reaction: ReactionBase): ReactionStates {
+export function toReactionStates(reaction: unknown): ReactionStates {
     let state$ = {};
     state$ = reactionTitleReducer(state$, reaction);
     state$ = reactionDisabledReducer(state$, reaction);

@@ -41,7 +41,7 @@ export function isReactionVisible(value: any): value is ReactionVisible {
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionVisibleReducer(acc: any, next: ReactionBase): ReactionVisibleState {
+export function reactionVisibleReducer(acc: any, next: unknown): ReactionVisibleState {
     const visible$ = isReactionVisible(next) ? next.visible() : true;
     return {...acc, ...{visible$}};
 }

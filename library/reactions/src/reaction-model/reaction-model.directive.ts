@@ -1,21 +1,12 @@
 import {Directive, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewContainerRef} from '@angular/core';
 import {BehaviorSubject, combineLatest, merge, Observable, ReplaySubject, Subject} from 'rxjs';
-import {distinctUntilChanged, filter, map, pairwise, shareReplay, startWith, switchMap, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, map, pairwise, shareReplay, startWith, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {ReactionCoreService} from '../reaction-core/reaction-core.service';
 import {ReactionSnapshots, toReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
 import {ReactionStates, toReactionStates} from '../reaction-states/reaction-states';
-import {isReaction} from '../reaction-types/reaction-title';
-import {ReactionBase} from '../reaction-base/reaction-base';
+import {isReactionTitle} from '../reaction-types/reaction-title';
 import {ReactionModel} from './reaction-model';
-
-/**
- * Asserts that the rgReaction directive is present.
- */
-export function assertReactionModel(name: string, reactionModel?: ReactionModelDirective) {
-    if (!reactionModel) {
-        throw new Error(`${name} requires a DOM element to have [ngReaction] assigned with a reaction object.`);
-    }
-}
+import {ReactionInstance} from '../reaction-hook/reaction-hook';
 
 /**
  * Dependency provider for other components to gain access to the reaction object.
@@ -38,7 +29,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
     /**
      * Emits changes to the reaction object.
      */
-    public reaction$: Observable<ReactionBase>;
+    public reaction$: Observable<ReactionInstance>;
 
     /**
      * Emits snapshots of the reaction.
@@ -53,7 +44,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
     /**
      * Emits the reaction object.
      */
-    private readonly _reaction$: ReplaySubject<ReactionBase> = new ReplaySubject(1);
+    private readonly _reaction$: ReplaySubject<ReactionInstance> = new ReplaySubject(1);
 
     /**
      * Constructor
@@ -76,7 +67,8 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
      * Sets the reaction object.
      */
     @Input('rgReaction')
-    public set reaction(reaction: ReactionBase) {
+    public set reaction(reaction: ReactionInstance) {
+        console.log('rgReaction setter', reaction);
         this._reaction$.next(reaction);
     }
 
@@ -93,7 +85,8 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
      */
     public ngOnInit(): void {
         this.reaction$ = this._reaction$.pipe(
-            filter(value => value && isReaction(value)),
+            tap(val => console.log('reaction$', val)),
+            filter(value => value && isReactionTitle(value)),
             distinctUntilChanged(),
             shareReplay(1)
         );

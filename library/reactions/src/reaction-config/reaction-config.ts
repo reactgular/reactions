@@ -2,6 +2,8 @@ import {ReactionBase} from '../reaction-base/reaction-base';
 
 /**
  * Configuration options for a reaction.
+ *
+ * @deprecated Replaced by ReactionMetaData
  */
 export interface ReactionConfig {
     /**

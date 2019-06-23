@@ -23,6 +23,7 @@ import {isReactionDisabled} from '../reaction-types/reaction-disabled';
 import {toObservable} from '../reaction-utils/observables';
 import {ReactionBase} from '../reaction-base/reaction-base';
 import {ReactionCore} from './reaction-core';
+import {ReactionInstance} from '../reaction-hook/reaction-hook';
 
 /**
  * UI events are broadcast from this service and reactions can act upon those events. Events are things like mouse events, keyboard
@@ -140,20 +141,25 @@ export class ReactionCoreService implements ReactionCore, OnDestroy {
     /**
      * Publishes events from the model for the reaction.
      */
-    public publish({el, view, data$}: ReactionModel, reaction: ReactionBase, destroyed$: Observable<void>) {
-        const events$ = reaction.hocks.map(hook => {
-            const event$ = fromEvent<UIEvent>(el.nativeElement, hook.eventType);
-            return hook.debounce
-                ? event$.pipe(throttleTime(hook.debounce))
-                : event$;
-        });
+    public publish({el, view, data$}: ReactionModel, reaction: ReactionInstance, destroyed$: Observable<void>) {
 
-        merge<UIEvent>(...events$).pipe(
-            tap(event => event.preventDefault()),
-            map<UIEvent, ReactionEvent>(payload => ({id: 0, el, view, payload, reaction})),
-            withLatestFrom(data$),
-            map(([event, data]) => ({...event, data})),
-            takeUntil(merge(this._destroyed$, destroyed$))
-        ).subscribe(event => this._events$.next(event));
+        console.log({reaction});
+
+        return;
+        //
+        // const events$ = reaction.hocks.map(hook => {
+        //     const event$ = fromEvent<UIEvent>(el.nativeElement, hook.eventType);
+        //     return hook.debounce
+        //         ? event$.pipe(throttleTime(hook.debounce))
+        //         : event$;
+        // });
+        //
+        // merge<UIEvent>(...events$).pipe(
+        //     tap(event => event.preventDefault()),
+        //     map<UIEvent, ReactionEvent>(payload => ({id: 0, el, view, payload, reaction})),
+        //     withLatestFrom(data$),
+        //     map(([event, data]) => ({...event, data})),
+        //     takeUntil(merge(this._destroyed$, destroyed$))
+        // ).subscribe(event => this._events$.next(event));
     }
 }

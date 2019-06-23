@@ -1,13 +1,11 @@
-<div class="row">
-  <div class="col-6 p-5">
-    <rg-demo-editor></rg-demo-editor>
-  </div>
-  <div class="col-6">
-    <div class="mb-5">
-      Buttons
+<div class="container m-3">
+  <div class="row">
+    <div class="col-12">
+      <button *ngFor="let reaction of reactions"
+              [rgReaction]="reaction" #rgReaction="rgReaction">
+        <rg-reaction-text [icon]="false"
+                          [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
+      </button>
     </div>
-    <button [rgReaction]="proxy" #reaction="rgReaction">
-      <rg-reaction-text [icon]="false" [snapshot]="reaction.snapshot$ | async"></rg-reaction-text>
-    </button>
   </div>
 </div>

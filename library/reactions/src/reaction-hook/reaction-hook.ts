@@ -1,5 +1,5 @@
 import {ReactionEvent} from '../reaction-events/reaction-event';
-import {ReactionBase} from '../reaction-base/reaction-base';
+import {REACTION_KEY} from '../reaction/reaction';
 
 /**
  * Configured hook that triggers a reaction
@@ -21,27 +21,44 @@ export interface ReactionHookOptions {
     method?: (event: ReactionEvent) => void;
 }
 
+/**
+ * A reaction object that has hooks applied.
+ */
+export interface ReactionInstance {
+    [REACTION_KEY]: ReactionHookOptions[];
+}
+
+const toReactionInstance = (obj: any): ReactionInstance => {
+    if (!(obj[REACTION_KEY] instanceof Array)) {
+        obj[REACTION_KEY] = [];
+    }
+    return obj as ReactionInstance;
+};
+
 export function ReactionHook(options: ReactionHookOptions);
 export function ReactionHook(eventType: string, options?: ReactionHookOptions);
 
 /**
  * Decorates a method of a reaction class as a consumer for a specific event.
+ *
+ * @todo This needs a better name ReactionEvent?
  */
 export function ReactionHook(...args: any[]) {
-    return function (target: ReactionBase, name: string, descriptor: TypedPropertyDescriptor<(event: ReactionEvent) => void>) {
+    return function (target: any, name: string, descriptor: TypedPropertyDescriptor<(event: ReactionEvent) => void>) {
+        const reaction: ReactionInstance = toReactionInstance(target);
+        const hooks = reaction[REACTION_KEY];
         const method = descriptor.value;
         if (args.length === 1 && typeof args[0] === 'string') {
             const eventType = args[0];
-            target.hook({eventType, method});
+            hooks.push({eventType, method});
         } else if (args.length === 1 && typeof args[0] === 'object') {
             const options = args[0];
-            target.hook({...options, method});
+            hooks.push({...options, method});
         } else if (args.length === 2 && typeof args[0] === 'string' && typeof args[1] === 'object') {
             const eventType = args[0];
             const options = args[1];
-            target.hook({...options, eventType, method});
+            hooks.push({...options, eventType, method});
         } else {
-            console.log(args);
             throw new Error('Unexpected arguments');
         }
     };

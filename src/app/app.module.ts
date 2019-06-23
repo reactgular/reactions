@@ -5,7 +5,9 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactionsModule} from '../../library/reactions/src/reactions.module';
 import {DemoComponent} from './demo/demo.component';
-import {DemoEditorComponent} from './demo-editor/demo-editor.component';
+import {DemoCardComponent} from './demo-card/demo-card.component';
+import {LoggerModule} from '@reactgular/logger';
+import {environment} from '../environments/environment';
 
 @NgModule({
     imports: [
@@ -13,11 +15,12 @@ import {DemoEditorComponent} from './demo-editor/demo-editor.component';
         BrowserAnimationsModule,
         ReactiveFormsModule,
         ReactionsModule,
-        MatButtonModule
+        MatButtonModule,
+        LoggerModule.forRoot({enabled: !environment.production})
     ],
     declarations: [
         DemoComponent,
-        DemoEditorComponent
+        DemoCardComponent
     ],
     providers: [],
     bootstrap: [
