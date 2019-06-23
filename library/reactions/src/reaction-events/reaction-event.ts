@@ -35,10 +35,3 @@ export interface ReactionEvent {
      */
     view?: ViewContainerRef;
 }
-
-/**
- * Checks if an event belongs to a reaction instance.
- */
-export function isEventForReaction(reaction: ReactionObject, event: ReactionEvent): boolean {
-    return event.reaction === reaction;
-}

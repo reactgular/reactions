@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {ReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
+import {ReactionSnapshot} from '../reaction-snapshots/reaction-snapshot';
 
 /**
  * Displays the body of a reaction control. Mostly the icon and title.
@@ -27,7 +27,7 @@ export class ReactionTextComponent implements OnChanges {
      * Snapshot of the reaction
      */
     @Input()
-    public snapshot: ReactionSnapshots;
+    public snapshot: ReactionSnapshot;
 
     /**
      * Show the title

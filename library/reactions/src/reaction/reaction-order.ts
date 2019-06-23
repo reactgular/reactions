@@ -31,6 +31,6 @@ export interface ReactionOrderSnapshot {
  * Updates a state object with more observable properties from the reaction.
  */
 export function reactionOrderReducer(acc: ReactionObject, next: ReactionObject | ReactionOrder): ReactionObject {
-    const order = toReactionValue(next.order);
+    const order = toReactionValue(next.order, '0');
     return {...acc, order};
 }

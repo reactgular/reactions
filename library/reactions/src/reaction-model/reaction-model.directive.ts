@@ -2,7 +2,7 @@ import {Directive, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewContaine
 import {BehaviorSubject, combineLatest, merge, Observable, ReplaySubject, Subject} from 'rxjs';
 import {distinctUntilChanged, map, pairwise, shareReplay, startWith, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {ReactionCoreService} from '../reaction-core/reaction-core.service';
-import {ReactionSnapshots, toReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
+import {ReactionSnapshot, toReactionSnapshot} from '../reaction-snapshots/reaction-snapshot';
 import {ReactionState, toReactionState} from '../reaction-state/reaction-state';
 import {ReactionObject} from '../reaction/reaction';
 import {ReactionModel} from './reaction-model';
@@ -33,7 +33,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
     /**
      * Emits snapshots of the reaction.
      */
-    public snapshot$: Observable<ReactionSnapshots>;
+    public snapshot$: Observable<ReactionSnapshot>;
 
     /**
      * Emits the reaction as a state object.
@@ -95,7 +95,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
         );
 
         this.snapshot$ = this.reaction$.pipe(
-            switchMap(reaction => toReactionSnapshots(reaction)),
+            switchMap(reaction => toReactionSnapshot(reaction)),
             shareReplay(1)
         );
 

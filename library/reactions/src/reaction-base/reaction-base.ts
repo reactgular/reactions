@@ -1,12 +1,23 @@
 import {OnDestroy} from '@angular/core';
 import {from, Observable, Subject} from 'rxjs';
 import {filter, map, mergeMap, takeUntil} from 'rxjs/operators';
-import {ReactionConfig} from '../reaction-config/reaction-config';
 import {ReactionCore} from '../reaction-core/reaction-core';
-import {isEventForReaction, ReactionEvent} from '../reaction-events/reaction-event';
+import {ReactionEvent} from '../reaction-events/reaction-event';
 import {ReactionHookOptions} from '../reaction-hook/reaction-hook';
 import {ReactionTitle} from '../reaction/reaction-title';
 import {ReactionTooltip} from '../reaction/reaction-tooltip';
+
+/**
+ * Configuration options for a reaction.
+ *
+ * @deprecated Replaced by ReactionMetaData
+ */
+export interface ReactionConfig {
+    /**
+     * The order of the tool.
+     */
+    order?: string;
+}
 
 /**
  * Base class for reaction objects.
@@ -33,7 +44,7 @@ export abstract class ReactionBase implements OnDestroy, ReactionTitle, Reaction
 
         // @todo this work should be done in the service
         this._core.events$.pipe(
-            filter(event => isEventForReaction(this, event)),
+            filter(event => this === event.reaction),
             filter(event => event.payload && typeof event.payload.type === 'string'),
             map<ReactionEvent, [ReactionEvent, ReactionHookOptions[]]>(event => {
                 const hooks = this._hooks.filter(hook => event.payload.type === hook.eventType);
