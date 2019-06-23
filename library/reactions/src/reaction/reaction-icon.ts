@@ -89,10 +89,10 @@ export interface ReactionIconSnapshot {
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionIconReducer(acc: ReactionObject, [next, data]: [ReactionObject, any]): ReactionObject {
-    const icon = toReactionValue(next['icon'], data);
-    const animate = toReactionValue(next['animate'], data);
-    const secondary = toReactionValue(next['secondary'], data);
-    const secondaryAnimate = toReactionValue(next['secondaryAnimate'], data);
+export function reactionIconReducer(acc: ReactionObject, next: ReactionObject): ReactionObject {
+    const icon = toReactionValue(next['icon']);
+    const animate = toReactionValue(next['animate']);
+    const secondary = toReactionValue(next['secondary']);
+    const secondaryAnimate = toReactionValue(next['secondaryAnimate']);
     return {...acc, icon, animate, secondary, secondaryAnimate};
 }

@@ -1,5 +1,5 @@
-import {ReactionObject, ReactionProperty, toReactionValue} from './reaction';
 import {Observable} from 'rxjs';
+import {ReactionObject, ReactionProperty, toReactionValue} from './reaction';
 
 /**
  * Description of the reaction.
@@ -34,7 +34,7 @@ export interface ReactionDescriptionSnapshot {
 /**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionDescriptionReducer(acc: ReactionObject, [next, data]: [ReactionObject, any]): ReactionObject {
-    const description = toReactionValue(next['description'], data);
+export function reactionDescriptionReducer(acc: ReactionObject, next: ReactionObject): ReactionObject {
+    const description = toReactionValue(next['description']);
     return {...acc, description};
 }

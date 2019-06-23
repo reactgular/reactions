@@ -1,7 +1,6 @@
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {toObservable} from '../reaction-utils/observables';
-import {ReactionProperty} from './reaction';
+import {ReactionObject, ReactionProperty, toReactionValue} from './reaction';
 
 /**
  * Adds support for applying CSS styles to a reaction.
@@ -10,7 +9,7 @@ export interface ReactionStyle {
     /**
      * Emits CSS styles for the reaction component.
      */
-    css(): ReactionProperty<string | string[] | void>;
+    css: ReactionProperty<string | string[] | void>;
 }
 
 /**
@@ -20,7 +19,7 @@ export interface ReactionStyleState {
     /**
      * CSS state
      */
-    css$: Observable<string[]>;
+    css: Observable<string[]>;
 }
 
 /**
@@ -34,21 +33,14 @@ export interface ReactionStyleSnapshot {
 }
 
 /**
- * Checks if the reaction supports styles.
- */
-export function isReactionStyle(value: any): value is ReactionStyle {
-    return typeof (<ReactionStyle>value).css === 'function';
-}
-
-/**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionStyleReducer(acc: any, next: unknown): ReactionStyleState {
-    const css$ = toObservable(isReactionStyle(next) ? next.css() : undefined).pipe(
+export function reactionStyleReducer(acc: ReactionObject, next: ReactionObject): ReactionObject {
+    const css = toReactionValue<string | string[] | void>(next['css']).pipe(
         map((value: string | string[] | void) => {
             const values: string[] = typeof value === 'string' ? value.split(' ') : (value || []);
             return Array.from(new Set(values.map(str => str.trim()).filter(Boolean)));
         })
     );
-    return {...acc, ...{css$}};
+    return {...acc, css};
 }

@@ -15,15 +15,15 @@ export interface ReactionObject {
 }
 
 export type ReactionValue<TType> = TType | Observable<TType>;
-export type ReactionCallback<TType> = (data?: any) => ReactionValue<TType>;
+export type ReactionCallback<TType> = () => ReactionValue<TType>;
 export type ReactionProperty<TType> = ReactionValue<TType> | ReactionCallback<TType>;
 
-export function toReactionValue<TType>(value: any, data: any, _default: TType = undefined): Observable<TType> {
+export function toReactionValue<TType>(value: any, _default: TType = undefined): Observable<TType> {
     if (value === undefined) {
         return of(_default);
     }
     if (typeof value === 'function') {
-        return toReactionValue(value(data), data, _default);
+        return toReactionValue(value(), _default);
     }
     return toObservable(value);
 }

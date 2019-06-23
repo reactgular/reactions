@@ -1,11 +1,14 @@
 import {Observable} from 'rxjs';
-import {ReactionProperty} from './reaction';
+import {ReactionObject, ReactionProperty, toReactionValue} from './reaction';
 
+/**
+ * Tooltip settings for a reaction.
+ */
 export interface ReactionTooltip {
     /**
      * The tooltip shown when mouse hovering.
      */
-    tooltip(): ReactionProperty<string>;
+    tooltip: ReactionProperty<string>;
 }
 
 /**
@@ -15,7 +18,7 @@ export interface ReactionTooltipState {
     /**
      * Tooltip state
      */
-    tooltip$: Observable<string>;
+    tooltip: Observable<string>;
 }
 
 /**
@@ -29,16 +32,9 @@ export interface ReactionTooltipSnapshot {
 }
 
 /**
- * Checks if an object is a reaction
- */
-export function isReactionTooltip(value: any): value is ReactionTooltip {
-    return typeof (<ReactionTooltip>value).tooltip === 'function';
-}
-
-/**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionTooltipReducer(acc: any, next: unknown): ReactionTooltipState {
-    const tooltip$ = isReactionTooltip(next) ? next.tooltip() : undefined;
-    return {...acc, ...{tooltip$}};
+export function reactionTooltipReducer(acc: ReactionObject, next: ReactionObject): ReactionObject {
+    const tooltip = toReactionValue(next['tooltip']);
+    return {...acc, ...tooltip};
 }

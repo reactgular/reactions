@@ -32,9 +32,16 @@ export interface ReactionDisabledSnapshot {
 }
 
 /**
+ * Checks if a reaction supports being disabled.
+ */
+export function isReactionDisabled(value: ReactionObject): value is ReactionDisabled {
+    return typeof value['disabled'] !== 'undefined';
+}
+
+/**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionDisabledReducer(acc: any, [next, data]: [ReactionObject, any]): ReactionDisabledState {
-    const disabled = toReactionValue(next['disabled'], data);
+export function reactionDisabledReducer(acc: ReactionObject, next: ReactionObject): ReactionObject {
+    const disabled = toReactionValue(next['disabled']);
     return {...acc, disabled};
 }

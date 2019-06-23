@@ -3,7 +3,8 @@ import {BehaviorSubject, combineLatest, merge, Observable, ReplaySubject, Subjec
 import {distinctUntilChanged, filter, map, pairwise, shareReplay, startWith, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {ReactionCoreService} from '../reaction-core/reaction-core.service';
 import {ReactionSnapshots, toReactionSnapshots} from '../reaction-snapshots/reaction-snapshots';
-import {ReactionStates, toReactionStates} from '../reaction-states/reaction-states';
+import {ReactionState, toReactionStates} from '../reaction-state/reaction-state';
+import {ReactionObject} from '../reaction/reaction';
 import {isReactionTitle} from '../reaction/reaction-title';
 import {ReactionModel} from './reaction-model';
 import {ReactionInstance} from '../reaction-hook/reaction-hook';
@@ -29,7 +30,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
     /**
      * Emits changes to the reaction object.
      */
-    public reaction$: Observable<ReactionInstance>;
+    public reaction$: Observable<ReactionObject>;
 
     /**
      * Emits snapshots of the reaction.
@@ -39,12 +40,12 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
     /**
      * Emits the reaction as a state object.
      */
-    public state$: Observable<ReactionStates>;
+    public state$: Observable<ReactionState>;
 
     /**
      * Emits the reaction object.
      */
-    private readonly _reaction$: ReplaySubject<ReactionInstance> = new ReplaySubject(1);
+    private readonly _reaction$: ReplaySubject<ReactionObject> = new ReplaySubject(1);
 
     /**
      * Constructor
@@ -67,7 +68,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
      * Sets the reaction object.
      */
     @Input('rgReaction')
-    public set reaction(reaction: ReactionInstance) {
+    public set reaction(reaction: ReactionObject) {
         console.log('rgReaction setter', reaction);
         this._reaction$.next(reaction);
     }

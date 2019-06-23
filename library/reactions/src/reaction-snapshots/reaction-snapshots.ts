@@ -1,6 +1,6 @@
 import {combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {toReactionStates} from '../reaction-states/reaction-states';
+import {toReactionStates} from '../reaction-state/reaction-state';
 import {ReactionDisabledSnapshot} from '../reaction/reaction-disabled';
 import {ReactionIconSnapshot} from '../reaction/reaction-icon';
 import {ReactionStyleSnapshot} from '../reaction/reaction-style';

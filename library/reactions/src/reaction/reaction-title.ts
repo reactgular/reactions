@@ -1,14 +1,14 @@
 import {Observable} from 'rxjs';
-import {ReactionProperty} from './reaction';
+import {ReactionObject, ReactionProperty, toReactionValue} from './reaction';
 
 /**
- *
+ * A display title for a reaction.
  */
 export interface ReactionTitle {
     /**
      * The title shown in the body of a button or menu item.
      */
-    title(): ReactionProperty<string>;
+    title: ReactionProperty<string>;
 }
 
 /**
@@ -18,7 +18,7 @@ export interface ReactionTitleState {
     /**
      * Title state
      */
-    title$: Observable<string>;
+    title: Observable<string>;
 }
 
 /**
@@ -32,16 +32,9 @@ export interface ReactionTitleSnapshot {
 }
 
 /**
- * Checks if an object is a reaction
- */
-export function isReactionTitle(value: any): value is ReactionTitle {
-    return typeof (<ReactionTitle>value).title === 'function';
-}
-
-/**
  * Updates a state object with more observable properties from the reaction.
  */
-export function reactionTitleReducer(acc: any, next: unknown): ReactionTitleState {
-    const title$ = isReactionTitle(next) ? next.title() : undefined;
-    return {...acc, ...{title$}};
+export function reactionTitleReducer(acc: ReactionObject, next: ReactionObject): ReactionObject {
+    const title = toReactionValue(next['title']);
+    return {...acc, ...title};
 }
