@@ -1,4 +1,4 @@
-import {ReactionEvent} from '../reaction-events/reaction-event';
+import {ReactionEvent} from '../reaction-event/reaction-event';
 import {REACTION_KEY} from '../reaction-types';
 
 /**

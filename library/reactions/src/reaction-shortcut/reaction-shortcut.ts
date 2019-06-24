@@ -1,4 +1,4 @@
-import {ReactionEvent} from '../reaction-events/reaction-event';
+import {ReactionEvent} from '../reaction-event/reaction-event';
 import {ReactionHookOptions} from '../reaction-hook/reaction-hook';
 import {ReactionObject} from '../reaction/reaction';
 

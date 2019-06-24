@@ -1,6 +1,6 @@
 import {Observable} from 'rxjs';
 import {ReactionHook} from '../../../../library/reactions/src/reaction-hook/reaction-hook';
-import {ReactionEvent} from '../../../../library/reactions/src/reaction-events/reaction-event';
+import {ReactionEvent} from '../../../../library/reactions/src/reaction-event/reaction-event';
 import {ReactionIcon} from '../../../../library/reactions/src/reaction/reaction-icon';
 import {Reaction} from '../../../../library/reactions/src/reaction/reaction';
 import {ReactionTitle} from '../../../../library/reactions/src/reaction/reaction-title';

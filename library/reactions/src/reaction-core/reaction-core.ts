@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs';
-import {ReactionEvent} from '../reaction-events/reaction-event';
+import {ReactionEvent} from '../reaction-event/reaction-event';
 import {ReactionInstance} from '../reaction-hook/reaction-hook';
 import {ReactionModel} from '../reaction-model/reaction-model';
 import {ReactionObject} from '../reaction/reaction';

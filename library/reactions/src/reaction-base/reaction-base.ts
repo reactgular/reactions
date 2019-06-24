@@ -2,7 +2,7 @@ import {OnDestroy} from '@angular/core';
 import {from, Observable, Subject} from 'rxjs';
 import {filter, map, mergeMap, takeUntil} from 'rxjs/operators';
 import {ReactionCore} from '../reaction-core/reaction-core';
-import {ReactionEvent} from '../reaction-events/reaction-event';
+import {ReactionEvent} from '../reaction-event/reaction-event';
 import {ReactionHookOptions} from '../reaction-hook/reaction-hook';
 import {ReactionTitle} from '../reaction/reaction-title';
 import {ReactionTooltip} from '../reaction/reaction-tooltip';

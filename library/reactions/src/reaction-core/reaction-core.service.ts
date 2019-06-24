@@ -14,7 +14,7 @@ import {
     tap,
     withLatestFrom
 } from 'rxjs/operators';
-import {ReactionEvent} from '../reaction-events/reaction-event';
+import {ReactionEvent} from '../reaction-event/reaction-event';
 import {ReactionKeyboardService} from '../reaction-keyboard/reaction-keyboard.service';
 import {ReactionModel} from '../reaction-model/reaction-model';
 import {isReactionShortcutOptions, ReactionShortcutOptions} from '../reaction-shortcut/reaction-shortcut';
