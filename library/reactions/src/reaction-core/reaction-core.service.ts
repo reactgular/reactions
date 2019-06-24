@@ -4,11 +4,9 @@ import {BehaviorSubject, combineLatest, fromEvent, merge, Observable, of, Subjec
 import {catchError, defaultIfEmpty, distinctUntilChanged, filter, first, map, mapTo, scan, takeUntil, tap} from 'rxjs/operators';
 import {ReactionEvent} from '../reaction-event/reaction-event';
 import {ReactionKeyboardService} from '../reaction-keyboard/reaction-keyboard.service';
-import {ReactionModel} from '../reaction-model/reaction-model';
 import {isReactionShortcutOptions, ReactionShortcutOptions} from '../reaction-shortcut/reaction-shortcut';
 import {disabledWhen} from '../reaction-utils/observables';
 import {ReactionObject, toReactionValue} from '../reaction/reaction';
-import {ReactionSubscribe} from '../reaction-subscribe/reaction-subscribe';
 
 /**
  * UI events are broadcast from this service and reactions can act upon those events. Events are things like mouse events, keyboard
@@ -84,18 +82,6 @@ export class ReactionCoreService implements OnDestroy {
     }
 
     /**
-     * Hydrates a reaction by processing all meta data. Can be called multiple times for the same reaction
-     * instance.
-     */
-    public hydrate(reaction: ReactionObject): ReactionSubscribe {
-        return new ReactionSubscribe(
-            reaction,
-            this._disabled$.pipe(map(Boolean)),
-            this._events$
-        );
-    }
-
-    /**
      * Bootstraps a reaction when it's being created.
      *
      * @deprecated use hydrate instead.
@@ -150,29 +136,9 @@ export class ReactionCoreService implements OnDestroy {
     }
 
     /**
-     * Publishes events from the model for the reaction.
-     *
-     * @deprecated use hydrate instead.
+     * Broadcasts the event to the application.
      */
-    public publish({el, view}: ReactionModel, reaction: ReactionObject, destroyed$: Observable<void>) {
-
-        console.log({reaction});
-
-        return;
-        //
-        // const events$ = reaction.hocks.map(hook => {
-        //     const event$ = fromEvent<UIEvent>(el.nativeElement, hook.eventType);
-        //     return hook.debounce
-        //         ? event$.pipe(throttleTime(hook.debounce))
-        //         : event$;
-        // });
-        //
-        // merge<UIEvent>(...events$).pipe(
-        //     tap(event => event.preventDefault()),
-        //     map<UIEvent, ReactionEvent>(payload => ({id: 0, el, view, payload, reaction})),
-        //     withLatestFrom(data$),
-        //     map(([event, data]) => ({...event, data})),
-        //     takeUntil(merge(this._destroyed$, destroyed$))
-        // ).subscribe(event => this._events$.next(event));
+    public broadcast(event: ReactionEvent) {
+        this._events$.next(event);
     }
 }

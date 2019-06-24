@@ -1,5 +1,5 @@
 import {isObservable, MonoTypeOperatorFunction, Observable, of, OperatorFunction} from 'rxjs';
-import {defaultIfEmpty, distinctUntilChanged, filter, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
+import {defaultIfEmpty, distinctUntilChanged, filter, map, mergeMap, switchMap, throttleTime, withLatestFrom} from 'rxjs/operators';
 
 /**
  * Converts the parameter to an observable, or returns the value if already an observable.
@@ -27,6 +27,15 @@ export function withMergeMap<T, R>(inner: Observable<R>): OperatorFunction<T, [T
         return source.pipe(
             mergeMap(a => inner.pipe(map(b => [a, b] as [T, R])))
         );
+    }
+}
+
+/**
+ * Conditionally apply a throttle time operator.
+ */
+export function throttleTimeIf<T>(cond: boolean, duration: number): MonoTypeOperatorFunction<T> {
+    return (source: Observable<T>): Observable<T> => {
+        return cond ? source.pipe(throttleTime(duration)) : source;
     }
 }
 

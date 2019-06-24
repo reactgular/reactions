@@ -1,8 +1,9 @@
-import {Injectable, Type} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {ElementRef, Injectable, Type, ViewContainerRef} from '@angular/core';
+import {fromEvent, merge, Observable, of} from 'rxjs';
 import {ReactionProperty} from '../reaction-types';
-import {toObservable} from '../reaction-utils/observables';
+import {throttleTimeIf, toObservable} from '../reaction-utils/observables';
 import {ReactionEvent} from '../reaction-event/reaction-event';
+import {map, tap} from 'rxjs/operators';
 
 /**
  * Configuration for a reaction class decorator.
@@ -17,7 +18,7 @@ export interface ReactionClassDecorator extends ReactionProperties {
 /**
  * Defines object properties for a reaction.
  */
-export interface ReactionProperties {
+export interface ReactionProperties extends Object {
     /**
      * A map of codes to event listeners. These will be converted into hooks.
      */
@@ -106,4 +107,32 @@ export const reactionInjectable = <TFunction extends ReactionConstructor>(
  */
 export function Reaction<TFunction extends ReactionConstructor>(options: ReactionClassDecorator): (TFunction) => TFunction {
     return (func: TFunction): TFunction => reactionInjectable(reactionMetaData(func, options), options);
+}
+
+/**
+ * Copies the properties defined by the decorator to a reaction instance.
+ */
+export function hydrateInstance(reaction: ReactionObject): ReactionObject {
+    const func = reaction.constructor as ReactionConstructor;
+    if (func && func.__REACTION__) {
+        Object.keys(func.__REACTION__)
+            .filter(key => !reaction.hasOwnProperty(key))
+            .reduce((acc, key) => (acc[key] = func.__REACTION__[key], acc), reaction);
+    }
+    if (!reaction.__REACTION__) {
+        reaction.__REACTION__ = [];
+    }
+    return reaction;
+}
+
+export function fromElement(el: ElementRef<HTMLElement>, view: ViewContainerRef, reaction: ReactionObject): Observable<ReactionEvent> {
+    const hooks = hydrateInstance(reaction).__REACTION__;
+
+    const events$ = hooks.map(({eventType, debounce}) => fromEvent<UIEvent>(el.nativeElement, eventType)
+        .pipe(throttleTimeIf(Boolean(debounce), debounce)));
+
+    return merge<UIEvent>(...events$).pipe(
+        tap(event => event.preventDefault()),
+        map<UIEvent, ReactionEvent>(payload => ({id: 0, el, view, payload, reaction})),
+    );
 }

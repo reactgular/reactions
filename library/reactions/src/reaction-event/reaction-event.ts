@@ -6,11 +6,6 @@ import {ReactionObject} from '../reaction/reaction';
  */
 export interface ReactionEvent {
     /**
-     * A data object provided by the UI component that contains the reaction control.
-     */
-    data?: any;
-
-    /**
      * The element for ReactionModel if emitted from a DOM event.
      */
     el?: ElementRef<HTMLElement>;

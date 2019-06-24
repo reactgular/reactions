@@ -4,7 +4,7 @@ import {distinctUntilChanged, map, pairwise, shareReplay, startWith, switchMap, 
 import {ReactionCoreService} from '../reaction-core/reaction-core.service';
 import {ReactionSnapshot, toReactionSnapshot} from '../reaction-snapshots/reaction-snapshot';
 import {ReactionState, toReactionState} from '../reaction-state/reaction-state';
-import {ReactionObject} from '../reaction/reaction';
+import {fromElement, ReactionObject} from '../reaction/reaction';
 import {ReactionModel} from './reaction-model';
 
 /**
@@ -117,14 +117,9 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
             change.remove.forEach(css => this._renderer.removeClass(this.el.nativeElement, css));
         });
 
-        const changed$: Subject<void> = new Subject();
-
         this.reaction$.pipe(
+            switchMap(reaction => fromElement(this.el, this.view, reaction)),
             takeUntil(this.destroyed$)
-        ).subscribe(reaction => {
-            changed$.next();
-            // @todo this doesn't have to use "this" could create an object and keep things private and move destroy back
-            // this._reactionCore.publish(this, reaction, merge(changed$, this.destroyed$));
-        });
+        ).subscribe(event => this._reactionCore.broadcast(event));
     }
 }
