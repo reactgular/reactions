@@ -8,7 +8,6 @@ import {ReactionModel} from '../reaction-model/reaction-model';
 import {isReactionShortcutOptions, ReactionShortcutOptions} from '../reaction-shortcut/reaction-shortcut';
 import {disabledWhen} from '../reaction-utils/observables';
 import {ReactionObject, toReactionValue} from '../reaction/reaction';
-import {ReactionCore} from './reaction-core';
 import {ReactionSubscribe} from '../reaction-subscribe/reaction-subscribe';
 
 /**
@@ -16,7 +15,7 @@ import {ReactionSubscribe} from '../reaction-subscribe/reaction-subscribe';
  * events, etc.. etc..
  */
 @Injectable({providedIn: 'root'})
-export class ReactionCoreService implements ReactionCore, OnDestroy {
+export class ReactionCoreService implements OnDestroy {
     /**
      * All of the reaction events.
      */
@@ -52,6 +51,20 @@ export class ReactionCoreService implements ReactionCore, OnDestroy {
                        private _keyboard: ReactionKeyboardService) {
         this._events$ = new Subject<ReactionEvent>();
         this.events$ = this._events$.pipe(scan((acc, next) => ({...next, id: acc.id + 1}), {id: 0} as ReactionEvent));
+
+        // this._core.events$.pipe(
+        //     filter(event => this === event.reaction),
+        //     filter(event => event.payload && typeof event.payload.type === 'string'),
+        //     map<ReactionEvent, [ReactionEvent, ReactionHookOptions[]]>(event => {
+        //         const hooks = this._hooks.filter(hook => event.payload.type === hook.eventType);
+        //         return [event, hooks];
+        //     }),
+        //     mergeMap(([event, hooks]) => from(hooks).pipe(map(hook => [event, hook]))),
+        //     takeUntil(this._destroyed$)
+        // ).subscribe(([event, hook]: [ReactionEvent, ReactionHookOptions]) => {
+        //     // console.error('subscribe', event, hook);
+        //     hook.method(event);
+        // });
     }
 
     /**

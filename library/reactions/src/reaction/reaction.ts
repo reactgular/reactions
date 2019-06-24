@@ -34,11 +34,6 @@ export interface ReactionProperties {
  */
 export interface ReactionObject extends ReactionProperties {
     /**
-     * If the reaction had a class decorator, then extra properties will be attached to the constructor function.
-     */
-    constructor: ReactionConstructor;
-
-    /**
      * The event hooks attached to the reaction. These are created by the events property or by method decorators. It
      * will exist only after the reaction is added to the core service.
      */

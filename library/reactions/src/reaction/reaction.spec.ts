@@ -1,7 +1,6 @@
 import {isObservable, of} from 'rxjs';
 import {syncToArray} from '../../tests/observable.helper';
-import {REACTION_KEY} from '../reaction-types';
-import {Reaction, reactionMetaData, toReactionValue} from './reaction';
+import {Reaction, ReactionConstructor, reactionMetaData, toReactionValue} from './reaction';
 import createSpy = jasmine.createSpy;
 
 describe('reaction', () => {
@@ -79,10 +78,13 @@ describe('reaction', () => {
     describe(reactionMetaData.name, () => {
         it('should attach meta data', () => {
             const META_DATA = {a: 'hello'};
-            const F1 = x => x;
+
+            class F1 {
+            }
+
             const F2 = reactionMetaData(F1, META_DATA);
             expect(F1).toBe(F2);
-            expect(F1[REACTION_KEY]).toBe(META_DATA);
+            expect((<ReactionConstructor>F1).__REACTION__).toEqual(META_DATA);
         });
     });
 
@@ -93,7 +95,7 @@ describe('reaction', () => {
             const F1 = x => x;
             const F2 = decorator(F1);
             expect(F2).toBe(F1);
-            expect(F2[REACTION_KEY]).toBe(reaction);
+            expect((<ReactionConstructor>F2).__REACTION__).toEqual(reaction);
         });
     });
 });

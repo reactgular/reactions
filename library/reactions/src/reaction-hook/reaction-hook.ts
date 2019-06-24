@@ -1,6 +1,12 @@
 import {ReactionEvent} from '../reaction-event/reaction-event';
-import {REACTION_KEY} from '../reaction-types';
 import {ReactionHookOptions} from '../reaction/reaction';
+
+/**
+ * The property key used to attach meta data.
+ *
+ * @deprecated use the constructor interface instead.
+ */
+export const REACTION_KEY = '__reaction__';
 
 /**
  * A reaction object that has hooks applied.
@@ -11,6 +17,9 @@ export interface ReactionInstance {
     [REACTION_KEY]: ReactionHookOptions[];
 }
 
+/**
+ * @deprecated
+ */
 const toReactionInstance = (obj: any): ReactionInstance => {
     if (!(obj[REACTION_KEY] instanceof Array)) {
         obj[REACTION_KEY] = [];
