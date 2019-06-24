@@ -1,23 +1,12 @@
 import {DOCUMENT} from '@angular/common';
 import {Inject, Injectable, OnDestroy} from '@angular/core';
 import {BehaviorSubject, combineLatest, fromEvent, merge, Observable, of, Subject} from 'rxjs';
-import {
-    catchError,
-    defaultIfEmpty,
-    distinctUntilChanged,
-    filter,
-    first,
-    map,
-    mapTo,
-    scan,
-    takeUntil,
-    tap,
-    withLatestFrom
-} from 'rxjs/operators';
+import {catchError, defaultIfEmpty, distinctUntilChanged, filter, first, map, mapTo, scan, takeUntil, tap} from 'rxjs/operators';
 import {ReactionEvent} from '../reaction-event/reaction-event';
 import {ReactionKeyboardService} from '../reaction-keyboard/reaction-keyboard.service';
 import {ReactionModel} from '../reaction-model/reaction-model';
 import {isReactionShortcutOptions, ReactionShortcutOptions} from '../reaction-shortcut/reaction-shortcut';
+import {disabledWhen} from '../reaction-utils/observables';
 import {ReactionObject, toReactionValue} from '../reaction/reaction';
 import {ReactionCore} from './reaction-core';
 
@@ -75,8 +64,7 @@ export class ReactionCoreService implements ReactionCore, OnDestroy {
      */
     public get esc$(): Observable<void> {
         return this._keyboard.esc$.pipe(
-            withLatestFrom(this.disabled$),
-            filter(([esc, disabled]) => !disabled),
+            disabledWhen(this._disabled$.pipe(map(Boolean))),
             mapTo(undefined)
         );
     }
@@ -105,10 +93,9 @@ export class ReactionCoreService implements ReactionCore, OnDestroy {
         merge<KeyboardEvent>(...events$).pipe(
             // disable default even if the hook is disabled (i.e. CTRL+S shouldn't save the web page)
             tap(event => event.preventDefault()),
-            withLatestFrom(disabled$),
-            filter(([event, disabled]) => !disabled),
-            map(([event]) => event),
+            disabledWhen(disabled$),
             map<KeyboardEvent, ReactionEvent>(payload => ({id: 0, payload, reaction})),
+            // @todo this won't work
             takeUntil(merge(this._destroyed$, reaction.destroyed$))
         ).subscribe(event => this._events$.next(event));
     }
