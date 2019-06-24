@@ -1,5 +1,5 @@
 import {Directive, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewContainerRef} from '@angular/core';
-import {BehaviorSubject, combineLatest, merge, Observable, ReplaySubject, Subject} from 'rxjs';
+import {combineLatest, Observable, ReplaySubject, Subject} from 'rxjs';
 import {distinctUntilChanged, map, pairwise, shareReplay, startWith, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {ReactionCoreService} from '../reaction-core/reaction-core.service';
 import {ReactionSnapshot, toReactionSnapshot} from '../reaction-snapshots/reaction-snapshot';
@@ -15,11 +15,6 @@ import {ReactionModel} from './reaction-model';
     exportAs: 'rgReaction'
 })
 export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel {
-    /**
-     * Data inputted by the DOM
-     */
-    public readonly data$: BehaviorSubject<any> = new BehaviorSubject(undefined);
-
     /**
      * Destructor event
      */
@@ -52,14 +47,6 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
                        public readonly el: ElementRef<HTMLElement>,
                        public readonly view: ViewContainerRef,
                        private _renderer: Renderer2) {
-    }
-
-    /**
-     * User defined data
-     */
-    @Input()
-    public set data(value: any) {
-        this.data$.next(value);
     }
 
     /**
@@ -137,7 +124,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
         ).subscribe(reaction => {
             changed$.next();
             // @todo this doesn't have to use "this" could create an object and keep things private and move destroy back
-            this._reactionCore.publish(this, reaction, merge(changed$, this.destroyed$));
+            // this._reactionCore.publish(this, reaction, merge(changed$, this.destroyed$));
         });
     }
 }

@@ -1,5 +1,4 @@
 import {ElementRef, ViewContainerRef} from '@angular/core';
-import {Observable} from 'rxjs';
 
 export interface ReactionModel {
     /**
@@ -11,9 +10,4 @@ export interface ReactionModel {
      * The view associated with the model directive.
      */
     view: ViewContainerRef;
-
-    /**
-     * Emits data provided to the model.
-     */
-    data$: Observable<any>;
 }

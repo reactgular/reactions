@@ -1,6 +1,5 @@
 import {ReactionEvent} from '../reaction-event/reaction-event';
-import {ReactionHookOptions} from '../reaction-hook/reaction-hook';
-import {ReactionObject} from '../reaction/reaction';
+import {ReactionHookOptions, ReactionObject} from '../reaction/reaction';
 
 export const REACTION_SHORTCUT = 'shortcut';
 

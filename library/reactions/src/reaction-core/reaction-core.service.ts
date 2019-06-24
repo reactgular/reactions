@@ -9,6 +9,7 @@ import {isReactionShortcutOptions, ReactionShortcutOptions} from '../reaction-sh
 import {disabledWhen} from '../reaction-utils/observables';
 import {ReactionObject, toReactionValue} from '../reaction/reaction';
 import {ReactionCore} from './reaction-core';
+import {ReactionSubscribe} from '../reaction-subscribe/reaction-subscribe';
 
 /**
  * UI events are broadcast from this service and reactions can act upon those events. Events are things like mouse events, keyboard
@@ -70,7 +71,21 @@ export class ReactionCoreService implements ReactionCore, OnDestroy {
     }
 
     /**
+     * Hydrates a reaction by processing all meta data. Can be called multiple times for the same reaction
+     * instance.
+     */
+    public hydrate(reaction: ReactionObject): ReactionSubscribe {
+        return new ReactionSubscribe(
+            reaction,
+            this._disabled$.pipe(map(Boolean)),
+            this._events$
+        );
+    }
+
+    /**
      * Bootstraps a reaction when it's being created.
+     *
+     * @deprecated use hydrate instead.
      */
     public bootstrap(reaction: ReactionObject) {
         const reactionDisabled$ = toReactionValue<boolean>(reaction['disabled'], false);
@@ -123,8 +138,10 @@ export class ReactionCoreService implements ReactionCore, OnDestroy {
 
     /**
      * Publishes events from the model for the reaction.
+     *
+     * @deprecated use hydrate instead.
      */
-    public publish({el, view, data$}: ReactionModel, reaction: ReactionObject, destroyed$: Observable<void>) {
+    public publish({el, view}: ReactionModel, reaction: ReactionObject, destroyed$: Observable<void>) {
 
         console.log({reaction});
 

@@ -1,25 +1,6 @@
 import {ReactionEvent} from '../reaction-event/reaction-event';
 import {REACTION_KEY} from '../reaction-types';
-
-/**
- * Configured hook that triggers a reaction
- */
-export interface ReactionHookOptions {
-    /**
-     * Applies a throttle operator to events to reduce their emission rate.
-     */
-    debounce?: number;
-
-    /**
-     * The type of event (click, mousemove, shortcut)
-     */
-    eventType?: string;
-
-    /**
-     * Method to be triggered
-     */
-    method?: (event: ReactionEvent) => void;
-}
+import {ReactionHookOptions} from '../reaction/reaction';
 
 /**
  * A reaction object that has hooks applied.

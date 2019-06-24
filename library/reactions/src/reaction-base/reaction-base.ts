@@ -3,9 +3,9 @@ import {from, Observable, Subject} from 'rxjs';
 import {filter, map, mergeMap, takeUntil} from 'rxjs/operators';
 import {ReactionCore} from '../reaction-core/reaction-core';
 import {ReactionEvent} from '../reaction-event/reaction-event';
-import {ReactionHookOptions} from '../reaction-hook/reaction-hook';
 import {ReactionTitle} from '../reaction/reaction-title';
 import {ReactionTooltip} from '../reaction/reaction-tooltip';
+import {ReactionHookOptions} from '../reaction/reaction';
 
 /**
  * Configuration options for a reaction.
@@ -56,8 +56,6 @@ export abstract class ReactionBase implements OnDestroy, ReactionTitle, Reaction
             // console.error('subscribe', event, hook);
             hook.method(event);
         });
-
-        this._core.bootstrap(this);
     }
 
     /**
