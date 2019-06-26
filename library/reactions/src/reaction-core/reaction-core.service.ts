@@ -1,12 +1,11 @@
 import {DOCUMENT} from '@angular/common';
-import {Inject, Injectable, OnDestroy} from '@angular/core';
-import {BehaviorSubject, combineLatest, fromEvent, merge, Observable, of, Subject} from 'rxjs';
-import {catchError, defaultIfEmpty, distinctUntilChanged, filter, first, map, mapTo, scan, takeUntil, tap} from 'rxjs/operators';
+import {ElementRef, Inject, Injectable, OnDestroy, ViewContainerRef} from '@angular/core';
+import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
+import {catchError, defaultIfEmpty, distinctUntilChanged, first, map, mapTo, takeUntil} from 'rxjs/operators';
 import {ReactionEvent} from '../reaction-event/reaction-event';
 import {ReactionKeyboardService} from '../reaction-keyboard/reaction-keyboard.service';
-import {isReactionShortcutOptions, ReactionShortcutOptions} from '../reaction-shortcut/reaction-shortcut';
 import {disabledWhen} from '../reaction-utils/observables';
-import {ReactionObject, toReactionValue} from '../reaction/reaction';
+import {ReactionObject} from '../reaction/reaction';
 
 /**
  * UI events are broadcast from this service and reactions can act upon those events. Events are things like mouse events, keyboard
@@ -48,21 +47,17 @@ export class ReactionCoreService implements OnDestroy {
     public constructor(@Inject(DOCUMENT) private _doc: Document,
                        private _keyboard: ReactionKeyboardService) {
         this._events$ = new Subject<ReactionEvent>();
-        this.events$ = this._events$.pipe(scan((acc, next) => ({...next, id: acc.id + 1}), {id: 0} as ReactionEvent));
-
-        // this._core.events$.pipe(
-        //     filter(event => this === event.reaction),
-        //     filter(event => event.payload && typeof event.payload.type === 'string'),
-        //     map<ReactionEvent, [ReactionEvent, ReactionHookOptions[]]>(event => {
-        //         const hooks = this._hooks.filter(hook => event.payload.type === hook.eventType);
-        //         return [event, hooks];
-        //     }),
-        //     mergeMap(([event, hooks]) => from(hooks).pipe(map(hook => [event, hook]))),
-        //     takeUntil(this._destroyed$)
-        // ).subscribe(([event, hook]: [ReactionEvent, ReactionHookOptions]) => {
-        //     // console.error('subscribe', event, hook);
-        //     hook.method(event);
-        // });
+        this.events$ = this._events$.pipe(
+            takeUntil(this._destroyed$)
+        );
+        this.events$.pipe(
+            takeUntil(this._destroyed$)
+        ).subscribe(event => {
+            const hook = event.reaction.__REACTION__.find(hook => hook.eventType === event.type);
+            if (hook) {
+                hook.method(event);
+            }
+        });
     }
 
     /**
@@ -77,8 +72,21 @@ export class ReactionCoreService implements OnDestroy {
     public get esc$(): Observable<void> {
         return this._keyboard.esc$.pipe(
             disabledWhen(this._disabled$.pipe(map(Boolean))),
-            mapTo(undefined)
+            mapTo(undefined),
+            takeUntil(this._destroyed$)
         );
+    }
+
+    /**
+     * The internal ID for emitted events.
+     */
+    private _nextId: number = 1;
+
+    /**
+     * The next ID for emitted events.
+     */
+    public get nextId(): number {
+        return this._nextId;
     }
 
     /**
@@ -87,31 +95,31 @@ export class ReactionCoreService implements OnDestroy {
      * @deprecated use hydrate instead.
      */
     public bootstrap(reaction: ReactionObject) {
-        const reactionDisabled$ = toReactionValue<boolean>(reaction['disabled'], false);
-        const disabled$ = combineLatest([reactionDisabled$, this.disabled$]).pipe(
-            map(([disabledA, disabledB]) => disabledA || disabledB)
-        );
-
-        const hooks = reaction.hocks.filter(hook => isReactionShortcutOptions(hook)) as ReactionShortcutOptions[];
-        const events$ = hooks.map(hook => {
-            return fromEvent<KeyboardEvent>(this._doc, 'keydown').pipe(
-                // only key presses for this hook
-                filter(event => event.key.toLowerCase() === hook.code.key
-                    && event.ctrlKey === hook.code.ctrlKey
-                    && event.altKey === hook.code.altKey
-                    && event.shiftKey === hook.code.shiftKey
-                    && !event.repeat)
-            );
-        });
-
-        merge<KeyboardEvent>(...events$).pipe(
-            // disable default even if the hook is disabled (i.e. CTRL+S shouldn't save the web page)
-            tap(event => event.preventDefault()),
-            disabledWhen(disabled$),
-            map<KeyboardEvent, ReactionEvent>(payload => ({id: 0, payload, reaction})),
-            // @todo this won't work
-            takeUntil(merge(this._destroyed$, reaction.destroyed$))
-        ).subscribe(event => this._events$.next(event));
+        // const reactionDisabled$ = toReactionValue<boolean>(reaction['disabled'], false);
+        // const disabled$ = combineLatest([reactionDisabled$, this.disabled$]).pipe(
+        //     map(([disabledA, disabledB]) => disabledA || disabledB)
+        // );
+        //
+        // const hooks = reaction.hocks.filter(hook => isReactionShortcutOptions(hook)) as ReactionShortcutOptions[];
+        // const events$ = hooks.map(hook => {
+        //     return fromEvent<KeyboardEvent>(this._doc, 'keydown').pipe(
+        //         // only key presses for this hook
+        //         filter(event => event.key.toLowerCase() === hook.code.key
+        //             && event.ctrlKey === hook.code.ctrlKey
+        //             && event.altKey === hook.code.altKey
+        //             && event.shiftKey === hook.code.shiftKey
+        //             && !event.repeat)
+        //     );
+        // });
+        //
+        // merge<KeyboardEvent>(...events$).pipe(
+        //     // disable default even if the hook is disabled (i.e. CTRL+S shouldn't save the web page)
+        //     tap(event => event.preventDefault()),
+        //     disabledWhen(disabled$),
+        //     map<KeyboardEvent, ReactionEvent>(payload => ({id: 0, payload, reaction})),
+        //     // @todo this won't work
+        //     takeUntil(merge(this._destroyed$, reaction.destroyed$))
+        // ).subscribe(event => this._events$.next(event));
     }
 
     /**
@@ -138,7 +146,7 @@ export class ReactionCoreService implements OnDestroy {
     /**
      * Broadcasts the event to the application.
      */
-    public broadcast(event: ReactionEvent) {
-        this._events$.next(event);
+    public broadcast(reaction: ReactionObject, type: string, payload: any, el?: ElementRef<HTMLElement>, view?: ViewContainerRef) {
+        this._events$.next(new ReactionEvent(this._nextId++, type, reaction, payload, el, view));
     }
 }

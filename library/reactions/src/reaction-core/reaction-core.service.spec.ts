@@ -1,15 +1,54 @@
 import {TestBed} from '@angular/core/testing';
 import {ReactionCoreService} from './reaction-core.service';
+import {ReactionEvent} from '../reaction-event/reaction-event';
+import {ReactionObject} from '../reaction/reaction';
 
 describe(ReactionCoreService.name, () => {
-    beforeEach(() => {
-        TestBed.configureTestingModule({
+    describe('events', () => {
+        it('should increment an internal ID', () => {
+            const service: ReactionCoreService = TestBed.get(ReactionCoreService);
+            expect(service.nextId).toBe(1);
+            for (let i = 0; i < 10; i++) {
+                service.broadcast({}, 'click', null);
+            }
+            expect(service.nextId).toBe(11);
+        });
 
+        it('should emit events with increasing ID', () => {
+            const service: ReactionCoreService = TestBed.get(ReactionCoreService);
+            const events: ReactionEvent[] = [];
+            service.events$.subscribe(e => events.push(e));
+            for (let i = 0; i < 5; i++) {
+                service.broadcast({}, 'click', null);
+            }
+            const IDs = events.map(e => e.id);
+            expect(IDs).toEqual([1, 2, 3, 4, 5]);
+        });
+
+        it('should throw bad argument for events without a reaction', () => {
+            // @todo
         });
     });
 
-    it('should be created', () => {
-        const service: ReactionCoreService = TestBed.get(ReactionCoreService);
-        expect(service).toBeTruthy();
+    describe('hooks', () => {
+        it('should emit event objects', () => {
+
+        });
+
+        it('should execute hook method', () => {
+            const service: ReactionCoreService = TestBed.get(ReactionCoreService);
+
+            // @todo makes this a decorated class at the top of the file.
+            const reaction: ReactionObject = {
+                __REACTION__: [
+                    {
+                        eventType: 'click',
+                        method: (event) => console.error(event)
+                    }
+                ]
+            };
+
+            service.broadcast(reaction, 'click', null);
+        });
     });
 });

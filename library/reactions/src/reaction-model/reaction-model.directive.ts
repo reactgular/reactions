@@ -1,11 +1,12 @@
 import {Directive, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewContainerRef} from '@angular/core';
 import {combineLatest, Observable, ReplaySubject, Subject} from 'rxjs';
-import {distinctUntilChanged, map, pairwise, shareReplay, startWith, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {distinctUntilChanged, filter, map, pairwise, shareReplay, startWith, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {ReactionCoreService} from '../reaction-core/reaction-core.service';
 import {ReactionSnapshot, toReactionSnapshot} from '../reaction-snapshots/reaction-snapshot';
 import {ReactionState, toReactionState} from '../reaction-state/reaction-state';
-import {fromElement, ReactionObject} from '../reaction/reaction';
+import {combineHooks, hydrateInstance, ReactionObject} from '../reaction/reaction';
 import {ReactionModel} from './reaction-model';
+import {withMergeMap, withSwitchMap} from '../reaction-utils/observables';
 
 /**
  * Dependency provider for other components to gain access to the reaction object.
@@ -118,8 +119,11 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
         });
 
         this.reaction$.pipe(
-            switchMap(reaction => fromElement(this.el, this.view, reaction)),
+            withSwitchMap(reaction => combineHooks(this.el, hydrateInstance(reaction).__REACTION__)),
+            withMergeMap(([reaction, event]) => toReactionState(reaction).disabled),
+            filter(([value, disabled]) => !disabled),
+            map(([value, disabled]) => value),
             takeUntil(this.destroyed$)
-        ).subscribe(event => this._reactionCore.broadcast(event));
+        ).subscribe(([reaction, event]) => this._reactionCore.broadcast(reaction, event.type, event, this.el, this.view));
     }
 }

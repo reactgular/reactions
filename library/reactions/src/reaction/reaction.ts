@@ -1,9 +1,9 @@
-import {ElementRef, Injectable, Type, ViewContainerRef} from '@angular/core';
+import {ElementRef, Injectable, Type} from '@angular/core';
 import {fromEvent, merge, Observable, of} from 'rxjs';
 import {ReactionProperty} from '../reaction-types';
 import {throttleTimeIf, toObservable} from '../reaction-utils/observables';
 import {ReactionEvent} from '../reaction-event/reaction-event';
-import {map, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 
 /**
  * Configuration for a reaction class decorator.
@@ -118,6 +118,7 @@ export function hydrateInstance(reaction: ReactionObject): ReactionObject {
         Object.keys(func.__REACTION__)
             .filter(key => !reaction.hasOwnProperty(key))
             .reduce((acc, key) => (acc[key] = func.__REACTION__[key], acc), reaction);
+        delete func.__REACTION__;
     }
     if (!reaction.__REACTION__) {
         reaction.__REACTION__ = [];
@@ -125,14 +126,10 @@ export function hydrateInstance(reaction: ReactionObject): ReactionObject {
     return reaction;
 }
 
-export function fromElement(el: ElementRef<HTMLElement>, view: ViewContainerRef, reaction: ReactionObject): Observable<ReactionEvent> {
-    const hooks = hydrateInstance(reaction).__REACTION__;
-
+export function combineHooks(el: ElementRef<HTMLElement>, hooks: ReactionHookOptions[]): Observable<UIEvent> {
     const events$ = hooks.map(({eventType, debounce}) => fromEvent<UIEvent>(el.nativeElement, eventType)
         .pipe(throttleTimeIf(Boolean(debounce), debounce)));
-
     return merge<UIEvent>(...events$).pipe(
-        tap(event => event.preventDefault()),
-        map<UIEvent, ReactionEvent>(payload => ({id: 0, el, view, payload, reaction})),
+        tap(event => event.preventDefault())
     );
 }
