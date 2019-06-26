@@ -1,5 +1,5 @@
 import {ReactionEvent} from '../reaction-event/reaction-event';
-import {ReactionHookOptions, ReactionObject} from '../reaction/reaction';
+import {ReactionEventBinding, ReactionObject} from '../reaction/reaction';
 
 export const REACTION_SHORTCUT = 'shortcut';
 
@@ -28,7 +28,7 @@ export interface ReactionShortcutCode {
     shiftKey: boolean;
 }
 
-export interface ReactionShortcutOptions extends ReactionHookOptions {
+export interface ReactionShortcutOptions {
     /**
      * The code for the binding (i.e. CTRL+M).
      * Keys that require a shift must also bind the SHIFT key (i.e. SHIFT+?)
@@ -55,13 +55,6 @@ export interface ReactionShortcutOptions extends ReactionHookOptions {
      * The section this hot key will be grouped in the keyboards dialog.
      */
     section?: string;
-}
-
-/**
- * Checks if a hook is a shortcut hook.
- */
-export function isReactionShortcutOptions(value: ReactionHookOptions): value is ReactionShortcutOptions {
-    return value.eventType === REACTION_SHORTCUT;
 }
 
 export function ReactionShortcut(options: ReactionShortcutOptions);

@@ -1,5 +1,4 @@
 import {Observable} from 'rxjs';
-import {ReactionHook} from '../../../../library/reactions/src/reaction-hook/reaction-hook';
 import {ReactionEvent} from '../../../../library/reactions/src/reaction-event/reaction-event';
 import {ReactionIcon} from '../../../../library/reactions/src/reaction/reaction-icon';
 import {ReactionTitle} from '../../../../library/reactions/src/reaction/reaction-title';
@@ -15,7 +14,7 @@ export class CreateReaction implements ReactionTitle, ReactionIcon {
         this._log.info('constructor');
     }
 
-    @ReactionHook('click')
+    // @ReactionHook('click')
     public click(event: ReactionEvent) {
         this._log.info('click', event);
     }

@@ -1,5 +1,6 @@
 import {ElementRef, ViewContainerRef} from '@angular/core';
-import {hydrateInstance, ReactionObject} from '../reaction/reaction';
+import {ReactionObject} from '../reaction/reaction';
+import {hydrateReaction} from '../reaction-utils/hydrate-reaction';
 
 /**
  * Base interface for all reaction events.
@@ -46,7 +47,7 @@ export class ReactionEvent {
                        view?: ViewContainerRef) {
         this.id = id;
         this.type = type;
-        this.reaction = hydrateInstance(reaction);
+        this.reaction = hydrateReaction(reaction);
         this._payload = payload;
         this.el = el;
         this.view = view;

@@ -1,9 +1,6 @@
-import {ElementRef, Injectable, Type} from '@angular/core';
-import {fromEvent, merge, Observable, of} from 'rxjs';
+import {Injectable, Type} from '@angular/core';
 import {ReactionProperty} from '../reaction-types';
-import {throttleTimeIf, toObservable} from '../reaction-utils/observables';
 import {ReactionEvent} from '../reaction-event/reaction-event';
-import {tap} from 'rxjs/operators';
 
 /**
  * Configuration for a reaction class decorator.
@@ -38,13 +35,13 @@ export interface ReactionObject extends ReactionProperties {
      * The event hooks attached to the reaction. These are created by the events property or by method decorators. It
      * will exist only after the reaction is added to the core service.
      */
-    __REACTION__?: ReactionHookOptions[];
+    __REACTION__?: ReactionEventBinding[];
 }
 
 /**
  * Configured hook that triggers a reaction event listener.
  */
-export interface ReactionHookOptions {
+export interface ReactionEventBinding {
     /**
      * Applies a throttle operator to events to reduce their emission rate.
      */
@@ -53,32 +50,18 @@ export interface ReactionHookOptions {
     /**
      * The type of event (click, mousemove, shortcut)
      */
-    eventType?: string;
+    type: string;
 
     /**
      * Method to be triggered
      */
-    method?: (event: ReactionEvent) => void;
+    method: (event: ReactionEvent) => void;
 }
 
 /**
  * Defines a constructor function with meta data attached.
  */
 export type ReactionConstructor = { new(...args: any[]): any, __REACTION__?: ReactionProperties };
-
-/**
- * Converts the value to an observable. If the value is a function it is called recursively until a literal or observable
- * is returned.
- */
-export function toReactionValue<TType>(value: any, _default: TType = undefined): Observable<TType> {
-    if (value === undefined) {
-        return of(_default);
-    }
-    if (typeof value === 'function') {
-        return toReactionValue(value(), _default);
-    }
-    return toObservable(value);
-}
 
 /**
  * Sets the meta data on the constructor function.
@@ -107,29 +90,4 @@ export const reactionInjectable = <TFunction extends ReactionConstructor>(
  */
 export function Reaction<TFunction extends ReactionConstructor>(options: ReactionClassDecorator): (TFunction) => TFunction {
     return (func: TFunction): TFunction => reactionInjectable(reactionMetaData(func, options), options);
-}
-
-/**
- * Copies the properties defined by the decorator to a reaction instance.
- */
-export function hydrateInstance(reaction: ReactionObject): ReactionObject {
-    const func = reaction.constructor as ReactionConstructor;
-    if (func && func.__REACTION__) {
-        Object.keys(func.__REACTION__)
-            .filter(key => !reaction.hasOwnProperty(key))
-            .reduce((acc, key) => (acc[key] = func.__REACTION__[key], acc), reaction);
-        delete func.__REACTION__;
-    }
-    if (!reaction.__REACTION__) {
-        reaction.__REACTION__ = [];
-    }
-    return reaction;
-}
-
-export function combineHooks(el: ElementRef<HTMLElement>, hooks: ReactionHookOptions[]): Observable<UIEvent> {
-    const events$ = hooks.map(({eventType, debounce}) => fromEvent<UIEvent>(el.nativeElement, eventType)
-        .pipe(throttleTimeIf(Boolean(debounce), debounce)));
-    return merge<UIEvent>(...events$).pipe(
-        tap(event => event.preventDefault())
-    );
 }

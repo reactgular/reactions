@@ -4,9 +4,11 @@ import {distinctUntilChanged, filter, map, pairwise, shareReplay, startWith, swi
 import {ReactionCoreService} from '../reaction-core/reaction-core.service';
 import {ReactionSnapshot, toReactionSnapshot} from '../reaction-snapshots/reaction-snapshot';
 import {ReactionState, toReactionState} from '../reaction-state/reaction-state';
-import {combineHooks, hydrateInstance, ReactionObject} from '../reaction/reaction';
+import {ReactionObject} from '../reaction/reaction';
 import {ReactionModel} from './reaction-model';
 import {withMergeMap, withSwitchMap} from '../reaction-utils/observables';
+import {combineEvents} from '../reaction-utils/combine-events';
+import {hydrateReaction} from '../reaction-utils/hydrate-reaction';
 
 /**
  * Dependency provider for other components to gain access to the reaction object.
@@ -119,7 +121,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
         });
 
         this.reaction$.pipe(
-            withSwitchMap(reaction => combineHooks(this.el, hydrateInstance(reaction).__REACTION__)),
+            withSwitchMap(reaction => combineEvents(this.el, hydrateReaction(reaction).__REACTION__)),
             withMergeMap(([reaction, event]) => toReactionState(reaction).disabled),
             filter(([value, disabled]) => !disabled),
             map(([value, disabled]) => value),
