@@ -1,4 +1,4 @@
-import {Reaction, ReactionConstructor, reactionMetaData} from './reaction';
+import {Reaction, ReactionConstructor, reactionMetaData, ReactionObject} from './reaction';
 
 describe('reaction', () => {
     describe(reactionMetaData.name, () => {
@@ -15,13 +15,46 @@ describe('reaction', () => {
     });
 
     describe(Reaction.name, () => {
-        it('should attach meta data to the constructor function', () => {
-            const reaction = {icon: 'fa-plus', title: 'Create'};
-            const decorator = Reaction(reaction);
-            const F1 = x => x;
-            const F2 = decorator(F1);
-            expect(F2).toBe(F1);
-            expect((<ReactionConstructor>F2).__REACTION__).toEqual(reaction);
+        it('should decorate the constructor', () => {
+            @Reaction({title: 'Create', icon: 'fa-icon', description: 'Creates a new document'})
+            class CreateDocument {
+
+            }
+
+            expect((<ReactionConstructor>CreateDocument).__REACTION__)
+                .toEqual({
+                    title: 'Create',
+                    icon: 'fa-icon',
+                    description: 'Creates a new document'
+                });
+        });
+
+        it('should decorate the methods', () => {
+            class CreateDocument {
+                @Reaction('click')
+                click(e) {
+
+                }
+            }
+
+            const reaction = new CreateDocument() as ReactionObject;
+            expect(reaction.__REACTION__).toEqual([
+                {type: 'click', method: reaction.click, debounce: 0}
+            ])
+        });
+
+        it('should define a debounce', () => {
+            class CreateDocument {
+                @Reaction('mousemove', 100)
+                move(e) {
+
+                }
+            }
+
+            const reaction = new CreateDocument() as ReactionObject;
+            expect(reaction.__REACTION__).toEqual([
+                {type: 'mousemove', method: reaction.move, debounce: 100}
+            ]);
         });
     });
 });

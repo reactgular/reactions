@@ -56,7 +56,7 @@ export class ReactionKeyboardService implements OnDestroy {
     /**
      * Constructor
      */
-    public constructor(@Inject(DOCUMENT) private _doc: Document) {
+    public constructor(@Inject(DOCUMENT) private _doc: any) {
         merge(fromEvent<KeyboardEvent>(_doc, 'keydown'), fromEvent<KeyboardEvent>(_doc, 'keyup'))
             .pipe(takeUntil(this._destroyed$))
             .subscribe(event => {

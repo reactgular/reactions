@@ -5,7 +5,7 @@ import {ReactionEvent} from '../reaction-event/reaction-event';
 /**
  * Configuration for a reaction class decorator.
  */
-export interface ReactionClassDecorator extends ReactionProperties {
+export interface ReactionClassOptions extends ReactionProperties {
     /**
      * Where the class is provided.
      */
@@ -64,11 +64,16 @@ export interface ReactionEventBinding {
 export type ReactionConstructor = { new(...args: any[]): any, __REACTION__?: ReactionProperties };
 
 /**
+ * Defines a class decorator function that supports a reaction constructor signature.
+ */
+export type ReactionClassDecorator = (ReactionConstructor) => ReactionConstructor;
+
+/**
  * Sets the meta data on the constructor function.
  */
 export const reactionMetaData = <TFunction extends ReactionConstructor>(
     clss: TFunction,
-    options: ReactionClassDecorator
+    options: ReactionClassOptions
 ): TFunction => {
     options = {...options};
     delete options.providedIn;
@@ -80,7 +85,7 @@ export const reactionMetaData = <TFunction extends ReactionConstructor>(
  */
 export const reactionInjectable = <TFunction extends ReactionConstructor>(
     clss: TFunction,
-    options: ReactionClassDecorator
+    options: ReactionClassOptions
 ): TFunction => options.hasOwnProperty('providedIn')
     ? Injectable({providedIn: options.providedIn})(clss) as TFunction
     : Injectable()(clss) as TFunction;
@@ -88,6 +93,42 @@ export const reactionInjectable = <TFunction extends ReactionConstructor>(
 /**
  * Reaction decorator for classes.
  */
-export function Reaction<TFunction extends ReactionConstructor>(options: ReactionClassDecorator): (TFunction) => TFunction {
-    return (func: TFunction): TFunction => reactionInjectable(reactionMetaData(func, options), options);
+export function Reaction(options: ReactionClassOptions): ReactionClassDecorator;
+
+/**
+ * Reaction decorator for methods.
+ */
+export function Reaction(type: string, debounce?: number): MethodDecorator;
+
+/**
+ * Applies the required decorator based upon the argument types.
+ */
+export function Reaction(...args: any[]): ReactionClassDecorator | MethodDecorator {
+    if (args.length === 1 && typeof args[0] === 'object') {
+        return reactionClass(args[0]);
+    } else if (args.length >= 1 && args.length <= 2 && typeof args[0] === 'string') {
+        return reactionMethod(args[0], args.length === 2 ? args[1] : 0);
+    }
+}
+
+/**
+ * The class decorator function.
+ */
+export function reactionClass(options: ReactionClassOptions): ReactionClassDecorator {
+    return <ReactionConstructor>(func) => reactionInjectable(reactionMetaData(func, options), options);
+}
+
+/**
+ * The method decorator function.
+ */
+export function reactionMethod(type: string, debounce: number): MethodDecorator {
+    return (target: ReactionObject, methodName: string, descriptor: TypedPropertyDescriptor<any>) => {
+        if (!target.__REACTION__) {
+            target.__REACTION__ = [];
+        }
+        if (typeof target[methodName] === 'function') {
+            target.__REACTION__.push({type, debounce, method: target[methodName]});
+        }
+        return descriptor;
+    }
 }

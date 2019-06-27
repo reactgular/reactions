@@ -44,7 +44,7 @@ export class ReactionCoreService implements OnDestroy {
     /**
      * Constructor
      */
-    public constructor(@Inject(DOCUMENT) private _doc: Document,
+    public constructor(@Inject(DOCUMENT) private _doc: any,
                        private _keyboard: ReactionKeyboardService) {
         this._events$ = new Subject<ReactionEvent>();
         this.events$ = this._events$.pipe(
