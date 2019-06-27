@@ -5,7 +5,6 @@ import {ReactionCoreService} from '../reaction-core/reaction-core.service';
 import {ReactionSnapshot, toReactionSnapshot} from '../reaction-snapshots/reaction-snapshot';
 import {ReactionState, toReactionState} from '../reaction-state/reaction-state';
 import {ReactionObject} from '../reaction/reaction';
-import {ReactionModel} from './reaction-model';
 import {withMergeMap, withSwitchMap} from '../reaction-utils/observables';
 import {combineEvents} from '../reaction-utils/combine-events';
 import {hydrateReaction} from '../reaction-utils/hydrate-reaction';
@@ -17,7 +16,7 @@ import {hydrateReaction} from '../reaction-utils/hydrate-reaction';
     selector: '[rgReaction]',
     exportAs: 'rgReaction'
 })
-export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel {
+export class ReactionModelDirective implements OnInit, OnDestroy {
     /**
      * Destructor event
      */
@@ -46,10 +45,10 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
     /**
      * Constructor
      */
-    public constructor(private _reactionCore: ReactionCoreService,
-                       public readonly el: ElementRef<HTMLElement>,
-                       public readonly view: ViewContainerRef,
-                       private _renderer: Renderer2) {
+    public constructor(private readonly _reactionCore: ReactionCoreService,
+                       private readonly _el: ElementRef<HTMLElement>,
+                       private readonly _view: ViewContainerRef,
+                       private readonly _renderer: Renderer2) {
     }
 
     /**
@@ -89,7 +88,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
             shareReplay(1)
         );
 
-        this._renderer.addClass(this.el.nativeElement, 'rg-reaction');
+        this._renderer.addClass(this._el.nativeElement, 'rg-reaction');
 
         const toArray = (cond: any, value: string): string[] => cond ? [value] : [];
         const snapshot$ = this.snapshot$;
@@ -116,16 +115,16 @@ export class ReactionModelDirective implements OnInit, OnDestroy, ReactionModel 
             }),
             takeUntil(this.destroyed$)
         ).subscribe((change: { add: string[], remove: string[] }) => {
-            change.add.forEach(css => this._renderer.addClass(this.el.nativeElement, css));
-            change.remove.forEach(css => this._renderer.removeClass(this.el.nativeElement, css));
+            change.add.forEach(css => this._renderer.addClass(this._el.nativeElement, css));
+            change.remove.forEach(css => this._renderer.removeClass(this._el.nativeElement, css));
         });
 
         this.reaction$.pipe(
-            withSwitchMap(reaction => combineEvents(this.el, hydrateReaction(reaction).__REACTION__)),
+            withSwitchMap(reaction => combineEvents(this._el, hydrateReaction(reaction).__REACTION__)),
             withMergeMap(([reaction, event]) => toReactionState(reaction).disabled),
             filter(([value, disabled]) => !disabled),
             map(([value, disabled]) => value),
             takeUntil(this.destroyed$)
-        ).subscribe(([reaction, event]) => this._reactionCore.broadcast(reaction, event.type, event, this.el, this.view));
+        ).subscribe(([reaction, event]) => this._reactionCore.broadcast(reaction, event.type, event, this._el, this._view));
     }
 }

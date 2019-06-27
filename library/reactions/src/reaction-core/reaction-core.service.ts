@@ -55,7 +55,7 @@ export class ReactionCoreService implements OnDestroy {
         ).subscribe(event => {
             const hook = event.reaction.__REACTION__.find(hook => hook.type === event.type);
             if (hook) {
-                hook.method(event);
+                hook.method.apply(event.reaction, event);
             }
         });
     }

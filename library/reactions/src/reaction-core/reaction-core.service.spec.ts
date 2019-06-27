@@ -24,10 +24,6 @@ describe(ReactionCoreService.name, () => {
             const IDs = events.map(e => e.id);
             expect(IDs).toEqual([1, 2, 3, 4, 5]);
         });
-
-        it('should throw bad argument for events without a reaction', () => {
-            // @todo
-        });
     });
 
     describe('hooks', () => {
