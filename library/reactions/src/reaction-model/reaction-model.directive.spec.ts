@@ -1,13 +1,25 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {ReactionModelDirective} from './reaction-model.directive';
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {Reaction, ReactionObject} from '../reaction/reaction';
+import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Reaction} from '../reaction/reaction';
 import {ReactionEvent} from '../reaction-event/reaction-event';
 import {createClickEvent, createDblClickEvent} from '../../tests/dom-events.helper';
+import {first} from 'rxjs/operators';
+import {ReactionSnapshot} from '../reaction-snapshots/reaction-snapshot';
+import {BehaviorSubject} from 'rxjs';
+import {ReactionStyle} from '../reaction/reaction-style';
+import {ReactionDisabled} from '../reaction/reaction-disabled';
+import {ReactionVisible} from '../reaction/reaction-visible';
 
-// @Reaction({title: 'Create', css: 'proxy'})
-class CreateDocument implements ReactionObject {
+@Reaction({title: 'Create', description: 'Creates a new document'})
+class CreateDocument implements ReactionStyle, ReactionDisabled, ReactionVisible {
     public clicks: ReactionEvent[] = [];
+
+    public css: BehaviorSubject<string | string[]> = new BehaviorSubject('proxy');
+
+    public disabled: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+    public visible: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
     @Reaction('click')
     public click(event: ReactionEvent) {
@@ -15,15 +27,13 @@ class CreateDocument implements ReactionObject {
     }
 }
 
-
 // noinspection AngularMissingOrInvalidDeclarationInModule
 @Component({
     selector: 'rg-reaction-model-proxy',
     template: '<button #btn [rgReaction]="reaction"></button>'
 })
 class ReactionModelProxyComponent {
-    @Input()
-    public reaction: CreateDocument;
+    public reaction: CreateDocument = new CreateDocument();
 
     @ViewChild(ReactionModelDirective, {static: false})
     public model: ReactionModelDirective;
@@ -46,12 +56,49 @@ fdescribe(ReactionModelDirective.name, () => {
 
         fixture = TestBed.createComponent(ReactionModelProxyComponent);
         component = fixture.componentInstance;
-        component.reaction = new CreateDocument();
         fixture.detectChanges();
     });
 
-    it('should set default CSS classes', () => {
+    xit('should emit snapshots', () => {
+        let snapshot: ReactionSnapshot;
+        component.model.snapshot$.pipe(first()).subscribe(s => snapshot = s);
+        expect(snapshot).toBe({
+            animate: undefined,
+            css: ['proxy'],
+            description: undefined,
+            disabled: false,
+            icon: undefined,
+            order: '0',
+            secondary: undefined,
+            secondaryAnimate: undefined,
+            title: 'Create',
+            tooltip: undefined,
+            visible: true
+        });
+    });
+
+    it('should disable the button', () => {
+
+    });
+
+    it('should hide the button', () => {
+
+    });
+
+    it('should set CSS classes', () => {
         expect(component.btn.nativeElement.className).toBe('rg-reaction rg-reaction-title proxy');
+
+        // using([
+        //     {expect: 'css', value: 'css'}
+        // ], data => {
+        //     component.reaction.css.next(data.value);
+        //     fixture.detectChanges();
+        //     expect(component.btn.nativeElement.className).toBe('rg-reaction rg-reaction-title ' + data.expect);
+        // });
+    });
+
+    it('should update CSS classes', () => {
+
     });
 
     it('should forward click events to reaction', () => {

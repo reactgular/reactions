@@ -52,12 +52,12 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
     }
 
     /**
-     * Sets the reaction object.
+     * Sets the reaction object. We use unknown to reduce warnings in templates.
      */
     @Input('rgReaction')
-    public set reaction(reaction: ReactionObject) {
+    public set reaction(reaction: unknown) {
         console.log('rgReaction setter', reaction);
-        this._reaction$.next(reaction);
+        this._reaction$.next(reaction as ReactionObject);
     }
 
     /**
@@ -80,11 +80,13 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
 
         this.state$ = this.reaction$.pipe(
             map(reaction => toReactionState(reaction)),
+            tap(v => console.error('state', v)),
             shareReplay(1)
         );
 
         this.snapshot$ = this.reaction$.pipe(
             switchMap(reaction => toReactionSnapshot(reaction)),
+            tap(v => console.error('snapshot', v)),
             shareReplay(1)
         );
 
@@ -103,6 +105,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
         ];
 
         combineLatest(styles$).pipe(
+            tap(v => console.error(v)),
             // merge all the CSS arrays into a single array
             map((values) => values.reduce((acc, next) => ([...acc, ...next]), [])),
             startWith([]),
