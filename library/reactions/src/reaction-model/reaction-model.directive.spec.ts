@@ -42,7 +42,7 @@ class ReactionModelProxyComponent {
     public btn: ElementRef<HTMLButtonElement>;
 }
 
-fdescribe(ReactionModelDirective.name, () => {
+describe(ReactionModelDirective.name, () => {
     let component: ReactionModelProxyComponent;
     let fixture: ComponentFixture<ReactionModelProxyComponent>;
 
@@ -85,7 +85,7 @@ fdescribe(ReactionModelDirective.name, () => {
 
     });
 
-    it('should set CSS classes', () => {
+    fit('should set CSS classes', () => {
         expect(component.btn.nativeElement.className).toBe('rg-reaction rg-reaction-title proxy');
 
         // using([
