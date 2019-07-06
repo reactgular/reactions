@@ -57,7 +57,7 @@ export class ReactionModelDirective implements OnInit, OnDestroy {
     @Input('rgReaction')
     public set reaction(reaction: unknown) {
         console.log('rgReaction setter', reaction);
-        this._reaction$.next(reaction as ReactionObject);
+        this._reaction$.next(hydrateReaction(reaction as ReactionObject));
     }
 
     /**

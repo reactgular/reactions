@@ -42,7 +42,7 @@ class ReactionModelProxyComponent {
     public btn: ElementRef<HTMLButtonElement>;
 }
 
-describe(ReactionModelDirective.name, () => {
+fdescribe(ReactionModelDirective.name, () => {
     let component: ReactionModelProxyComponent;
     let fixture: ComponentFixture<ReactionModelProxyComponent>;
 
@@ -59,13 +59,13 @@ describe(ReactionModelDirective.name, () => {
         fixture.detectChanges();
     });
 
-    xit('should emit snapshots', () => {
+    it('should emit snapshots', () => {
         let snapshot: ReactionSnapshot;
         component.model.snapshot$.pipe(first()).subscribe(s => snapshot = s);
-        expect(snapshot).toBe({
+        expect(snapshot).toEqual({
             animate: undefined,
             css: ['proxy'],
-            description: undefined,
+            description: 'Creates a new document',
             disabled: false,
             icon: undefined,
             order: '0',
@@ -85,7 +85,7 @@ describe(ReactionModelDirective.name, () => {
 
     });
 
-    fit('should set CSS classes', () => {
+    it('should set CSS classes', () => {
         expect(component.btn.nativeElement.className).toBe('rg-reaction rg-reaction-title proxy');
 
         // using([
