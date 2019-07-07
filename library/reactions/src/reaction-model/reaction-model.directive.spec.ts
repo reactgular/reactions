@@ -85,16 +85,16 @@ fdescribe(ReactionModelDirective.name, () => {
 
     });
 
-    it('should set CSS classes', () => {
-        expect(component.btn.nativeElement.className).toBe('rg-reaction rg-reaction-title proxy');
-
-        // using([
-        //     {expect: 'css', value: 'css'}
-        // ], data => {
-        //     component.reaction.css.next(data.value);
-        //     fixture.detectChanges();
-        //     expect(component.btn.nativeElement.className).toBe('rg-reaction rg-reaction-title ' + data.expect);
-        // });
+    fit('should set CSS classes', () => {
+        expect(component.btn.nativeElement.className).toBe('rg-reaction proxy rg-reaction-title');
+        [
+            {expect: 'css', value: 'css'},
+            {expect: '', value: ''}
+        ].forEach(data => {
+            component.reaction.css.next(data.value);
+            fixture.detectChanges();
+            expect(component.btn.nativeElement.className).toBe(('rg-reaction rg-reaction-title ' + data.expect).trim());
+        });
     });
 
     it('should update CSS classes', () => {

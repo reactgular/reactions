@@ -16,7 +16,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build reactions",
-    "test": "ng test reactions",
+    "test": "ng test --watch=false --code-coverage=true",
+    "test-watch": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "postbuild": "cp README.md ./dist/README.md"
