@@ -42,7 +42,7 @@ class ReactionModelProxyComponent {
     public btn: ElementRef<HTMLButtonElement>;
 }
 
-fdescribe(ReactionModelDirective.name, () => {
+describe(ReactionModelDirective.name, () => {
     let component: ReactionModelProxyComponent;
     let fixture: ComponentFixture<ReactionModelProxyComponent>;
 
@@ -85,20 +85,17 @@ fdescribe(ReactionModelDirective.name, () => {
 
     });
 
-    fit('should set CSS classes', () => {
+    it('should set CSS classes', () => {
         expect(component.btn.nativeElement.className).toBe('rg-reaction proxy rg-reaction-title');
         [
             {expect: 'css', value: 'css'},
-            {expect: '', value: ''}
+            {expect: '', value: ''},
+            {expect: 'dog house', value: ['dog', 'house']}
         ].forEach(data => {
             component.reaction.css.next(data.value);
             fixture.detectChanges();
             expect(component.btn.nativeElement.className).toBe(('rg-reaction rg-reaction-title ' + data.expect).trim());
         });
-    });
-
-    it('should update CSS classes', () => {
-
     });
 
     it('should forward click events to reaction', () => {
@@ -107,7 +104,7 @@ fdescribe(ReactionModelDirective.name, () => {
         expect(component.reaction.clicks.length).toBe(1);
     });
 
-    it('shoult not forward unbound events', () => {
+    it('should not forward unbound events', () => {
         component.btn.nativeElement.dispatchEvent(createDblClickEvent());
         expect(component.reaction.clicks.length).toBe(0);
     });
