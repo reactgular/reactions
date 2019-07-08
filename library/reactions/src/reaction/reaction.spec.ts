@@ -1,4 +1,5 @@
-import {Reaction, ReactionConstructor, reactionMetaData, ReactionObject} from './reaction';
+import {Reaction, ReactionConstructor, ReactionEventBinding, reactionMetaData, ReactionObject} from './reaction';
+import {REACTION_KEY_MODIFIERS} from '../reaction-key-modifiers/reaction-key-modifiers';
 
 describe('reaction', () => {
     describe(reactionMetaData.name, () => {
@@ -39,13 +40,17 @@ describe('reaction', () => {
 
             const reaction = new CreateDocument() as ReactionObject;
             expect(reaction.__REACTION__).toEqual([
-                {type: 'click', method: reaction.click, debounce: 0}
+                {
+                    type: 'click',
+                    modifiers: REACTION_KEY_MODIFIERS,
+                    method: reaction.click
+                } as ReactionEventBinding
             ])
         });
 
         it('should define a debounce', () => {
             class CreateDocument {
-                @Reaction('mousemove', 100)
+                @Reaction('mousemove', {debounce: 100})
                 move(e) {
 
                 }
@@ -53,7 +58,12 @@ describe('reaction', () => {
 
             const reaction = new CreateDocument() as ReactionObject;
             expect(reaction.__REACTION__).toEqual([
-                {type: 'mousemove', method: reaction.move, debounce: 100}
+                {
+                    debounce: 100,
+                    type: 'mousemove',
+                    modifiers: REACTION_KEY_MODIFIERS,
+                    method: reaction.move
+                } as ReactionEventBinding
             ]);
         });
     });

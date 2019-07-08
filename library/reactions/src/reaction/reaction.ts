@@ -1,6 +1,7 @@
 import {Injectable, Type} from '@angular/core';
-import {ReactionProperty} from '../reaction-types';
+import {ReactionEventHandler, ReactionProperty} from '../reaction-types';
 import {ReactionEvent} from '../reaction-event/reaction-event';
+import {REACTION_KEY_MODIFIERS, reactionKeyModifiers, ReactionKeyModifiers} from '../reaction-key-modifiers/reaction-key-modifiers';
 
 /**
  * Configuration for a reaction class decorator.
@@ -39,23 +40,51 @@ export interface ReactionObject extends ReactionProperties {
 }
 
 /**
- * Configured hook that triggers a reaction event listener.
+ * Configuration for a reaction method that handles events.
  */
-export interface ReactionEventBinding {
+export interface ReactionMethodOptions {
     /**
      * Applies a throttle operator to events to reduce their emission rate.
      */
     debounce?: number;
 
     /**
+     * Hides this hot key from the keyboards short cut dialog. This might be
+     * done where another hot key provides a description for two keys.
+     */
+    hidden?: boolean;
+
+    /**
+     * Displays an alternate hot key code for the keyboards dialog.
+     *
+     * @deprecated This solves the problem of SHIFT+? but won't be required in a future version.
+     */
+    humanCode?: string;
+
+    /**
+     * The section this hot key will be grouped in the keyboards dialog.
+     */
+    section?: string;
+}
+
+/**
+ * Configured hook that triggers a reaction event listener.
+ */
+export interface ReactionEventBinding extends ReactionMethodOptions {
+    /**
      * The type of event (click, mousemove, shortcut)
      */
     type: string;
 
     /**
+     * Keyboard modifiers
+     */
+    modifiers?: ReactionKeyModifiers;
+
+    /**
      * Method to be triggered
      */
-    method: (event: ReactionEvent) => void;
+    method: ReactionEventHandler;
 }
 
 /**
@@ -98,7 +127,7 @@ export function Reaction(options: ReactionClassOptions): ReactionClassDecorator;
 /**
  * Reaction decorator for methods.
  */
-export function Reaction(type: string, debounce?: number): MethodDecorator;
+export function Reaction(type: string, options?: ReactionMethodOptions): MethodDecorator;
 
 /**
  * Applies the required decorator based upon the argument types.
@@ -107,7 +136,9 @@ export function Reaction(...args: any[]): ReactionClassDecorator | MethodDecorat
     if (args.length === 1 && typeof args[0] === 'object') {
         return reactionClass(args[0]);
     } else if (args.length >= 1 && args.length <= 2 && typeof args[0] === 'string') {
-        return reactionMethod(args[0], args.length === 2 ? args[1] : 0);
+        return reactionMethod(args[0], args.length === 2 ? args[1] : {});
+    } else {
+        throw new Error('Invalid arguments for Reaction decorator');
     }
 }
 
@@ -121,14 +152,60 @@ export function reactionClass(options: ReactionClassOptions): ReactionClassDecor
 /**
  * The method decorator function.
  */
-export function reactionMethod(type: string, debounce: number): MethodDecorator {
+export function reactionMethod(type: string, options: ReactionMethodOptions): MethodDecorator {
     return (target: ReactionObject, methodName: string, descriptor: TypedPropertyDescriptor<any>) => {
         if (!target.__REACTION__) {
             target.__REACTION__ = [];
         }
         if (typeof target[methodName] === 'function') {
-            target.__REACTION__.push({type, debounce, method: target[methodName]});
+            target.__REACTION__.push({
+                ...options,
+                type: parseType(type),
+                modifiers: reactionKeyModifiers(type),
+                method: target[methodName]
+            });
         }
         return descriptor;
     }
+}
+
+export function parseType(type: string): string {
+    return type;
+}
+
+function compileShortcutCode(type: string, method: ReactionEventHandler): ReactionEventBinding {
+    const parts = type.trim().toUpperCase().replace(/\s/g, '').split('+');
+    const code: ReactionEventBinding = {
+        type: parts[parts.length - 1].toLowerCase(),
+        modifiers: {...REACTION_KEY_MODIFIERS},
+        method
+    };
+    if (code.type === 'shift') {
+        code.modifiers.shiftKey = true;
+    }
+    const remap = {
+        del: 'delete',
+        esc: 'escape',
+        back: 'backspace'
+    };
+    if (remap[code.type]) {
+        code.type = remap[code.type];
+    }
+    parts.pop();
+    parts.forEach(part => {
+        switch (part) {
+            case 'CTRL':
+                code.modifiers.ctrlKey = true;
+                break;
+            case 'ALT':
+                code.modifiers.altKey = true;
+                break;
+            case 'SHIFT':
+                code.modifiers.shiftKey = true;
+                break;
+            default:
+                throw new Error(`Invalid special key: ${part}`);
+        }
+    });
+    return code;
 }
