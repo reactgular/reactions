@@ -1,6 +1,6 @@
 import {ElementRef, ViewContainerRef} from '@angular/core';
-import {ReactionObject} from '../reaction/reaction';
 import {hydrateReaction} from '../reaction-utils/hydrate-reaction';
+import {ReactionObject} from '../reaction/reaction-types';
 
 /**
  * Base interface for all reaction events.

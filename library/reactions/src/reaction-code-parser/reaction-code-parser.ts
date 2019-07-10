@@ -1,23 +1,38 @@
-import {REACTION_CODE_MODIFIERS, ReactionCode, ReactionCodeModifiers, ReactionCodeToken} from './reaction-code-types';
+import {REACTION_CODE_MODIFIERS, ReactionCode, ReactionCodeModifiers} from './reaction-code-types';
 
 /**
- * Expects a one or mode code strings like "click, ctrl+n"
+ * Reaction codes are parsed into tokens.
+ */
+interface ReactionCodeToken {
+    /**
+     * Type of token
+     */
+    type: 'modifier' | 'type';
+
+    /**
+     * Token value
+     */
+    value: string;
+}
+
+/**
+ * Expects one or mode code strings like "click, ctrl+n"
  */
 export const reactionCodeParser = (codes: string): ReactionCode[] =>
     codes.split(',').map(reactionCodeTokens).map(reactionCode);
 
 /**
- * Converts a collection of tokens into a parsed reaction code.
- */
-export const reactionCode = (tokens: ReactionCodeToken[]): ReactionCode =>
-    ({type: reactionRemoveModifiers(tokens), modifiers: reactionKeyModifiers(tokens)});
-
-/**
  * Converts a string of reaction codes into a collection of code tokens. A reaction code looks like "ctrl+m" and you can
  * define multiple codes using a "," separator.
  */
-export const reactionCodeTokens = (str: string): ReactionCodeToken[] =>
-    str.trim().toUpperCase().replace(/\s/g, '').split('+').map(rewriteValue).map(reactionCodeToken);
+const reactionCodeTokens = (str: string): ReactionCodeToken[] =>
+    str.trim().toLowerCase().replace(/\s/g, '').split('+').map(rewriteValue).map(reactionCodeToken);
+
+/**
+ * Converts a collection of tokens into a parsed reaction code.
+ */
+const reactionCode = (tokens: ReactionCodeToken[]): ReactionCode =>
+    ({type: reactionRemoveModifiers(tokens), modifiers: reactionKeyModifiers(tokens)});
 
 /**
  * Converts a single reaction code string to a token.
@@ -28,28 +43,31 @@ export const reactionCodeToken = (value: string): ReactionCodeToken =>
 /**
  * True if the string is a keyboard modifier.
  */
-export const isCodeModifier = (value: string): boolean => Boolean(value.search(/ctrl|shift|alt|meta/i));
+export const isCodeModifier = (value: string): boolean => Boolean(value.match(/^(ctrl|shift|alt|meta)$/i));
 
 /**
  * Rewrites reaction code values.
  */
 export function rewriteValue(value: string): string {
-    const map = {
-        DELETE: 'DEL',
-        ESCAPE: 'ESC',
-        BACK: 'BACKSPACE',
-        CONTROL: 'CTRL',
-        CMD: 'META',
-        COMMAND: 'META',
-        DOUBLECLICK: 'DBLCLICK'
-    };
-    return map[value] ? map[value] : value;
+    // a map would be faster, but won't show as untested in coverage report when a key is added.
+    if (value === 'delete') {
+        return 'del';
+    } else if (value === 'escape') {
+        return 'esc';
+    } else if (value === 'back') {
+        return 'backspace';
+    } else if (value === 'cmd' || value === 'command') {
+        return 'meta'
+    } else if (value === 'doubleclick') {
+        return 'dblclick';
+    } else if (value === 'control') {
+        return 'ctrl';
+    }
+    return value;
 }
 
 /**
  * Returns the type code with modifiers removed.
- *
- * @todo This should rewrite DEL (delete), ESC (escape), BACKSPACE (back)
  */
 export function reactionRemoveModifiers(tokens: ReactionCodeToken[]): string {
     return tokens
@@ -65,13 +83,13 @@ export function reactionKeyModifiers(tokens: ReactionCodeToken[]): ReactionCodeM
     return tokens
         .filter(token => token.type === 'modifier')
         .reduce((acc: ReactionCodeModifiers, token: ReactionCodeToken) => {
-            if (token.value === 'CTRL') {
+            if (token.value === 'ctrl') {
                 return {...acc, ctrlKey: true};
-            } else if (token.value === 'ALT') {
+            } else if (token.value === 'alt') {
                 return {...acc, altKey: true};
-            } else if (token.value === 'SHIFT') {
+            } else if (token.value === 'shift') {
                 return {...acc, shiftKey: true};
-            } else if (token.value === 'META') {
+            } else if (token.value === 'meta') {
                 return {...acc, metaKey: true};
             }
             return acc;

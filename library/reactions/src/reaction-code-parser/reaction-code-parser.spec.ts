@@ -1,71 +1,154 @@
-import {reactionKeyModifiers} from './reaction-code-parser';
 import {REACTION_CODE_MODIFIERS, ReactionCodeModifiers} from './reaction-code-types';
+import {
+    isCodeModifier,
+    reactionCodeParser,
+    reactionCodeToken,
+    reactionKeyModifiers,
+    reactionRemoveModifiers,
+    rewriteValue
+} from './reaction-code-parser';
 
-describe('reaction-key-modifiers', () => {
-    const m: ReactionCodeModifiers = REACTION_CODE_MODIFIERS;
+const m: ReactionCodeModifiers = REACTION_CODE_MODIFIERS;
 
-    function mapBoolean(acc: Partial<ReactionCodeModifiers>, key: string): Partial<ReactionCodeModifiers>[] {
-        return [true, false].map(value => ({...acc, [key]: value}));
-    }
+describe(reactionCodeParser.name, () => {
+    it('should work with ctrl key', () => {
+        expect(reactionCodeParser('ctrl+m')).toEqual([{type: 'm', modifiers: {...m, ctrlKey: true}}]);
+    });
 
-    // function stringify(mod: ReactionKeyModifiers, key: string, delimiter: string): string {
-    //     return [
-    //         mod.ctrlKey && 'ctrl',
-    //         mod.shiftKey && 'shift',
-    //         mod.altKey && 'alt',
-    //         key
-    //     ].filter(Boolean).join(delimiter);
-    // }
-    //
-    // it('should', () => {
-    //     const expected: ReactionKeyModifiers[] = mapBoolean({}, 'ctrlKey')
-    //         .reduce((acc, next) => [...acc, ...mapBoolean(next, 'altKey')], [])
-    //         .reduce((acc, next) => [...acc, ...mapBoolean(next, 'shiftKey')], []);
-    //
-    //     const values = [
-    //         ...expected.map(expect => ({value: stringify(expect, 'b', '+'), expect})),
-    //         ...expected.map(expect => ({value: stringify(expect, 'b', ' + '), expect})),
-    //         ...expected.map(expect => ({value: stringify(expect, 'b', '+').toUpperCase(), expect}))
-    //     ];
-    // });
+    it('should work with shift key', () => {
+        expect(reactionCodeParser('shift+m')).toEqual([{type: 'm', modifiers: {...m, shiftKey: true}}]);
+    });
 
-    describe(reactionKeyModifiers.name, () => {
-        it('should work with ctrl key', () => {
-            expect(reactionKeyModifiers('ctrl+m')).toEqual({...m, ctrlKey: true});
-        });
+    it('should work with alt key', () => {
+        expect(reactionCodeParser('alt+m')).toEqual([{type: 'm', modifiers: {...m, altKey: true}}]);
+    });
 
-        it('should work with shift key', () => {
-            expect(reactionKeyModifiers('shift+m')).toEqual({...m, shiftKey: true});
-        });
+    it('should work with meta key', () => {
+        expect(reactionCodeParser('meta+m')).toEqual([{type: 'm', modifiers: {...m, metaKey: true}}]);
+    });
 
-        it('should work with alt key', () => {
-            expect(reactionKeyModifiers('alt+m')).toEqual({...m, altKey: true});
-        });
+    it('should ignore spaces', () => {
+        expect(reactionCodeParser(' ctrl   + shift +   alt + S ')).toEqual([{
+            type: 's',
+            modifiers: {...m, ctrlKey: true, shiftKey: true, altKey: true}
+        }]);
+    });
 
-        it('should work with meta key', () => {
-            expect(reactionKeyModifiers('meta+m')).toEqual({...m, metaKey: true});
-        });
+    it('should work with key aliases', () => {
+        expect(reactionCodeParser('control+m')).toEqual(([{type: 'm', modifiers: {...m, ctrlKey: true}}]));
+        expect(reactionCodeParser('command+m')).toEqual(([{type: 'm', modifiers: {...m, metaKey: true}}]));
+        expect(reactionCodeParser('cmd+m')).toEqual(([{type: 'm', modifiers: {...m, metaKey: true}}]));
+    });
 
-        it('should ignore spaces', () => {
-            expect(reactionKeyModifiers(' ctrl   + shift +   alt + S ')).toEqual({...m, ctrlKey: true, shiftKey: true, altKey: true});
-        });
+    it('ignores unknown tokens', () => {
+        expect(reactionCodeParser('mouse+ctrl+house+shift+click+alt')).toEqual([{
+            type: 'mouse house click',
+            modifiers: {...m, ctrlKey: true, shiftKey: true, altKey: true}
+        }]);
+    });
+});
 
-        it('should work with key aliases', () => {
-            expect(reactionKeyModifiers('control+m')).toEqual(({...m, ctrlKey: true}));
-            expect(reactionKeyModifiers('command+m')).toEqual(({...m, metaKey: true}));
-            expect(reactionKeyModifiers('cmd+m')).toEqual(({...m, metaKey: true}));
-        });
+describe(reactionCodeToken.name, () => {
+    it('should be a modifier', () => {
+        expect(reactionCodeToken('ctrl')).toEqual({type: 'modifier', value: 'ctrl'});
+        expect(reactionCodeToken('shift')).toEqual({type: 'modifier', value: 'shift'});
+        expect(reactionCodeToken('alt')).toEqual({type: 'modifier', value: 'alt'});
+        expect(reactionCodeToken('meta')).toEqual({type: 'modifier', value: 'meta'});
+    });
 
-        it('should work with upper case', () => {
+    it('should not be a modifier', () => {
+        expect(reactionCodeToken('m')).toEqual({type: 'type', value: 'm'});
+        expect(reactionCodeToken('esc')).toEqual({type: 'type', value: 'esc'});
+        expect(reactionCodeToken('backspace')).toEqual({type: 'type', value: 'backspace'});
+    });
+});
 
-        });
+describe(isCodeModifier.name, () => {
+    it('should be true', () => {
+        expect(isCodeModifier('CTRL')).toBe(true, 'ctrl');
+        expect(isCodeModifier('SHIFT')).toBe(true, 'shift');
+        expect(isCodeModifier('ALT')).toBe(true, 'alt');
+        expect(isCodeModifier('META')).toBe(true, 'meta');
+    });
 
-        it('should work with lower case', () => {
+    it('should be false', () => {
+        expect(isCodeModifier('ESC')).toBe(false, 'ESC');
+        expect(isCodeModifier('CLICK')).toBe(false, 'CLICK');
+        expect(isCodeModifier('BECTRL')).toBe(false, 'BECTRL');
+        expect(isCodeModifier('SHIFTING')).toBe(false, 'SHIFTING');
+        expect(isCodeModifier('MALT')).toBe(false, 'MALT');
+        expect(isCodeModifier('METAS')).toBe(false, 'METAS');
+    });
+});
 
-        });
+describe(rewriteValue.name, () => {
+    it('should rewrite values', () => {
+        expect(rewriteValue('delete')).toBe('del');
+        expect(rewriteValue('escape')).toBe('esc');
+        expect(rewriteValue('back')).toBe('backspace');
+        expect(rewriteValue('cmd')).toBe('meta');
+        expect(rewriteValue('command')).toBe('meta');
+        expect(rewriteValue('doubleclick')).toBe('dblclick');
+        expect(rewriteValue('control')).toBe('ctrl');
+    });
 
-        it('ignores unknown tokens', () => {
-            expect(reactionKeyModifiers('mouse+ctrl+house+shift+click+alt')).toEqual({...m, ctrlKey: true, shiftKey: true, altKey: true});
-        });
+    it('should not rewrite values', () => {
+        expect(rewriteValue('del')).toBe('del');
+        expect(rewriteValue('esc')).toBe('esc');
+        expect(rewriteValue('backspace')).toBe('backspace');
+        expect(rewriteValue('meta')).toBe('meta');
+        expect(rewriteValue('dblclick')).toBe('dblclick');
+    });
+});
+
+describe(reactionRemoveModifiers.name, () => {
+    it('should return type only', () => {
+        expect(reactionRemoveModifiers([
+            {type: 'modifier', value: 'ctrl'},
+            {type: 'type', value: 'm'}
+        ])).toEqual('m');
+        expect(reactionRemoveModifiers([
+            {type: 'modifier', value: 'ctrl'},
+            {type: 'type', value: 'm'},
+            {type: 'modifier', value: 'alt'}
+        ])).toEqual('m');
+        expect(reactionRemoveModifiers([
+            {type: 'type', value: 'm'},
+            {type: 'modifier', value: 'alt'}
+        ])).toEqual('m');
+        expect(reactionRemoveModifiers([
+            {type: 'modifier', value: 'ctrl'},
+            {type: 'type', value: 'a'},
+            {type: 'type', value: 'b'}
+        ])).toEqual('a b');
+        expect(reactionRemoveModifiers([
+            {type: 'type', value: 'm'}
+        ])).toEqual('m');
+    });
+
+    it('should return empty string', () => {
+        expect(reactionRemoveModifiers([])).toEqual('');
+        expect(reactionRemoveModifiers([
+            {type: 'modifier', value: 'ctrl'}
+        ])).toEqual('');
+        expect(reactionRemoveModifiers([
+            {type: 'modifier', value: 'ctrl'},
+            {type: 'modifier', value: 'alt'}
+        ])).toEqual('');
+    });
+});
+
+describe(reactionKeyModifiers.name, () => {
+    it('should return modifiers', () => {
+        expect(reactionKeyModifiers([{type: 'modifier', value: 'ctrl'}])).toEqual({...m, ctrlKey: true});
+        expect(reactionKeyModifiers([{type: 'modifier', value: 'shift'}])).toEqual({...m, shiftKey: true});
+        expect(reactionKeyModifiers([{type: 'modifier', value: 'alt'}])).toEqual({...m, altKey: true});
+        expect(reactionKeyModifiers([{type: 'modifier', value: 'meta'}])).toEqual({...m, metaKey: true});
+        expect(reactionKeyModifiers([
+            {type: 'modifier', value: 'ctrl'},
+            {type: 'modifier', value: 'shift'},
+            {type: 'modifier', value: 'alt'},
+            {type: 'modifier', value: 'meta'}
+        ])).toEqual({ctrlKey: true, shiftKey: true, altKey: true, metaKey: true});
     });
 });

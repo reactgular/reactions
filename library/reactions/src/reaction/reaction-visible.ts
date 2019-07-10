@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs';
 import {ReactionProperty} from '../reaction-types';
-import {ReactionObject} from './reaction';
 import {toReactionValue} from '../reaction-utils/reaction-value';
+import {ReactionObject} from './reaction-types';
 
 /**
  * Adds support for showing/hiding a reaction.

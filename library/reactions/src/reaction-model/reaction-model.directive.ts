@@ -4,10 +4,10 @@ import {distinctUntilChanged, filter, map, pairwise, shareReplay, startWith, swi
 import {ReactionCoreService} from '../reaction-core/reaction-core.service';
 import {ReactionSnapshot, toReactionSnapshot} from '../reaction-snapshots/reaction-snapshot';
 import {ReactionState, toReactionState} from '../reaction-state/reaction-state';
-import {ReactionObject} from '../reaction/reaction';
 import {withMergeMap, withSwitchMap} from '../reaction-utils/observables';
 import {combineEvents} from '../reaction-utils/combine-events';
 import {hydrateReaction} from '../reaction-utils/hydrate-reaction';
+import {ReactionObject} from '../reaction/reaction-types';
 
 /**
  * Dependency provider for other components to gain access to the reaction object.

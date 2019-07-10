@@ -39,21 +39,6 @@ export interface ReactionCodeModifiers {
 }
 
 /**
- * Reaction codes are parsed into tokens.
- */
-export interface ReactionCodeToken {
-    /**
-     * Type of token
-     */
-    type: 'modifier' | 'type';
-
-    /**
-     * Token value
-     */
-    value: string;
-}
-
-/**
  * Default with all keys disabled.
  */
 export const REACTION_CODE_MODIFIERS = Object.freeze<ReactionCodeModifiers>({

@@ -1,6 +1,5 @@
 import {Observable} from 'rxjs';
 import {defaultIfEmpty, distinctUntilChanged, shareReplay} from 'rxjs/operators';
-import {ReactionObject} from '../reaction/reaction';
 import {reactionDescriptionReducer, ReactionDescriptionState} from '../reaction/reaction-description';
 import {reactionDisabledReducer, ReactionDisabledState} from '../reaction/reaction-disabled';
 import {reactionIconReducer, ReactionIconState} from '../reaction/reaction-icon';
@@ -9,6 +8,7 @@ import {reactionStyleReducer, ReactionStyleState} from '../reaction/reaction-sty
 import {reactionTitleReducer, ReactionTitleState} from '../reaction/reaction-title';
 import {reactionTooltipReducer, ReactionTooltipState} from '../reaction/reaction-tooltip';
 import {reactionVisibleReducer, ReactionVisibleState} from '../reaction/reaction-visible';
+import {ReactionObject} from '../reaction/reaction-types';
 
 /**
  * Combines all the states into a single interface.

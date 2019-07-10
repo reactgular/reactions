@@ -5,7 +5,7 @@ import {catchError, defaultIfEmpty, distinctUntilChanged, first, map, mapTo, tak
 import {ReactionEvent} from '../reaction-event/reaction-event';
 import {ReactionKeyboardService} from '../reaction-keyboard/reaction-keyboard.service';
 import {disabledWhen} from '../reaction-utils/observables';
-import {ReactionObject} from '../reaction/reaction';
+import {ReactionObject} from '../reaction/reaction-types';
 
 /**
  * UI events are broadcast from this service and reactions can act upon those events. Events are things like mouse events, keyboard
