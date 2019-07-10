@@ -1,5 +1,5 @@
 import {Reaction, ReactionConstructor, ReactionEventBinding, reactionMetaData, ReactionObject} from './reaction';
-import {REACTION_KEY_MODIFIERS} from '../reaction-key-modifiers/reaction-key-modifiers';
+import {REACTION_CODE_MODIFIERS} from '../reaction-code-parser/reaction-code-types';
 
 describe('reaction', () => {
     describe(reactionMetaData.name, () => {
@@ -42,7 +42,7 @@ describe('reaction', () => {
             expect(reaction.__REACTION__).toEqual([
                 {
                     type: 'click',
-                    modifiers: REACTION_KEY_MODIFIERS,
+                    modifiers: REACTION_CODE_MODIFIERS,
                     method: reaction.click
                 } as ReactionEventBinding
             ])
@@ -61,7 +61,7 @@ describe('reaction', () => {
                 {
                     debounce: 100,
                     type: 'mousemove',
-                    modifiers: REACTION_KEY_MODIFIERS,
+                    modifiers: REACTION_CODE_MODIFIERS,
                     method: reaction.move
                 } as ReactionEventBinding
             ]);

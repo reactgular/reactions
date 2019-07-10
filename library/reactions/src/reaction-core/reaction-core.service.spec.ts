@@ -2,7 +2,7 @@ import {TestBed} from '@angular/core/testing';
 import {ReactionCoreService} from './reaction-core.service';
 import {ReactionEvent} from '../reaction-event/reaction-event';
 import {ReactionObject} from '../reaction/reaction';
-import {REACTION_KEY_MODIFIERS} from '../reaction-key-modifiers/reaction-key-modifiers';
+import {REACTION_CODE_MODIFIERS} from '../reaction-code-parser/reaction-code-types';
 
 describe(ReactionCoreService.name, () => {
     describe('events', () => {
@@ -40,7 +40,7 @@ describe(ReactionCoreService.name, () => {
                 __REACTION__: [
                     {
                         type: 'click',
-                        modifiers: REACTION_KEY_MODIFIERS,
+                        modifiers: REACTION_CODE_MODIFIERS,
                         method: (event) => console.error(event)
                     }
                 ]

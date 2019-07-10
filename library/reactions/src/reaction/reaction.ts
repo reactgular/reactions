@@ -1,7 +1,8 @@
 import {Injectable, Type} from '@angular/core';
 import {ReactionEventHandler, ReactionProperty} from '../reaction-types';
 import {ReactionEvent} from '../reaction-event/reaction-event';
-import {REACTION_KEY_MODIFIERS, reactionKeyModifiers, ReactionKeyModifiers} from '../reaction-key-modifiers/reaction-key-modifiers';
+import {reactionKeyModifiers} from '../reaction-code-parser/reaction-code-parser';
+import {REACTION_CODE_MODIFIERS, ReactionCodeModifiers} from '../reaction-code-parser/reaction-code-types';
 
 /**
  * Configuration for a reaction class decorator.
@@ -79,7 +80,7 @@ export interface ReactionEventBinding extends ReactionMethodOptions {
     /**
      * Keyboard modifiers
      */
-    modifiers?: ReactionKeyModifiers;
+    modifiers?: ReactionCodeModifiers;
 
     /**
      * Method to be triggered
@@ -177,7 +178,7 @@ function compileShortcutCode(type: string, method: ReactionEventHandler): Reacti
     const parts = type.trim().toUpperCase().replace(/\s/g, '').split('+');
     const code: ReactionEventBinding = {
         type: parts[parts.length - 1].toLowerCase(),
-        modifiers: {...REACTION_KEY_MODIFIERS},
+        modifiers: {...REACTION_CODE_MODIFIERS},
         method
     };
     if (code.type === 'shift') {
