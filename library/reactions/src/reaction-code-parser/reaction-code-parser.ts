@@ -92,6 +92,6 @@ export function reactionKeyModifiers(tokens: ReactionCodeToken[]): ReactionCodeM
             } else if (token.value === 'meta') {
                 return {...acc, metaKey: true};
             }
-            return acc;
+            throw new Error('Unsupported modifier');
         }, REACTION_CODE_MODIFIERS);
 }

@@ -151,4 +151,13 @@ describe(reactionKeyModifiers.name, () => {
             {type: 'modifier', value: 'meta'}
         ])).toEqual({ctrlKey: true, shiftKey: true, altKey: true, metaKey: true});
     });
+
+    it('should throw for unknown modifiers', () => {
+        expect(() => reactionKeyModifiers([{type: 'modifier', value: 'unknown'}])).toThrow(new Error('Unsupported modifier'))
+    });
+
+    it('should return default modifiers', () => {
+        expect(reactionKeyModifiers([])).toEqual(m);
+        expect(reactionKeyModifiers([{type: 'type', value: 'm'}])).toEqual(m);
+    });
 });
