@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Inject, InjectionToken, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {ReactionCoreService} from '../../../library/reactions/src/reaction-core/reaction-core.service';
+import {ReactionCoreService} from '../../../library/reactions/src/reaction-services/reaction-core/reaction-core.service';
 import {CreateReaction} from '../reactions/create-reaction/create-reaction';
 import {LogService} from '@reactgular/logger';
 

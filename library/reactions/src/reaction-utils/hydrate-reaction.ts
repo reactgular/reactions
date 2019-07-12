@@ -1,5 +1,5 @@
 
-import {ReactionConstructor, ReactionObject} from '../reaction/reaction-types';
+import {ReactionConstructor, ReactionObject} from '../reaction-engine/reaction/reaction-types';
 
 /**
  * Copies the properties defined by the decorator to a reaction instance.

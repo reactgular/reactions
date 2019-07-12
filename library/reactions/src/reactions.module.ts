@@ -1,31 +1,15 @@
-import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {MatButtonModule, MatMenuModule, MatTooltipModule} from '@angular/material';
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {ReactionModelDirective} from './reaction-model/reaction-model.directive';
-import {ReactionSnapshotPipe} from './reaction-snapshots/reaction-snapshot.pipe';
-import {ReactionTextComponent} from './reaction-text/reaction-text.component';
+import {ReactionUIModule} from './reaction-ui/reaction-ui.module';
+import {ReactionEngineModule} from './reaction-engine/reaction-engine.module';
 
 @NgModule({
     imports: [
-        CommonModule,
-        MatMenuModule,
-        MatTooltipModule,
-        MatButtonModule,
-        FontAwesomeModule
-    ],
-    declarations: [
-        ReactionModelDirective,
-        ReactionSnapshotPipe,
-        ReactionTextComponent
-    ],
-    providers: [
-        ReactionSnapshotPipe
+        ReactionUIModule,
+        ReactionEngineModule
     ],
     exports: [
-        ReactionModelDirective,
-        ReactionSnapshotPipe,
-        ReactionTextComponent
+        ReactionUIModule,
+        ReactionEngineModule
     ]
 })
 export class ReactionsModule {

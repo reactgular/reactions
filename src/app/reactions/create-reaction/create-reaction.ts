@@ -1,9 +1,9 @@
 import {Observable} from 'rxjs';
-import {ReactionEvent} from '../../../../library/reactions/src/reaction-event/reaction-event';
-import {ReactionIcon} from '../../../../library/reactions/src/reaction/reaction-icon';
-import {ReactionTitle} from '../../../../library/reactions/src/reaction/reaction-title';
+import {ReactionEvent} from '../../../../library/reactions/src/reaction-engine/reaction-event/reaction-event';
+import {ReactionIcon} from '../../../../library/reactions/src/reaction-engine/reaction/reaction-icon';
+import {ReactionTitle} from '../../../../library/reactions/src/reaction-engine/reaction/reaction-title';
 import {LogService} from '@reactgular/logger';
-import {Reaction} from '../../../../library/reactions/src/reaction/reaction';
+import {Reaction} from '../../../../library/reactions/src/reaction-engine/reaction/reaction';
 
 @Reaction({order: 'demo:000'})
 export class CreateReaction implements ReactionTitle, ReactionIcon {
