@@ -36,7 +36,6 @@ export class ReactionProvider {
             filter(reaction => typeof reaction === 'object'),
             distinctUntilChanged(),
             map(hydrateReaction),
-            tap(val => console.log('tap', val)),
             shareReplay(1)
         );
 
@@ -55,7 +54,6 @@ export class ReactionProvider {
      * Sets the reaction object.
      */
     public set(reaction: unknown) {
-        console.log('set', reaction);
         this._reaction$.next(reaction as ReactionObject);
     }
 }

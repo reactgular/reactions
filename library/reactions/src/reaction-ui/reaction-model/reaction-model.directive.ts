@@ -23,7 +23,6 @@ export class ReactionModelDirective {
      */
     @Input('reaction')
     public set reaction(reaction: unknown) {
-        console.log(reaction);
         this.reactionProvider.set(reaction);
     }
 }
