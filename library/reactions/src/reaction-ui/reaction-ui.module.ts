@@ -25,7 +25,9 @@ import { ReactionTooltipDirective } from './reaction-tooltip/reaction-tooltip.di
     ],
     exports: [
         ReactionModelDirective,
-        ReactionTextComponent
+        ReactionTextComponent,
+        ReactionClassDirective,
+        ReactionClickDirective
     ]
 })
 export class ReactionUIModule {
