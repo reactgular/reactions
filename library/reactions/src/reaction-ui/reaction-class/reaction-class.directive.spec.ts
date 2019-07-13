@@ -1,45 +1,37 @@
 import {ReactionClassDirective} from './reaction-class.directive';
 import {merge, of} from 'rxjs';
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {ReactionModelDirective} from '../reaction-model/reaction-model.directive';
 import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {delay} from 'rxjs/operators';
+import {By} from '@angular/platform-browser';
 
-interface ReactionModelProxy {
-    reaction: any;
-
-    btn: ElementRef<HTMLButtonElement>;
-}
-
-function createFixture(reaction: any): ComponentFixture<ReactionModelProxy> {
+function createFixture(reaction: any): ComponentFixture<any> {
     // noinspection AngularMissingOrInvalidDeclarationInModule
     @Component({
-        selector: 'rg-reaction-model-proxy',
-        template: '<button #btn [reaction]="reaction" rgReactionClass></button>'
+        selector: 'rg-reaction-proxy',
+        template: '<button [reaction]="reaction" rgReactionClass></button>'
     })
-    class ReactionModelProxyComponent implements ReactionModelProxy {
+    class ReactionProxyComponent {
         public reaction = reaction;
-
-        @ViewChild('btn', {static: false})
-        public btn: ElementRef<HTMLButtonElement>;
     }
 
     TestBed.configureTestingModule({
         declarations: [
             ReactionModelDirective,
             ReactionClassDirective,
-            ReactionModelProxyComponent
+            ReactionProxyComponent
         ]
     });
 
-    const fixture = TestBed.createComponent(ReactionModelProxyComponent);
+    const fixture = TestBed.createComponent(ReactionProxyComponent);
     fixture.detectChanges();
     return fixture;
 }
 
-fdescribe(ReactionClassDirective.name, () => {
-    const btnClass = (fixture: ComponentFixture<ReactionModelProxy>): { [key: string]: boolean; } =>
-        fixture.debugElement.query(el => el.name === 'button').classes;
+describe(ReactionClassDirective.name, () => {
+    const btnClass = (fixture: ComponentFixture<any>): { [key: string]: boolean; } =>
+        fixture.debugElement.query(By.css('button')).classes;
     const fixtureClass = (reaction: any) => btnClass(createFixture(reaction));
     const c = {'rg-reaction': true};
 
@@ -70,7 +62,7 @@ fdescribe(ReactionClassDirective.name, () => {
 
     describe('set CSS class then remove after a delay', function () {
         const delayed$ = (a, b = undefined, d = 100) => merge(of(a), of(b).pipe(delay(d)));
-        const tickFixture = (fixture: ComponentFixture<ReactionModelProxy>) => (tick(1000), fixture.detectChanges());
+        const tickFixture = (fixture: ComponentFixture<any>) => (tick(1000), fixture.detectChanges());
 
         function shouldRemoveClass(name: string, before: any, after: any = undefined) {
             it(`should set "rg-reaction-${name}" and then remove it`, fakeAsync(() => {
