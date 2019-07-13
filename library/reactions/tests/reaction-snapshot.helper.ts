@@ -9,7 +9,7 @@ export const reactionSnapshotDefaults = () => ({
     secondaryAnimate: undefined,
     order: '0',
     css: [],
-    title: 'n/a',
+    title: '',
     tooltip: undefined,
     visible: true
 } as ReactionSnapshot);

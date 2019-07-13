@@ -47,25 +47,18 @@ class ClickFixture {
 
         this._fixture = TestBed.createComponent(ReactionProxyComponent);
         this._fixture.detectChanges();
-
         this.button = this._fixture.debugElement.query(By.directive(ReactionClickDirective));
         this.spyBroadcast = spyOn(TestBed.get(ReactionCoreService), 'broadcast').and.callThrough();
     }
 
-    public get el(): HTMLButtonElement {
-        return this.button.nativeElement
-    }
+    public clicks = () => this._fixture.componentInstance['reaction']['clicks'] as ReactionEvent[];
 
-    public get clicks(): ReactionEvent[] {
-        return this._fixture.componentInstance['reaction']['clicks'];
-    }
-
-    public dispatch = (e: Event) => this.el.dispatchEvent(e);
+    public dispatch = (e: Event) => this.button.nativeElement.dispatchEvent(e);
 
     public click = () => this.dispatch(createClickEvent());
 }
 
-fdescribe(ReactionClickDirective.name, () => {
+describe(ReactionClickDirective.name, () => {
 
     it('should broadcast click events', () => {
         const fixture = new ClickFixture('click', of(false));
