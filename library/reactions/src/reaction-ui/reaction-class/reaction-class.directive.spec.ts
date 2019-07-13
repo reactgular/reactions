@@ -1,29 +1,9 @@
 import {ReactionClassDirective} from './reaction-class.directive';
-import {Reaction} from '../../reaction-engine/reaction/reaction';
-import {ReactionStyle} from '../../reaction-engine/reaction/reaction-style';
-import {ReactionDisabled} from '../../reaction-engine/reaction/reaction-disabled';
-import {ReactionVisible} from '../../reaction-engine/reaction/reaction-visible';
-import {ReactionEvent} from '../../reaction-engine/reaction-event/reaction-event';
-import {BehaviorSubject} from 'rxjs';
+import {merge, of} from 'rxjs';
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {ReactionModelDirective} from '../reaction-model/reaction-model.directive';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-
-@Reaction({title: 'Create', description: 'Creates a new document'})
-class CreateDocument implements ReactionStyle, ReactionDisabled, ReactionVisible {
-    public clicks: ReactionEvent[] = [];
-
-    public css: BehaviorSubject<string | string[]> = new BehaviorSubject('proxy');
-
-    public disabled: BehaviorSubject<boolean> = new BehaviorSubject(false);
-
-    public visible: BehaviorSubject<boolean> = new BehaviorSubject(true);
-
-    @Reaction('click')
-    public click(event: ReactionEvent) {
-        this.clicks.push(event);
-    }
-}
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {delay} from 'rxjs/operators';
 
 interface ReactionModelProxy {
     reaction: any;
@@ -60,22 +40,55 @@ fdescribe(ReactionClassDirective.name, () => {
 
     const btnClass = (fixture: ComponentFixture<ReactionModelProxy>): { [key: string]: boolean; } =>
         fixture.debugElement.query(el => el.name === 'button').classes;
+
     const fixtureClass = (reaction: any) => btnClass(createFixture(reaction));
+
     const c = {'rg-reaction': true};
 
-    it('should set default class', () => expect(fixtureClass({})).toEqual(c));
+    describe('setting of CSS class', () => {
+        it('should set default class', () => expect(fixtureClass({})).toEqual(c));
+        it('should set icon class', () => expect(fixtureClass({icon: 'fa-document'})).toEqual({...c, 'rg-reaction-icon': true}));
+        it('should set secondary class', () => expect(fixtureClass({secondary: 'fa-document'})).toEqual({
+            ...c,
+            'rg-reaction-secondary': true
+        }));
+        it('should set title class', () => expect(fixtureClass({title: 'Create'})).toEqual({...c, 'rg-reaction-title': true}));
+        it('should set tooltip class', () => expect(fixtureClass({tooltip: 'Create a document'})).toEqual({
+            ...c,
+            'rg-reaction-tooltip': true
+        }));
+        it('should set animate class', () => expect(fixtureClass({animate: 'spin'})).toEqual({...c, 'rg-reaction-animate': true}));
+        it('should set disabled class', () => expect(fixtureClass({disabled: true})).toEqual({...c, 'rg-reaction-disabled': true}));
+        it('should set CSS class', () => expect(fixtureClass({css: 'proxy'})).toEqual({...c, proxy: true}));
+        it('should set CSS classes', () => expect(fixtureClass({css: ['one', 'two', 'three']})).toEqual({
+            ...c,
+            one: true,
+            two: true,
+            three: true
+        }));
+    });
 
-    it('should set icon class', () => expect(fixtureClass({icon: 'fa-document'})).toEqual({...c, 'rg-reaction-icon': true}));
+    describe('setting of CSS class and then removing', function () {
+        const delayed$ = (a, b = undefined, d = 100) => merge(of(a), of(b).pipe(delay(d)));
+        const tickFixture = (fixture) => (tick(1000), fixture.detectChanges());
 
-    it('should set secondary class', () => expect(fixtureClass({secondary: 'fa-document'})).toEqual({...c, 'rg-reaction-secondary': true}));
+        function shouldRemoveClass(name: string, before: any, after: any = undefined) {
+            it(`should remove ${name} class`, fakeAsync(() => {
+                const fixture = createFixture({[name]: delayed$(before, after)});
+                expect(btnClass(fixture)).toEqual({...c, [`rg-reaction-${name}`]: true});
+                tickFixture(fixture);
+                expect(btnClass(fixture)).toEqual({...c, [`rg-reaction-${name}`]: false});
+            }));
+        }
 
-    it('should set title class', () => expect(fixtureClass({title: 'Create'})).toEqual({...c, 'rg-reaction-title': true}));
+        shouldRemoveClass('icon', 'fa-document');
+        shouldRemoveClass('secondary', 'fa-document');
+        shouldRemoveClass('title', 'Create');
+        shouldRemoveClass('tooltip', 'Creates a new document.');
+        shouldRemoveClass('animate', 'spin');
+        shouldRemoveClass('disabled', true, false);
+    });
 
-    it('should set tooltip class', () => expect(fixtureClass({tooltip: 'Create a document'})).toEqual({...c, 'rg-reaction-tooltip': true}));
-
-    it('should set animate class', () => expect(fixtureClass({animate: 'spin'})).toEqual({...c, 'rg-reaction-animate': true}));
-
-    it('should set disabled class', () => expect(fixtureClass({disabled: true})).toEqual({...c, 'rg-reaction-disabled': true}));
 
     it('should set CSS classes', () => {
         // const fixture = createFixture(new CreateDocument());
