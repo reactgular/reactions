@@ -2,7 +2,7 @@ import {of} from 'rxjs';
 import {syncToArray} from '../../../tests/observable.helper';
 import {reactionSnapshotDefaults} from '../../../tests/reaction-snapshot.helper';
 import {toReactionSnapshot} from './reaction-snapshot';
-import {Reaction} from '../reaction/reaction';
+import {Reaction} from '../../reaction-engine/reaction/reaction';
 import {hydrateReaction} from '../../reaction-utils/hydrate-reaction';
 
 describe(toReactionSnapshot.name, () => {

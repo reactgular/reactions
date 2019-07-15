@@ -4,9 +4,10 @@ import {MatButtonModule, MatMenuModule, MatTooltipModule} from '@angular/materia
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {ReactionModelDirective} from './reaction-model/reaction-model.directive';
 import {ReactionTextComponent} from './reaction-text/reaction-text.component';
-import { ReactionClassDirective } from './reaction-class/reaction-class.directive';
-import { ReactionClickDirective } from './reaction-click/reaction-click.directive';
-import { ReactionTooltipDirective } from './reaction-tooltip/reaction-tooltip.directive';
+import {ReactionClassDirective} from './reaction-class/reaction-class.directive';
+import {ReactionClickDirective} from './reaction-click/reaction-click.directive';
+import {ReactionTooltipDirective} from './reaction-tooltip/reaction-tooltip.directive';
+import {ReactionSnapshotPipe} from './reaction-snapshots/reaction-snapshot.pipe';
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import { ReactionTooltipDirective } from './reaction-tooltip/reaction-tooltip.di
         ReactionTextComponent,
         ReactionClassDirective,
         ReactionClickDirective,
-        ReactionTooltipDirective
+        ReactionTooltipDirective,
+        ReactionSnapshotPipe
     ],
     exports: [
         ReactionModelDirective,

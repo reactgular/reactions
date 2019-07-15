@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {ReactionSnapshot} from '../../reaction-engine/reaction-snapshots/reaction-snapshot';
+import {ReactionSnapshot} from '../reaction-snapshots/reaction-snapshot';
 
 /**
  * Displays the body of a reaction control. Mostly the icon and title.

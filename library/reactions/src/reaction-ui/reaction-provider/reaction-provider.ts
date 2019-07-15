@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs';
 import {ReactionObject} from '../../reaction-engine/reaction/reaction-types';
-import {ReactionSnapshot, toReactionSnapshot} from '../../reaction-engine/reaction-snapshots/reaction-snapshot';
+import {ReactionSnapshot, toReactionSnapshot} from '../reaction-snapshots/reaction-snapshot';
 import {ReactionState, toReactionState} from '../../reaction-engine/reaction-state/reaction-state';
 import {distinctUntilChanged, filter, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {hydrateReaction} from '../../reaction-utils/hydrate-reaction';
