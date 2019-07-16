@@ -3,9 +3,9 @@ import {ElementRef, Inject, Injectable, OnDestroy, ViewContainerRef} from '@angu
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {catchError, defaultIfEmpty, distinctUntilChanged, first, map, mapTo, takeUntil} from 'rxjs/operators';
 import {ReactionEvent} from '../../reaction-engine/reaction-event/reaction-event';
-import {ReactionKeyboardService} from '../reaction-keyboard/reaction-keyboard.service';
 import {disabledWhen} from '../../reaction-utils/observables';
 import {ReactionObject} from '../../reaction-engine/reaction/reaction-types';
+import {ReactionShortcutService} from '../reaction-shortcut/reaction-shortcut.service';
 
 /**
  * UI events are broadcast from this service and reactions can act upon those events. Events are things like mouse events, keyboard
@@ -45,7 +45,7 @@ export class ReactionCoreService implements OnDestroy {
      * Constructor
      */
     public constructor(@Inject(DOCUMENT) private _doc: any,
-                       private _keyboard: ReactionKeyboardService) {
+                       private _shortcut: ReactionShortcutService) {
         this._events$ = new Subject<ReactionEvent>();
         this.events$ = this._events$.pipe(
             takeUntil(this._destroyed$)
@@ -70,7 +70,7 @@ export class ReactionCoreService implements OnDestroy {
      * @todo Maybe a priority setting for binding to hotkeys would be better.
      */
     public get esc$(): Observable<void> {
-        return this._keyboard.esc$.pipe(
+        return this._shortcut.esc$.pipe(
             disabledWhen(this._disabled$.pipe(map(Boolean))),
             mapTo(undefined),
             takeUntil(this._destroyed$)

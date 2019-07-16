@@ -64,24 +64,4 @@ describe(ReactionKeyboardService.name, () => {
             });
         });
     });
-
-    it('should emit ESC key pressed', () => {
-
-    });
-
-    it('should emit DELETE key pressed', () => {
-
-    });
-
-    it('should emit ENTER key pressed', () => {
-
-    });
-
-    it('should emit key pressed ignoring case', () => {
-
-    });
-
-    it('should emit key pressed matching case', () => {
-
-    });
 });
