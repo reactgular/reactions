@@ -15,10 +15,6 @@ describe(reactionCodeParser.name, () => {
         expect(reactionCodeParser('ctrl+m')).toEqual([{type: 'm', modifiers: {...m, ctrlKey: true}}]);
     });
 
-    it('should work with shift key', () => {
-        expect(reactionCodeParser('shift+m')).toEqual([{type: 'm', modifiers: {...m, shiftKey: true}}]);
-    });
-
     it('should work with alt key', () => {
         expect(reactionCodeParser('alt+m')).toEqual([{type: 'm', modifiers: {...m, altKey: true}}]);
     });
@@ -28,9 +24,9 @@ describe(reactionCodeParser.name, () => {
     });
 
     it('should ignore spaces', () => {
-        expect(reactionCodeParser(' ctrl   + shift +   alt + S ')).toEqual([{
+        expect(reactionCodeParser(' ctrl   +    alt + s ')).toEqual([{
             type: 's',
-            modifiers: {...m, ctrlKey: true, shiftKey: true, altKey: true}
+            modifiers: {...m, ctrlKey: true, altKey: true}
         }]);
     });
 
@@ -41,9 +37,9 @@ describe(reactionCodeParser.name, () => {
     });
 
     it('ignores unknown tokens', () => {
-        expect(reactionCodeParser('mouse+ctrl+house+shift+click+alt')).toEqual([{
+        expect(reactionCodeParser('mouse+ctrl+house+click+alt')).toEqual([{
             type: 'mouse house click',
-            modifiers: {...m, ctrlKey: true, shiftKey: true, altKey: true}
+            modifiers: {...m, ctrlKey: true, altKey: true}
         }]);
     });
 });
@@ -51,7 +47,6 @@ describe(reactionCodeParser.name, () => {
 describe(reactionCodeToken.name, () => {
     it('should be a modifier', () => {
         expect(reactionCodeToken('ctrl')).toEqual({type: 'modifier', value: 'ctrl'});
-        expect(reactionCodeToken('shift')).toEqual({type: 'modifier', value: 'shift'});
         expect(reactionCodeToken('alt')).toEqual({type: 'modifier', value: 'alt'});
         expect(reactionCodeToken('meta')).toEqual({type: 'modifier', value: 'meta'});
     });
@@ -66,7 +61,6 @@ describe(reactionCodeToken.name, () => {
 describe(isCodeModifier.name, () => {
     it('should be true', () => {
         expect(isCodeModifier('CTRL')).toBe(true, 'ctrl');
-        expect(isCodeModifier('SHIFT')).toBe(true, 'shift');
         expect(isCodeModifier('ALT')).toBe(true, 'alt');
         expect(isCodeModifier('META')).toBe(true, 'meta');
     });
@@ -141,15 +135,13 @@ describe(reactionRemoveModifiers.name, () => {
 describe(reactionKeyModifiers.name, () => {
     it('should return modifiers', () => {
         expect(reactionKeyModifiers([{type: 'modifier', value: 'ctrl'}])).toEqual({...m, ctrlKey: true});
-        expect(reactionKeyModifiers([{type: 'modifier', value: 'shift'}])).toEqual({...m, shiftKey: true});
         expect(reactionKeyModifiers([{type: 'modifier', value: 'alt'}])).toEqual({...m, altKey: true});
         expect(reactionKeyModifiers([{type: 'modifier', value: 'meta'}])).toEqual({...m, metaKey: true});
         expect(reactionKeyModifiers([
             {type: 'modifier', value: 'ctrl'},
-            {type: 'modifier', value: 'shift'},
             {type: 'modifier', value: 'alt'},
             {type: 'modifier', value: 'meta'}
-        ])).toEqual({ctrlKey: true, shiftKey: true, altKey: true, metaKey: true});
+        ])).toEqual({ctrlKey: true, altKey: true, metaKey: true});
     });
 
     it('should throw for unknown modifiers', () => {

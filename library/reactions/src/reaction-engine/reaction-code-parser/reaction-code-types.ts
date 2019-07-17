@@ -31,11 +31,6 @@ export interface ReactionCodeModifiers {
      * Ctrl key required
      */
     ctrlKey: boolean;
-
-    /**
-     * Shift key required
-     */
-    shiftKey: boolean;
 }
 
 /**
@@ -44,6 +39,5 @@ export interface ReactionCodeModifiers {
 export const REACTION_CODE_MODIFIERS = Object.freeze<ReactionCodeModifiers>({
     metaKey: false,
     altKey: false,
-    ctrlKey: false,
-    shiftKey: false
+    ctrlKey: false
 });

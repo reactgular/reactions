@@ -39,7 +39,6 @@ export class ReactionShortcutService {
         const matchCode = (event: KeyboardEvent, code: ReactionCode) =>
             event.key === code.type
             && event.ctrlKey === code.modifiers.ctrlKey
-            && event.shiftKey === code.modifiers.shiftKey
             && event.altKey === code.modifiers.altKey
             && event.metaKey === code.modifiers.metaKey;
         return fromEvent<KeyboardEvent>(this._doc, 'keyup').pipe(

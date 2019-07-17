@@ -26,7 +26,7 @@ export const reactionCodeParser = (codes: string): ReactionCode[] =>
  * define multiple codes using a "," separator.
  */
 const reactionCodeTokens = (str: string): ReactionCodeToken[] =>
-    str.trim().toLowerCase().replace(/\s/g, '').split('+').map(rewriteValue).map(reactionCodeToken);
+    str.trim().replace(/\s/g, '').split('+').map(rewriteValue).map(reactionCodeToken);
 
 /**
  * Converts a collection of tokens into a parsed reaction code.
@@ -43,7 +43,7 @@ export const reactionCodeToken = (value: string): ReactionCodeToken =>
 /**
  * True if the string is a keyboard modifier.
  */
-export const isCodeModifier = (value: string): boolean => Boolean(value.match(/^(ctrl|shift|alt|meta)$/i));
+export const isCodeModifier = (value: string): boolean => Boolean(value.match(/^(ctrl|alt|meta)$/i));
 
 /**
  * Rewrites reaction code values.
@@ -87,8 +87,6 @@ export function reactionKeyModifiers(tokens: ReactionCodeToken[]): ReactionCodeM
                 return {...acc, ctrlKey: true};
             } else if (token.value === 'alt') {
                 return {...acc, altKey: true};
-            } else if (token.value === 'shift') {
-                return {...acc, shiftKey: true};
             } else if (token.value === 'meta') {
                 return {...acc, metaKey: true};
             }

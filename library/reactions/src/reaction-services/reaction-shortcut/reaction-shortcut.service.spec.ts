@@ -1,8 +1,8 @@
 import {TestBed} from '@angular/core/testing';
 import {ReactionShortcutService} from './reaction-shortcut.service';
-import {ReactionCode} from '../../reaction-engine/reaction-code-parser/reaction-code-types';
+import {REACTION_CODE_MODIFIERS, ReactionCode} from '../../reaction-engine/reaction-code-parser/reaction-code-types';
 
-fdescribe(ReactionShortcutService.name, () => {
+describe(ReactionShortcutService.name, () => {
     let service: ReactionShortcutService;
     beforeEach(() => service = TestBed.get(ReactionShortcutService));
 
@@ -14,15 +14,10 @@ fdescribe(ReactionShortcutService.name, () => {
 
     it('should emit ESC key pressed', () => {
         const values: ReactionCode[] = [];
-        const sub = service.code('escape').subscribe(v => values.push(v));
+        const sub = service.code('Escape').subscribe(v => values.push(v));
         pressEsc();
         sub.unsubscribe();
-        expect(values).toEqual([
-            {
-                type: 'ESCAPE',
-                modifiers: {ctrlKey: false, altKey: false, metaKey: false, shiftKey: false}
-            }
-        ]);
+        expect(values).toEqual([{type: 'Escape', modifiers: REACTION_CODE_MODIFIERS}]);
     });
 
     it('should emit DELETE key pressed', () => {
