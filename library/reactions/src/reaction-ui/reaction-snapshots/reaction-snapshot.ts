@@ -28,12 +28,15 @@ export interface ReactionSnapshot extends ReactionDescriptionSnapshot,
  * Creates an observable that emits a snapshots (state object) of a reaction.
  */
 export function toReactionSnapshot(reaction: ReactionObject): Observable<ReactionSnapshot> {
-    const state$ = toReactionState(reaction);
+    if (!reaction.__SNAPSHOT__) {
+        const state$ = toReactionState(reaction);
 
-    const combine$: Observable<{ key: string, value: any }>[] = Object
-        .keys(state$)
-        .map(key => state$[key].pipe(map(value => ({key, value}))));
+        const combine$: Observable<{ key: string, value: any }>[] = Object
+            .keys(state$)
+            .map(key => state$[key].pipe(map(value => ({key, value}))));
 
-    return combineLatest(combine$)
-        .pipe(map(values => values.reduce((acc, next) => (acc[next.key] = next.value, acc), {}) as ReactionSnapshot));
+        reaction.__SNAPSHOT__ = combineLatest(combine$)
+            .pipe(map(values => values.reduce((acc, next) => (acc[next.key] = next.value, acc), {}) as ReactionSnapshot));
+    }
+    return reaction.__SNAPSHOT__;
 }

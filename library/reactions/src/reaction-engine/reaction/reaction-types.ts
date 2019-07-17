@@ -8,6 +8,9 @@ import {Type} from '@angular/core';
 import {ReactionCodeModifiers} from '../reaction-code-parser/reaction-code-types';
 import {ReactionEventHandler, ReactionProperty} from '../reaction-types';
 import {ReactionEvent} from '../reaction-event/reaction-event';
+import {ReactionState} from '../reaction-state/reaction-state';
+import {Observable} from 'rxjs';
+import {ReactionSnapshot} from '../../reaction-ui/reaction-snapshots/reaction-snapshot';
 
 /**
  * Configuration for a reaction class decorator.
@@ -43,6 +46,16 @@ export interface ReactionObject extends ReactionProperties {
      * will exist only after the reaction is added to the core service.
      */
     __REACTION__?: ReactionEventBinding[];
+
+    /**
+     * Cache of the observable version of this reaction object.
+     */
+    __STATE__?: ReactionState;
+
+    /**
+     * Cache of the observable snapshot of this reaction object.
+     */
+    __SNAPSHOT__?: Observable<ReactionSnapshot>;
 }
 
 /**

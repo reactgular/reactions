@@ -1,5 +1,5 @@
 import {ReactionModelDirective} from './reaction-model.directive';
-import {fakeAsync, TestBed} from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 import {ReactionProvider} from '../reaction-provider/reaction-provider';
 import {Component} from '@angular/core';
 import {syncFirst} from '../../../tests/observable.helper';
@@ -10,7 +10,7 @@ import {syncFirst} from '../../../tests/observable.helper';
     template: '<button #btn [reaction]="reaction"></button>'
 })
 class ReactionModelProxyComponent {
-    public reaction: { title: 'Create' };
+    public reaction = {title: 'Create'};
 }
 
 describe(ReactionModelDirective.name, () => {
@@ -38,7 +38,7 @@ describe(ReactionModelDirective.name, () => {
         fixture.detectChanges();
     });
 
-    it('should set reaction object on provider', fakeAsync(() => {
+    it('should set reaction object on provider', () => {
         expect(syncFirst(reactionProvider.reaction$)).toBe(reaction);
-    }));
+    });
 });

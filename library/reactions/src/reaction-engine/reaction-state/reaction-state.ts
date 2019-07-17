@@ -53,6 +53,9 @@ export function reactionSharable(state: ReactionState): ReactionState {
  * Converts a reaction object into a ReactionStates object.
  */
 export function toReactionState(reaction: ReactionObject): ReactionState {
-    return reactionSharable(reactionReducer({}, reaction));
+    if (!reaction.__STATE__) {
+        reaction.__STATE__ = reactionSharable(reactionReducer({}, reaction));
+    }
+    return reaction.__STATE__;
 }
 
