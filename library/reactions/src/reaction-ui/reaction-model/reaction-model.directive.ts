@@ -1,7 +1,7 @@
 import {Directive, Input} from '@angular/core';
 import {ReactionProvider} from '../reaction-provider/reaction-provider';
 import {Observable} from 'rxjs';
-import {ReactionSnapshot} from '../reaction-snapshots/reaction-snapshot';
+import {ReactionSnapshot} from '../../reaction-engine/reaction-snapshot/reaction-snapshot';
 import {ReactionState} from '../../reaction-engine/reaction-state/reaction-state';
 
 /**

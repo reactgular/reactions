@@ -1,15 +1,15 @@
 import {combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {toReactionState} from '../../reaction-engine/reaction-state/reaction-state';
-import {ReactionDescriptionSnapshot} from '../../reaction-engine/reaction/reaction-description';
-import {ReactionDisabledSnapshot} from '../../reaction-engine/reaction/reaction-disabled';
-import {ReactionIconSnapshot} from '../../reaction-engine/reaction/reaction-icon';
-import {ReactionOrderSnapshot} from '../../reaction-engine/reaction/reaction-order';
-import {ReactionStyleSnapshot} from '../../reaction-engine/reaction/reaction-style';
-import {ReactionTitleSnapshot} from '../../reaction-engine/reaction/reaction-title';
-import {ReactionTooltipSnapshot} from '../../reaction-engine/reaction/reaction-tooltip';
-import {ReactionVisibleSnapshot} from '../../reaction-engine/reaction/reaction-visible';
-import {ReactionObject} from '../../reaction-engine/reaction/reaction-types';
+import {toReactionState} from '../reaction-state/reaction-state';
+import {ReactionDescriptionSnapshot} from '../reaction/reaction-description';
+import {ReactionDisabledSnapshot} from '../reaction/reaction-disabled';
+import {ReactionIconSnapshot} from '../reaction/reaction-icon';
+import {ReactionOrderSnapshot} from '../reaction/reaction-order';
+import {ReactionStyleSnapshot} from '../reaction/reaction-style';
+import {ReactionTitleSnapshot} from '../reaction/reaction-title';
+import {ReactionTooltipSnapshot} from '../reaction/reaction-tooltip';
+import {ReactionVisibleSnapshot} from '../reaction/reaction-visible';
+import {ReactionObject} from '../reaction/reaction-types';
 
 /**
  * A snapshot of the reaction state.

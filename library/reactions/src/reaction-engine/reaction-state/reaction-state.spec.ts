@@ -2,7 +2,7 @@ import {forkJoin, Observable, of} from 'rxjs';
 import {syncToArray} from '../../../tests/observable.helper';
 import {reactionObjectEquals} from '../../../tests/reaction-reducer.helper';
 import {reactionSnapshotDefaults} from '../../../tests/reaction-snapshot.helper';
-import {ReactionSnapshot} from '../../reaction-ui/reaction-snapshots/reaction-snapshot';
+import {ReactionSnapshot} from '../reaction-snapshot/reaction-snapshot';
 import {reactionReducer, reactionSharable, ReactionState, toReactionState} from './reaction-state';
 
 describe(reactionReducer.name, () => {

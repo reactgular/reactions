@@ -9,6 +9,7 @@ import {reactionTitleReducer, ReactionTitleState} from '../reaction/reaction-tit
 import {reactionTooltipReducer, ReactionTooltipState} from '../reaction/reaction-tooltip';
 import {reactionVisibleReducer, ReactionVisibleState} from '../reaction/reaction-visible';
 import {ReactionObject} from '../reaction/reaction-types';
+import {hydrateReaction} from '../../reaction-utils/hydrate-reaction';
 
 /**
  * Combines all the states into a single interface.
@@ -54,7 +55,7 @@ export function reactionSharable(state: ReactionState): ReactionState {
  */
 export function toReactionState(reaction: ReactionObject): ReactionState {
     if (!reaction.__STATE__) {
-        reaction.__STATE__ = reactionSharable(reactionReducer({}, reaction));
+        reaction.__STATE__ = reactionSharable(reactionReducer({}, hydrateReaction(reaction)));
     }
     return reaction.__STATE__;
 }

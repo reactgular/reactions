@@ -10,7 +10,7 @@ import {ReactionEventHandler, ReactionProperty} from '../reaction-types';
 import {ReactionEvent} from '../reaction-event/reaction-event';
 import {ReactionState} from '../reaction-state/reaction-state';
 import {Observable} from 'rxjs';
-import {ReactionSnapshot} from '../../reaction-ui/reaction-snapshots/reaction-snapshot';
+import {ReactionSnapshot} from '../reaction-snapshot/reaction-snapshot';
 
 /**
  * Configuration for a reaction class decorator.

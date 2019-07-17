@@ -7,7 +7,8 @@ import {ReactionTextComponent} from './reaction-text/reaction-text.component';
 import {ReactionClassDirective} from './reaction-class/reaction-class.directive';
 import {ReactionClickDirective} from './reaction-click/reaction-click.directive';
 import {ReactionTooltipDirective} from './reaction-tooltip/reaction-tooltip.directive';
-import {ReactionSnapshotPipe} from './reaction-snapshots/reaction-snapshot.pipe';
+import {ReactionSnapshotsPipe} from './reaction-snapshots/reaction-snapshots.pipe';
+import {ReactionStatePipe} from './reaction-state/reaction-state.pipe';
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import {ReactionSnapshotPipe} from './reaction-snapshots/reaction-snapshot.pipe'
         ReactionClassDirective,
         ReactionClickDirective,
         ReactionTooltipDirective,
-        ReactionSnapshotPipe
+        ReactionSnapshotsPipe,
+        ReactionStatePipe
     ],
     exports: [
         ReactionModelDirective,
