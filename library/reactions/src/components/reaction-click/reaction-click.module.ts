@@ -1,10 +1,11 @@
 import {NgModule} from '@angular/core';
-import {ReactionClassDirective} from '../reaction-class/reaction-class.directive';
+import {CommonModule} from '@angular/common';
+import {ReactionClickDirective} from './reaction-click.directive';
 
 @NgModule({
-    imports: [Comment],
-    declarations: [ReactionClassDirective],
-    exports: [ReactionClassDirective]
+    imports: [CommonModule],
+    declarations: [ReactionClickDirective],
+    exports: [ReactionClickDirective]
 })
 export class ReactionClickModule {
 }
