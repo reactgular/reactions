@@ -3,7 +3,6 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ReactionsModule} from '../../library/reactions/src/reactions.module';
 import {DemoComponent} from './demo/demo.component';
 import {DemoCardComponent} from './demo-card/demo-card.component';
 import {LoggerModule} from '@reactgular/logger';
@@ -14,7 +13,6 @@ import {environment} from '../environments/environment';
         BrowserModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
-        ReactionsModule,
         MatButtonModule,
         LoggerModule.forRoot({enabled: !environment.production})
     ],

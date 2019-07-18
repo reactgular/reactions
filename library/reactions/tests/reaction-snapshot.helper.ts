@@ -1,4 +1,4 @@
-import {ReactionSnapshot} from '../src/reaction-engine/reaction-snapshot/reaction-snapshot';
+import {ReactionSnapshot} from '../src/core/reaction-snapshot/reaction-snapshot';
 
 export const reactionSnapshotDefaults = () => ({
     description: undefined,
