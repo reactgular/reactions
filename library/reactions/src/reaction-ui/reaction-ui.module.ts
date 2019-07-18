@@ -9,6 +9,7 @@ import {ReactionClickDirective} from './reaction-click/reaction-click.directive'
 import {ReactionTooltipDirective} from './reaction-tooltip/reaction-tooltip.directive';
 import {ReactionSnapshotsPipe} from './reaction-snapshots/reaction-snapshots.pipe';
 import {ReactionStatePipe} from './reaction-state/reaction-state.pipe';
+import { ReactionSortPipe } from './reaction-sort/reaction-sort.pipe';
 
 @NgModule({
     imports: [
@@ -25,7 +26,8 @@ import {ReactionStatePipe} from './reaction-state/reaction-state.pipe';
         ReactionClickDirective,
         ReactionTooltipDirective,
         ReactionSnapshotsPipe,
-        ReactionStatePipe
+        ReactionStatePipe,
+        ReactionSortPipe
     ],
     exports: [
         ReactionModelDirective,

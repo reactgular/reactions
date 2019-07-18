@@ -3,35 +3,46 @@ import {ReactionProperty} from '../reaction-types';
 import {toReactionValue} from '../../reaction-utils/reaction-value';
 import {ReactionObject} from './reaction-types';
 
+export type ReactionSortable = string | number;
+
 /**
  * Defines the order of this reaction in a sorted list.
  */
 export interface ReactionOrder {
     /**
-     * A sort value usually in the format "XXXX:0000" where the ":" is used to separate reactions into
-     * groups.
+     * A sort value to order reactions by groups.
      */
-    order: ReactionProperty<string>;
+    order: ReactionProperty<ReactionSortable>;
+
+    /**
+     * Group sorted reactions together by this value.
+     */
+    group?: ReactionProperty<ReactionSortable>;
 }
 
 /**
  * State object for ReactionOrder
  */
 export interface ReactionOrderState {
-    order: Observable<string>;
+    order: Observable<ReactionSortable>;
+
+    group: Observable<ReactionSortable>
 }
 
 /**
  * Snapshot of icon state
  */
 export interface ReactionOrderSnapshot {
-    order: string;
+    order: ReactionSortable;
+
+    group: ReactionSortable;
 }
 
 /**
  * Updates a state object with more observable properties from the reaction.
  */
 export function reactionOrderReducer(acc: ReactionObject, next: ReactionObject | ReactionOrder): ReactionObject {
-    const order = toReactionValue(next.order, '0');
-    return {...acc, order};
+    const order = toReactionValue(next.order, 0);
+    const group = toReactionValue(next.group, 0);
+    return {...acc, order, group};
 }
