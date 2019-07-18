@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, Inject, InjectionToken, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {ReactionCoreService} from '../../../library/reactions/src/services/reaction-core/reaction-core.service';
 import {CreateReaction} from '../reactions/create-reaction/create-reaction';
 import {LogService} from '@reactgular/logger';
+import {ReactionCoreService} from '@reactgular/reactions';
 
 export const TOP_BAR_TOKEN: InjectionToken<any> = new InjectionToken<any>('TOP_BAR_TOKEN');
 

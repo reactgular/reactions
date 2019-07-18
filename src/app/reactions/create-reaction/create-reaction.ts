@@ -1,6 +1,5 @@
-import {ReactionEvent} from '../../../../library/reactions/src/core/reaction-event/reaction-event';
 import {LogService} from '@reactgular/logger';
-import {Reaction} from '../../../../library/reactions/src/core/reaction/reaction';
+import {Reaction, ReactionEvent} from '@reactgular/reactions';
 
 @Reaction({
     title: 'Create',
