@@ -7,6 +7,7 @@ import {DemoComponent} from './demo/demo.component';
 import {DemoCardComponent} from './demo-card/demo-card.component';
 import {LoggerModule} from '@reactgular/logger';
 import {environment} from '../environments/environment';
+import {ReactionClassModule, ReactionClickModule, ReactionTextModule} from '@reactgular/reactions';
 
 @NgModule({
     imports: [
@@ -14,7 +15,10 @@ import {environment} from '../environments/environment';
         BrowserAnimationsModule,
         ReactiveFormsModule,
         MatButtonModule,
-        LoggerModule.forRoot({enabled: !environment.production})
+        LoggerModule.forRoot({enabled: !environment.production}),
+        ReactionClassModule,
+        ReactionClickModule,
+        ReactionTextModule
     ],
     declarations: [
         DemoComponent,
