@@ -15,7 +15,9 @@ describe(combineEvents.name, () => {
 
         const events = [];
         const s = combineEvents(new ElementRef(el), [{
-            type: 'click', method: x => (x)
+            source: 'element',
+            event: {type: 'click'},
+            method: x => (x)
         }]).subscribe(e => events.push(e));
         s.unsubscribe();
 
@@ -40,7 +42,10 @@ describe(combineEvents.name, () => {
 
         const events: CustomEvent[] = [];
         const s = combineEvents(new ElementRef(el), [{
-            debounce: 1000, type: 'click', method: x => (x)
+            debounce: 1000,
+            source: 'element',
+            event: {type: 'click'},
+            method: x => (x)
         }]).subscribe((e: any) => events.push(e));
 
         expect(events.length).toBe(1);

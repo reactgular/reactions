@@ -12,34 +12,54 @@ const m: ReactionCodeModifiers = REACTION_CODE_MODIFIERS;
 
 describe(reactionCodeParser.name, () => {
     it('should work with ctrl key', () => {
-        expect(reactionCodeParser('ctrl+m')).toEqual([{type: 'm', modifiers: {...m, ctrlKey: true}}]);
+        expect(reactionCodeParser('ctrl+m')).toEqual([{
+            source: 'element',
+            event: {...m, type: 'keyup', key: 'm', ctrlKey: true}
+        }]);
     });
 
     it('should work with alt key', () => {
-        expect(reactionCodeParser('alt+m')).toEqual([{type: 'm', modifiers: {...m, altKey: true}}]);
+        expect(reactionCodeParser('alt+m')).toEqual([{
+            source: 'element',
+            event: {...m, type: 'keyup', key: 'm', altKey: true}
+        }]);
     });
 
     it('should work with meta key', () => {
-        expect(reactionCodeParser('meta+m')).toEqual([{type: 'm', modifiers: {...m, metaKey: true}}]);
+        expect(reactionCodeParser('meta+m')).toEqual([{
+            source: 'element',
+            event: {...m, type: 'keyup', key: 'm', metaKey: true}
+        }]);
     });
 
     it('should ignore spaces', () => {
         expect(reactionCodeParser(' ctrl   +    alt + s ')).toEqual([{
-            type: 's',
-            modifiers: {...m, ctrlKey: true, altKey: true}
+            source: 'element',
+            event: {...m, type: 'keyup', key: 's', ctrlKey: true, altKey: true}
         }]);
     });
 
     it('should work with key aliases', () => {
-        expect(reactionCodeParser('control+m')).toEqual(([{type: 'm', modifiers: {...m, ctrlKey: true}}]));
-        expect(reactionCodeParser('command+m')).toEqual(([{type: 'm', modifiers: {...m, metaKey: true}}]));
-        expect(reactionCodeParser('cmd+m')).toEqual(([{type: 'm', modifiers: {...m, metaKey: true}}]));
+        expect(reactionCodeParser('control+m')).toEqual(([{
+            source: 'element',
+            event: {...m, type: 'keyup', key: 'm', ctrlKey: true}
+        }]));
+
+        expect(reactionCodeParser('command+m')).toEqual(([{
+            source: 'element',
+            event: {...m, type: 'keyup', key: 'm', metaKey: true}
+        }]));
+
+        expect(reactionCodeParser('cmd+m')).toEqual(([{
+            source: 'element',
+            event: {...m, type: 'keyup', key: 'm', metaKey: true}
+        }]));
     });
 
     it('ignores unknown tokens', () => {
         expect(reactionCodeParser('mouse+ctrl+house+click+alt')).toEqual([{
-            type: 'mouse house click',
-            modifiers: {...m, ctrlKey: true, altKey: true}
+            source: 'element',
+            event: {...m, type: 'keyup', key: 'mouse house click', ctrlKey: true, altKey: true}
         }]);
     });
 });

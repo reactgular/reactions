@@ -25,14 +25,24 @@ export const reactionCodeParser = (codes: string): ReactionCode[] =>
  * Converts a string of reaction codes into a collection of code tokens. A reaction code looks like "ctrl+m" and you can
  * define multiple codes using a "," separator.
  */
-const reactionCodeTokens = (str: string): ReactionCodeToken[] =>
-    str.trim().replace(/\s/g, '').split('+').map(rewriteValue).map(reactionCodeToken);
+const reactionCodeTokens = (str: string): ReactionCodeToken[] => str
+    .trim()
+    .replace(/\s/g, '')
+    .split('+')
+    .map(rewriteValue)
+    .map(reactionCodeToken);
 
 /**
  * Converts a collection of tokens into a parsed reaction code.
  */
 const reactionCode = (tokens: ReactionCodeToken[]): ReactionCode =>
-    ({type: reactionRemoveModifiers(tokens), modifiers: reactionKeyModifiers(tokens)});
+    ({
+        source: 'element',
+        event: {
+            type: reactionRemoveModifiers(tokens),
+            ...reactionKeyModifiers(tokens)
+        }
+    });
 
 /**
  * Converts a single reaction code string to a token.

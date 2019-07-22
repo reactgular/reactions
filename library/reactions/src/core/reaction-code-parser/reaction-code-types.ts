@@ -1,16 +1,20 @@
 /**
  * Defines the type event that triggers the reaction.
+ *
+ * @deprecated use ReactionEvent instead
  */
+import {ReactionEventMatcher, ReactionSourceType} from '../reaction/reaction-types';
+
 export interface ReactionCode {
     /**
-     * The key code or UI event.
+     * The source for events.
      */
-    type: string;
+    source: ReactionSourceType;
 
     /**
-     * Modifiers for the event.
+     * The matching rule for events.
      */
-    modifiers: ReactionCodeModifiers;
+    event: ReactionEventMatcher;
 }
 
 /**

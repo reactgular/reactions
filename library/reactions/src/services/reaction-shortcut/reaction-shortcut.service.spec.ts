@@ -10,10 +10,17 @@ describe(ReactionShortcutService.name, () => {
     const dispatchKeyup = (event: KeyboardEventInit) => document.dispatchEvent(new KeyboardEvent('keyup', event));
     const pressKey = (key: string) => dispatchKeyup({key, code: key});
 
-    ['Escape', 'Enter', 'Backspace', 'a', 'b', 'c', '?'].forEach(type => {
-        it(`should emit "${type}" code on keyup`, () => {
-            const value = syncCaptureFirst(service.code(type), () => pressKey(type));
-            expect(value).toEqual({type, modifiers: REACTION_CODE_MODIFIERS});
+    ['Escape', 'Enter', 'Backspace', 'a', 'b', 'c', '?'].forEach(code => {
+        it(`should emit "${code}" code on keyup`, () => {
+            const value = syncCaptureFirst(service.code(code), () => pressKey(code));
+            expect(value).toEqual({
+                source: 'document',
+                event: {
+                    type: 'keyup',
+                    key: code,
+                    ...REACTION_CODE_MODIFIERS
+                }
+            });
         });
     });
 });

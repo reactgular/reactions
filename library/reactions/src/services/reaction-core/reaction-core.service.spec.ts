@@ -39,8 +39,11 @@ describe(ReactionCoreService.name, () => {
             const reaction: ReactionObject = {
                 __REACTION__: [
                     {
-                        type: 'click',
-                        modifiers: REACTION_CODE_MODIFIERS,
+                        source: 'element',
+                        event: {
+                            type: 'click',
+                            ...REACTION_CODE_MODIFIERS
+                        },
                         method: (event) => console.error(event)
                     }
                 ]

@@ -5,12 +5,25 @@
  * Defines a constructor function with meta data attached.
  */
 import {Type} from '@angular/core';
-import {ReactionCodeModifiers} from '../reaction-code-parser/reaction-code-types';
 import {ReactionEventHandler, ReactionProperty} from '../reaction-types';
-import {ReactionEvent} from '../reaction-event/reaction-event';
 import {ReactionState} from '../reaction-state/reaction-state';
 import {Observable} from 'rxjs';
 import {ReactionSnapshot} from '../reaction-snapshot/reaction-snapshot';
+
+/**
+ * Adds reaction properties to the prototype constructor
+ */
+export type ReactionConstructor = { new(...args: any[]): any, __REACTION__?: ReactionProperties };
+
+/**
+ * Defines the decorator type used for classes.
+ */
+export type ReactionClassDecorator = (ReactionConstructor) => ReactionConstructor;
+
+/**
+ * Defines what DOM element will be used to listen for events.
+ */
+export type ReactionSourceType = 'element' | 'document';
 
 /**
  * Configuration for a reaction class decorator.
@@ -29,7 +42,7 @@ export interface ReactionProperties extends Object {
     /**
      * A map of codes to event listeners. These will be converted into hooks.
      */
-    events?: { [code: string]: (event: ReactionEvent) => void };
+    events?: { [code: string]: (event: ReactionEventMatcher) => void };
 
     /**
      * A dynamic reaction value.
@@ -87,24 +100,36 @@ export interface ReactionMethodOptions {
 }
 
 /**
- * Configured hook that triggers a reaction event listener.
+ * Matches an event by comparing all the properties.
  */
-export interface ReactionEventBinding extends ReactionMethodOptions {
+export interface ReactionEventMatcher {
     /**
-     * The type of event (click, mousemove, shortcut)
+     * The event type "click", "mousemove", "keyup", etc..
      */
     type: string;
 
     /**
-     * Keyboard modifiers
+     * These properties must match properties on the emitted event.
      */
-    modifiers?: ReactionCodeModifiers;
+    [key: string]: any;
+}
+
+/**
+ * Configured hook that triggers a reaction event listener.
+ */
+export interface ReactionEventBinding extends ReactionMethodOptions {
+    /**
+     * When element to listen for events.
+     */
+    source: ReactionSourceType;
+
+    /**
+     * The properties of this event object must match the emitted eveng.
+     */
+    event: ReactionEventMatcher;
 
     /**
      * Method to be triggered
      */
     method: ReactionEventHandler;
 }
-
-export type ReactionConstructor = { new(...args: any[]): any, __REACTION__?: ReactionProperties };
-export type ReactionClassDecorator = (ReactionConstructor) => ReactionConstructor;

@@ -66,7 +66,8 @@ export function reactionMethod(type: string, options: ReactionMethodOptions): Me
             reactionCodeParser(type).forEach(code => {
                 target.__REACTION__.push({
                     ...options,
-                    ...code,
+                    source: code.source,
+                    event: code.event,
                     method: target[methodName]
                 });
             });
