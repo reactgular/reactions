@@ -1,8 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 import {ReactionCoreService} from './reaction-core.service';
 import {ReactionEvent} from '../../core/reaction-event/reaction-event';
-import {REACTION_CODE_MODIFIERS} from '../../core/reaction-code-parser/reaction-code-types';
-import {ReactionObject} from '../../core/reaction/reaction-types';
+import {REACTION_CODE_MODIFIERS, ReactionObject} from '../../core/reaction-types';
 
 describe(ReactionCoreService.name, () => {
     describe('events', () => {

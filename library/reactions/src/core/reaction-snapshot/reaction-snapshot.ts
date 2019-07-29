@@ -9,7 +9,7 @@ import {ReactionStyleSnapshot} from '../reaction/reaction-style';
 import {ReactionTitleSnapshot} from '../reaction/reaction-title';
 import {ReactionTooltipSnapshot} from '../reaction/reaction-tooltip';
 import {ReactionVisibleSnapshot} from '../reaction/reaction-visible';
-import {ReactionObject} from '../reaction/reaction-types';
+import {ReactionObject} from '../reaction-types';
 
 /**
  * A snapshot of the reaction state.

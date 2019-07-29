@@ -3,7 +3,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {ReactionModelDirective} from '../reaction-model/reaction-model.directive';
 import {ReactionTextComponent} from './reaction-text.component';
-import {ReactionObject} from '../../core/reaction/reaction-types';
+import {ReactionObject} from '../../core/reaction-types';
 
 // noinspection AngularMissingOrInvalidDeclarationInModule
 @Component({

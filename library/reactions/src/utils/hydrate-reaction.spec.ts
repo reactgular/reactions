@@ -1,6 +1,6 @@
 import {hydrateReaction} from './hydrate-reaction';
 import {Reaction} from '../core/reaction/reaction';
-import {ReactionConstructor, ReactionObject} from '../core/reaction/reaction-types';
+import {ReactionConstructor, ReactionObject} from '../core/reaction-types';
 
 describe(hydrateReaction.name, () => {
     it('should copy properties from constructor decorator', () => {

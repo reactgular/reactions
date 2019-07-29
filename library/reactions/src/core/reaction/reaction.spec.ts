@@ -1,6 +1,5 @@
 import {Reaction, reactionMetaData} from './reaction';
-import {REACTION_CODE_MODIFIERS} from '../reaction-code-parser/reaction-code-types';
-import {ReactionConstructor, ReactionEventBinding, ReactionObject} from './reaction-types';
+import {REACTION_CODE_MODIFIERS, ReactionConstructor, ReactionEventBinding, ReactionObject} from '../reaction-types';
 
 describe(reactionMetaData.name, () => {
     it('should attach meta data', () => {

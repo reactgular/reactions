@@ -3,7 +3,7 @@ import {fromEvent, merge, Observable} from 'rxjs';
 import {DOCUMENT} from '@angular/common';
 import {map, mapTo} from 'rxjs/operators';
 import {reactionCodeParser} from '../../core/reaction-code-parser/reaction-code-parser';
-import {ReactionCode} from '../../core/reaction-code-parser/reaction-code-types';
+import {ReactionCode} from '../../core/reaction-types';
 
 @Injectable({providedIn: 'root'})
 export class ReactionShortcutService {

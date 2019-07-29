@@ -1,7 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 import {ReactionShortcutService} from './reaction-shortcut.service';
-import {REACTION_CODE_MODIFIERS} from '../../core/reaction-code-parser/reaction-code-types';
 import {syncCaptureFirst} from '../../../tests/observable.helper';
+import {REACTION_CODE_MODIFIERS} from '../../core/reaction-types';
 
 describe(ReactionShortcutService.name, () => {
     let service: ReactionShortcutService;

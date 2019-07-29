@@ -1,7 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {ReactionObject} from '../../core/reaction/reaction-types';
 import {Observable} from 'rxjs';
 import {reactionSort} from '../../core/reaction-sort/reaction-sort';
+import {ReactionObject} from '../../core/reaction-types';
 
 @Pipe({name: 'reactionSort$', pure: true})
 export class ReactionSortPipe implements PipeTransform {

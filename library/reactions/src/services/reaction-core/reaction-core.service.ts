@@ -4,8 +4,8 @@ import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {catchError, defaultIfEmpty, distinctUntilChanged, first, map, mapTo, takeUntil} from 'rxjs/operators';
 import {ReactionEvent} from '../../core/reaction-event/reaction-event';
 import {disabledWhen} from '../../utils/observables';
-import {ReactionObject} from '../../core/reaction/reaction-types';
 import {ReactionShortcutService} from '../reaction-shortcut/reaction-shortcut.service';
+import {ReactionObject} from '../../core/reaction-types';
 
 /**
  * UI events are broadcast from this service and reactions can act upon those events. Events are things like mouse events, keyboard

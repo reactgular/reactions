@@ -1,12 +1,6 @@
-import {REACTION_CODE_MODIFIERS, ReactionCodeModifiers} from './reaction-code-types';
-import {
-    isCodeModifier,
-    reactionCodeParser,
-    reactionCodeToken,
-    reactionKeyModifiers,
-    reactionRemoveModifiers,
-    rewriteValue
-} from './reaction-code-parser';
+import {REACTION_CODE_MODIFIERS, ReactionCodeModifiers} from '../reaction-types';
+import {reactionCodeParser} from './reaction-code-parser';
+import {reactionCodeEventType} from './reaction-code-creator';
 
 const m: ReactionCodeModifiers = REACTION_CODE_MODIFIERS;
 
@@ -64,112 +58,41 @@ describe(reactionCodeParser.name, () => {
     });
 });
 
-describe(reactionCodeToken.name, () => {
-    it('should be a modifier', () => {
-        expect(reactionCodeToken('ctrl')).toEqual({type: 'modifier', value: 'ctrl'});
-        expect(reactionCodeToken('alt')).toEqual({type: 'modifier', value: 'alt'});
-        expect(reactionCodeToken('meta')).toEqual({type: 'modifier', value: 'meta'});
-    });
-
-    it('should not be a modifier', () => {
-        expect(reactionCodeToken('m')).toEqual({type: 'type', value: 'm'});
-        expect(reactionCodeToken('esc')).toEqual({type: 'type', value: 'esc'});
-        expect(reactionCodeToken('backspace')).toEqual({type: 'type', value: 'backspace'});
-    });
-});
-
-describe(isCodeModifier.name, () => {
-    it('should be true', () => {
-        expect(isCodeModifier('CTRL')).toBe(true, 'ctrl');
-        expect(isCodeModifier('ALT')).toBe(true, 'alt');
-        expect(isCodeModifier('META')).toBe(true, 'meta');
-    });
-
-    it('should be false', () => {
-        expect(isCodeModifier('ESC')).toBe(false, 'ESC');
-        expect(isCodeModifier('CLICK')).toBe(false, 'CLICK');
-        expect(isCodeModifier('BECTRL')).toBe(false, 'BECTRL');
-        expect(isCodeModifier('SHIFTING')).toBe(false, 'SHIFTING');
-        expect(isCodeModifier('MALT')).toBe(false, 'MALT');
-        expect(isCodeModifier('METAS')).toBe(false, 'METAS');
-    });
-});
-
-describe(rewriteValue.name, () => {
-    it('should rewrite values', () => {
-        expect(rewriteValue('delete')).toBe('del');
-        expect(rewriteValue('escape')).toBe('esc');
-        expect(rewriteValue('back')).toBe('backspace');
-        expect(rewriteValue('cmd')).toBe('meta');
-        expect(rewriteValue('command')).toBe('meta');
-        expect(rewriteValue('doubleclick')).toBe('dblclick');
-        expect(rewriteValue('control')).toBe('ctrl');
-    });
-
-    it('should not rewrite values', () => {
-        expect(rewriteValue('del')).toBe('del');
-        expect(rewriteValue('esc')).toBe('esc');
-        expect(rewriteValue('backspace')).toBe('backspace');
-        expect(rewriteValue('meta')).toBe('meta');
-        expect(rewriteValue('dblclick')).toBe('dblclick');
-    });
-});
-
-describe(reactionRemoveModifiers.name, () => {
+describe(reactionCodeEventType.name, () => {
     it('should return type only', () => {
-        expect(reactionRemoveModifiers([
+        expect(reactionCodeEventType([
             {type: 'modifier', value: 'ctrl'},
-            {type: 'type', value: 'm'}
+            {type: 'type', value: 'm'},
+            {type: 'source', value: 'document'}
         ])).toEqual('m');
-        expect(reactionRemoveModifiers([
+        expect(reactionCodeEventType([
             {type: 'modifier', value: 'ctrl'},
             {type: 'type', value: 'm'},
             {type: 'modifier', value: 'alt'}
         ])).toEqual('m');
-        expect(reactionRemoveModifiers([
+        expect(reactionCodeEventType([
             {type: 'type', value: 'm'},
             {type: 'modifier', value: 'alt'}
         ])).toEqual('m');
-        expect(reactionRemoveModifiers([
+        expect(reactionCodeEventType([
             {type: 'modifier', value: 'ctrl'},
             {type: 'type', value: 'a'},
             {type: 'type', value: 'b'}
         ])).toEqual('a b');
-        expect(reactionRemoveModifiers([
-            {type: 'type', value: 'm'}
+        expect(reactionCodeEventType([
+            {type: 'type', value: 'm'},
+            {type: 'source', value: 'element'}
         ])).toEqual('m');
     });
 
     it('should return empty string', () => {
-        expect(reactionRemoveModifiers([])).toEqual('');
-        expect(reactionRemoveModifiers([
+        expect(reactionCodeEventType([])).toEqual('');
+        expect(reactionCodeEventType([
             {type: 'modifier', value: 'ctrl'}
         ])).toEqual('');
-        expect(reactionRemoveModifiers([
+        expect(reactionCodeEventType([
             {type: 'modifier', value: 'ctrl'},
             {type: 'modifier', value: 'alt'}
         ])).toEqual('');
-    });
-});
-
-describe(reactionKeyModifiers.name, () => {
-    it('should return modifiers', () => {
-        expect(reactionKeyModifiers([{type: 'modifier', value: 'ctrl'}])).toEqual({...m, ctrlKey: true});
-        expect(reactionKeyModifiers([{type: 'modifier', value: 'alt'}])).toEqual({...m, altKey: true});
-        expect(reactionKeyModifiers([{type: 'modifier', value: 'meta'}])).toEqual({...m, metaKey: true});
-        expect(reactionKeyModifiers([
-            {type: 'modifier', value: 'ctrl'},
-            {type: 'modifier', value: 'alt'},
-            {type: 'modifier', value: 'meta'}
-        ])).toEqual({ctrlKey: true, altKey: true, metaKey: true});
-    });
-
-    it('should throw for unknown modifiers', () => {
-        expect(() => reactionKeyModifiers([{type: 'modifier', value: 'unknown'}])).toThrow(new Error('Unsupported modifier'))
-    });
-
-    it('should return default modifiers', () => {
-        expect(reactionKeyModifiers([])).toEqual(m);
-        expect(reactionKeyModifiers([{type: 'type', value: 'm'}])).toEqual(m);
     });
 });

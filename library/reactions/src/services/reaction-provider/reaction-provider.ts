@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs';
-import {ReactionObject} from '../../core/reaction/reaction-types';
 import {ReactionSnapshot, toReactionSnapshot} from '../../core/reaction-snapshot/reaction-snapshot';
 import {ReactionState, toReactionState} from '../../core/reaction-state/reaction-state';
 import {distinctUntilChanged, filter, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {hydrateReaction} from '../../utils/hydrate-reaction';
+import {ReactionObject} from '../../core/reaction-types';
 
 @Injectable()
 export class ReactionProvider {

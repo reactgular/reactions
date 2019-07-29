@@ -1,105 +1,14 @@
-import {REACTION_CODE_MODIFIERS, ReactionCode, ReactionCodeModifiers} from './reaction-code-types';
+import {ReactionCode} from '../reaction-types';
+import {reactionCodeTokenizer} from './reaction-code-tokenizer';
+import {reactionCodeCreator} from './reaction-code-creator';
 
 /**
- * Reaction codes are parsed into tokens.
- */
-interface ReactionCodeToken {
-    /**
-     * Type of token
-     */
-    type: 'modifier' | 'type';
-
-    /**
-     * Token value
-     */
-    value: string;
-}
-
-/**
- * Expects one or mode code strings like "click, ctrl+n"
+ * Expects one or mode code strings like "click, ctrl+n, key:Escape"
  */
 export const reactionCodeParser = (codes: string): ReactionCode[] =>
-    codes.split(',').map(reactionCodeTokens).map(reactionCode);
+    codes
+        .replace(/\s/g, '')
+        .split(',')
+        .map(reactionCodeTokenizer)
+        .map(reactionCodeCreator);
 
-/**
- * Converts a string of reaction codes into a collection of code tokens. A reaction code looks like "ctrl+m" and you can
- * define multiple codes using a "," separator.
- */
-const reactionCodeTokens = (str: string): ReactionCodeToken[] => str
-    .trim()
-    .replace(/\s/g, '')
-    .split('+')
-    .map(rewriteValue)
-    .map(reactionCodeToken);
-
-/**
- * Converts a collection of tokens into a parsed reaction code.
- */
-const reactionCode = (tokens: ReactionCodeToken[]): ReactionCode =>
-    ({
-        source: 'element',
-        event: {
-            type: reactionRemoveModifiers(tokens),
-            ...reactionKeyModifiers(tokens)
-        }
-    });
-
-/**
- * Converts a single reaction code string to a token.
- */
-export const reactionCodeToken = (value: string): ReactionCodeToken =>
-    ({type: isCodeModifier(value) ? 'modifier' : 'type', value});
-
-/**
- * True if the string is a keyboard modifier.
- */
-export const isCodeModifier = (value: string): boolean => Boolean(value.match(/^(ctrl|alt|meta)$/i));
-
-/**
- * Rewrites reaction code values.
- */
-export function rewriteValue(value: string): string {
-    // a map would be faster, but won't show as untested in coverage report when a key is added.
-    if (value === 'delete') {
-        return 'del';
-    } else if (value === 'escape') {
-        return 'esc';
-    } else if (value === 'back') {
-        return 'backspace';
-    } else if (value === 'cmd' || value === 'command') {
-        return 'meta'
-    } else if (value === 'doubleclick') {
-        return 'dblclick';
-    } else if (value === 'control') {
-        return 'ctrl';
-    }
-    return value;
-}
-
-/**
- * Returns the type code with modifiers removed.
- */
-export function reactionRemoveModifiers(tokens: ReactionCodeToken[]): string {
-    return tokens
-        .filter(token => token.type === 'type')
-        .map(token => token.value)
-        .join(' ');
-}
-
-/**
- * Parses the key modifiers for a string. For example; CTRL+N
- */
-export function reactionKeyModifiers(tokens: ReactionCodeToken[]): ReactionCodeModifiers {
-    return tokens
-        .filter(token => token.type === 'modifier')
-        .reduce((acc: ReactionCodeModifiers, token: ReactionCodeToken) => {
-            if (token.value === 'ctrl') {
-                return {...acc, ctrlKey: true};
-            } else if (token.value === 'alt') {
-                return {...acc, altKey: true};
-            } else if (token.value === 'meta') {
-                return {...acc, metaKey: true};
-            }
-            throw new Error('Unsupported modifier');
-        }, REACTION_CODE_MODIFIERS);
-}

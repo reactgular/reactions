@@ -1,7 +1,6 @@
 import {Observable} from 'rxjs';
-import {ReactionProperty} from '../reaction-types';
+import {ReactionObject, ReactionProperty} from '../reaction-types';
 import {toReactionValue} from '../../utils/reaction-value';
-import {ReactionObject} from './reaction-types';
 
 /**
  * Tooltip settings for a reaction.

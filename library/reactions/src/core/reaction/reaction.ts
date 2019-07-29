@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {reactionCodeParser} from '../reaction-code-parser/reaction-code-parser';
-import {ReactionClassDecorator, ReactionClassOptions, ReactionConstructor, ReactionMethodOptions, ReactionObject} from './reaction-types';
+import {ReactionClassDecorator, ReactionClassOptions, ReactionConstructor, ReactionMethodOptions, ReactionObject} from '../reaction-types';
 
 /**
  * Reaction decorator for classes.
