@@ -27,14 +27,18 @@ describe(reactionCodeEventType.name, () => {
     it('should assume lowercase words are event type', () => {
         expect(reactionCodeEventType([l('click')])).toEqual('click');
         expect(reactionCodeEventType([l('dblclick')])).toEqual('dblclick');
-        expect(reactionCodeEventType([l('Enter')])).toEqual('keyup');
-        expect(reactionCodeEventType([l('Delete')])).toEqual('keyup');
+        expect(reactionCodeEventType([l('mousemove')])).toEqual('mousemove');
+        expect(reactionCodeEventType([l('blur')])).toEqual('blur');
     });
 
-    it('should return empty string', () => {
-        expect(reactionCodeEventType([])).toEqual('');
-        expect(reactionCodeEventType([TOKEN_CTRL])).toEqual('');
-        expect(reactionCodeEventType([TOKEN_CTRL, TOKEN_ALT])).toEqual('');
-        expect(reactionCodeEventType([TOKEN_DOCUMENT, TOKEN_CTRL, TOKEN_ALT])).toEqual('');
+    it('should throw an error if type can not be inferred', () => {
+        expect(() => reactionCodeEventType([])).toThrow();
+        expect(() => reactionCodeEventType([TOKEN_CTRL])).toThrow();
+        expect(() => reactionCodeEventType([TOKEN_CTRL, TOKEN_ALT])).toThrow();
+    });
+
+    it('should not throw an error is the source is document', () => {
+        expect(() => reactionCodeEventType([TOKEN_DOCUMENT])).not.toThrow();
+        expect(reactionCodeEventType([TOKEN_DOCUMENT])).toEqual('keyup');
     });
 });
