@@ -1,39 +1,31 @@
-import {isCodeModifier, reactionCodeToken, ReactionCodeTypeEnum} from './reaction-code-tokenizer';
-import {TOKEN_ALT, TOKEN_CTRL, TOKEN_META} from '../../../tests/reaction-code-token.helper';
+import {reactionCodeCreator} from './reaction-code-creator';
+import {TOKEN_CTRL, TOKEN_DOCUMENT} from '../../../tests/reaction-code-token.helper';
+import {ReactionCodeTypeEnum} from './reaction-code-tokenizer';
+import {REACTION_CODE_MODIFIERS, ReactionCodeModifiers} from '../reaction-types';
 
-describe(reactionCodeToken.name, () => {
-    it('should be a modifier', () => {
-        expect(reactionCodeToken('ctrl')).toEqual(TOKEN_CTRL);
-        expect(reactionCodeToken('alt')).toEqual(TOKEN_ALT);
-        expect(reactionCodeToken('meta')).toEqual(TOKEN_META);
+const m: ReactionCodeModifiers = REACTION_CODE_MODIFIERS;
+const l = (value) => ({type: ReactionCodeTypeEnum.LITERAL, value});
+
+describe(reactionCodeCreator.name, () => {
+
+    it('should set the source to document and key', () => {
+        expect(reactionCodeCreator([TOKEN_DOCUMENT, l('Escape')])).toEqual({
+            source: 'document',
+            event: {...m, type: 'keyup', key: 'Escape'}
+        })
     });
 
-    it('should not be a modifier', () => {
-        expect(reactionCodeToken('m')).toEqual({type: ReactionCodeTypeEnum.LITERAL, value: 'm'});
-        expect(reactionCodeToken('esc')).toEqual({type: ReactionCodeTypeEnum.LITERAL, value: 'esc'});
-        expect(reactionCodeToken('backspace')).toEqual({type: ReactionCodeTypeEnum.LITERAL, value: 'backspace'});
-    });
-});
-
-describe(isCodeModifier.name, () => {
-    it('should be true', () => {
-        expect(isCodeModifier('ctrl')).toBe(true, 'ctrl');
-        expect(isCodeModifier('alt')).toBe(true, 'alt');
-        expect(isCodeModifier('meta')).toBe(true, 'meta');
+    it('should set the source to element', () => {
+        expect(reactionCodeCreator([l('click')])).toEqual({
+            source: 'element',
+            event: {...m, type: 'click'}
+        })
     });
 
-    it('should be false', () => {
-        expect(isCodeModifier('ESC')).toBe(false, 'ESC');
-        expect(isCodeModifier('CLICK')).toBe(false, 'CLICK');
-        expect(isCodeModifier('BECTRL')).toBe(false, 'BECTRL');
-        expect(isCodeModifier('SHIFTING')).toBe(false, 'SHIFTING');
-        expect(isCodeModifier('MALT')).toBe(false, 'MALT');
-        expect(isCodeModifier('METAS')).toBe(false, 'METAS');
-    });
-
-    it('should be case sensitive', () => {
-        expect(isCodeModifier('CTRL')).toBe(false, 'CTRL');
-        expect(isCodeModifier('ALT')).toBe(false, 'ALT');
-        expect(isCodeModifier('META')).toBe(false, 'META');
+    it('should set the modifiers', () => {
+        expect(reactionCodeCreator([TOKEN_DOCUMENT, TOKEN_CTRL, l('Escape')])).toEqual({
+            source: 'document',
+            event: {...m, type: 'keyup', key: 'Escape', ctrlKey: true}
+        })
     });
 });
