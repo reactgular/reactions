@@ -1,5 +1,4 @@
 import {reactionCodeRewrite} from './reaction-code-rewrite';
-import {reactionCodeToken} from './reaction-code-creator';
 
 export enum ReactionCodeTypeEnum {
     /**
@@ -32,11 +31,13 @@ export interface ReactionCodeToken {
 }
 
 /**
- * Parsers a code string into a collection code tokens.
- *
- * @todo This should more accurately set the source token. Right now it's just a default.
+ * Parses a code string into a collection code tokens.
  */
-export const reactionCodeTokenizer = (code: string): ReactionCodeToken[] => ([reactionSourceToken(code), ...reactionCodeToTokens(code)]);
+export const reactionCodeTokenizer = (code: string): ReactionCodeToken[] => {
+    const source = reactionSourceToken(code);
+    const tokens = reactionCodeToTokens(code);
+    return source ? [source, ...tokens] : tokens;
+};
 
 /**
  * The source defines where events will be emitted from. All keyboard shortcuts are
@@ -44,8 +45,13 @@ export const reactionCodeTokenizer = (code: string): ReactionCodeToken[] => ([re
  * the default is set to element. The final source selected depends on what other
  * tokens exist in the code expression.
  */
-export const reactionSourceToken = (str: string): ReactionCodeToken =>
-    ({type: ReactionCodeTypeEnum.SOURCE, value: str.startsWith('key:') ? 'document' : 'element'});
+export const reactionSourceToken = (str: string): ReactionCodeToken | void => {
+    if (str.startsWith('key:')) {
+        return {type: ReactionCodeTypeEnum.SOURCE, value: 'document'};
+    } else if (str.startsWith('el:')) {
+        return {type: ReactionCodeTypeEnum.SOURCE, value: 'element'};
+    }
+};
 
 /**
  * The source prefix is stripped and codes split on the plus character. Common
@@ -57,3 +63,14 @@ export const reactionCodeToTokens = (str: string): ReactionCodeToken[] => str
     .split('+')
     .map(reactionCodeRewrite)
     .map(reactionCodeToken);
+
+/**
+ * Converts a single reaction code string to a token.
+ */
+export const reactionCodeToken = (value: string): ReactionCodeToken =>
+    ({type: isCodeModifier(value) ? ReactionCodeTypeEnum.MODIFIER : ReactionCodeTypeEnum.LITERAL, value});
+
+/**
+ * True if the string is a keyboard modifier.
+ */
+export const isCodeModifier = (value: string): boolean => value === 'ctrl' || value === 'alt' || value === 'meta';

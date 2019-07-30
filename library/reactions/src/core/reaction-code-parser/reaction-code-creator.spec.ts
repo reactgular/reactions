@@ -1,11 +1,11 @@
-import {isCodeModifier, reactionCodeToken} from './reaction-code-creator';
-import {ReactionCodeTypeEnum} from './reaction-code-tokenizer';
+import {isCodeModifier, reactionCodeToken, ReactionCodeTypeEnum} from './reaction-code-tokenizer';
+import {TOKEN_ALT, TOKEN_CTRL, TOKEN_META} from '../../../tests/reaction-code-token.helper';
 
 describe(reactionCodeToken.name, () => {
     it('should be a modifier', () => {
-        expect(reactionCodeToken('ctrl')).toEqual({type: ReactionCodeTypeEnum.MODIFIER, value: 'ctrl'});
-        expect(reactionCodeToken('alt')).toEqual({type: ReactionCodeTypeEnum.MODIFIER, value: 'alt'});
-        expect(reactionCodeToken('meta')).toEqual({type: ReactionCodeTypeEnum.MODIFIER, value: 'meta'});
+        expect(reactionCodeToken('ctrl')).toEqual(TOKEN_CTRL);
+        expect(reactionCodeToken('alt')).toEqual(TOKEN_ALT);
+        expect(reactionCodeToken('meta')).toEqual(TOKEN_META);
     });
 
     it('should not be a modifier', () => {
@@ -17,9 +17,9 @@ describe(reactionCodeToken.name, () => {
 
 describe(isCodeModifier.name, () => {
     it('should be true', () => {
-        expect(isCodeModifier('CTRL')).toBe(true, 'ctrl');
-        expect(isCodeModifier('ALT')).toBe(true, 'alt');
-        expect(isCodeModifier('META')).toBe(true, 'meta');
+        expect(isCodeModifier('ctrl')).toBe(true, 'ctrl');
+        expect(isCodeModifier('alt')).toBe(true, 'alt');
+        expect(isCodeModifier('meta')).toBe(true, 'meta');
     });
 
     it('should be false', () => {
@@ -29,5 +29,11 @@ describe(isCodeModifier.name, () => {
         expect(isCodeModifier('SHIFTING')).toBe(false, 'SHIFTING');
         expect(isCodeModifier('MALT')).toBe(false, 'MALT');
         expect(isCodeModifier('METAS')).toBe(false, 'METAS');
+    });
+
+    it('should be case sensitive', () => {
+        expect(isCodeModifier('CTRL')).toBe(false, 'CTRL');
+        expect(isCodeModifier('ALT')).toBe(false, 'ALT');
+        expect(isCodeModifier('META')).toBe(false, 'META');
     });
 });

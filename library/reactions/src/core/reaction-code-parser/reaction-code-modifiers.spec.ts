@@ -1,19 +1,17 @@
 import {reactionCodeModifiers} from './reaction-code-modifiers';
 import {ReactionCodeTypeEnum} from './reaction-code-tokenizer';
 import {REACTION_CODE_MODIFIERS, ReactionCodeModifiers} from '../reaction-types';
+import {TOKEN_ALT, TOKEN_CTRL, TOKEN_META} from '../../../tests/reaction-code-token.helper';
 
 const m: ReactionCodeModifiers = REACTION_CODE_MODIFIERS;
 
 describe(reactionCodeModifiers.name, () => {
-    const ctrl = {type: ReactionCodeTypeEnum.MODIFIER, value: 'ctrl'};
-    const alt = {type: ReactionCodeTypeEnum.MODIFIER, value: 'alt'};
-    const meta = {type: ReactionCodeTypeEnum.MODIFIER, value: 'meta'};
-
     it('should return modifiers', () => {
-        expect(reactionCodeModifiers([ctrl])).toEqual({...m, ctrlKey: true});
-        expect(reactionCodeModifiers([alt])).toEqual({...m, altKey: true});
-        expect(reactionCodeModifiers([meta])).toEqual({...m, metaKey: true});
-        expect(reactionCodeModifiers([ctrl, alt, meta])).toEqual({ctrlKey: true, altKey: true, metaKey: true});
+        expect(reactionCodeModifiers([TOKEN_CTRL])).toEqual({...m, ctrlKey: true});
+        expect(reactionCodeModifiers([TOKEN_ALT])).toEqual({...m, altKey: true});
+        expect(reactionCodeModifiers([TOKEN_META])).toEqual({...m, metaKey: true});
+        expect(reactionCodeModifiers([TOKEN_CTRL, TOKEN_META])).toEqual({...m, ctrlKey: true, metaKey: true});
+        expect(reactionCodeModifiers([TOKEN_CTRL, TOKEN_ALT, TOKEN_META])).toEqual({ctrlKey: true, altKey: true, metaKey: true});
     });
 
     it('should throw for unknown modifiers', () => {

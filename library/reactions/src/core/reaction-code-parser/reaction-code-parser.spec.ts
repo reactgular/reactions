@@ -1,6 +1,5 @@
 import {REACTION_CODE_MODIFIERS, ReactionCodeModifiers} from '../reaction-types';
 import {reactionCodeParser} from './reaction-code-parser';
-import {reactionCodeEventType} from './reaction-code-creator';
 
 const m: ReactionCodeModifiers = REACTION_CODE_MODIFIERS;
 
@@ -55,44 +54,5 @@ describe(reactionCodeParser.name, () => {
             source: 'element',
             event: {...m, type: 'keyup', key: 'mouse house click', ctrlKey: true, altKey: true}
         }]);
-    });
-});
-
-describe(reactionCodeEventType.name, () => {
-    it('should return type only', () => {
-        expect(reactionCodeEventType([
-            {type: 'modifier', value: 'ctrl'},
-            {type: 'type', value: 'm'},
-            {type: 'source', value: 'document'}
-        ])).toEqual('m');
-        expect(reactionCodeEventType([
-            {type: 'modifier', value: 'ctrl'},
-            {type: 'type', value: 'm'},
-            {type: 'modifier', value: 'alt'}
-        ])).toEqual('m');
-        expect(reactionCodeEventType([
-            {type: 'type', value: 'm'},
-            {type: 'modifier', value: 'alt'}
-        ])).toEqual('m');
-        expect(reactionCodeEventType([
-            {type: 'modifier', value: 'ctrl'},
-            {type: 'type', value: 'a'},
-            {type: 'type', value: 'b'}
-        ])).toEqual('a b');
-        expect(reactionCodeEventType([
-            {type: 'type', value: 'm'},
-            {type: 'source', value: 'element'}
-        ])).toEqual('m');
-    });
-
-    it('should return empty string', () => {
-        expect(reactionCodeEventType([])).toEqual('');
-        expect(reactionCodeEventType([
-            {type: 'modifier', value: 'ctrl'}
-        ])).toEqual('');
-        expect(reactionCodeEventType([
-            {type: 'modifier', value: 'ctrl'},
-            {type: 'modifier', value: 'alt'}
-        ])).toEqual('');
     });
 });
