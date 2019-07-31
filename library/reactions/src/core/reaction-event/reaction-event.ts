@@ -17,11 +17,6 @@ export class ReactionEvent {
     public readonly id: number;
 
     /**
-     * The type of event is used to match this object to a method listener on the reaction object.
-     */
-    public readonly type: string;
-
-    /**
      * The reaction associated with the event.
      */
     public readonly reaction: ReactionObject;
@@ -34,21 +29,19 @@ export class ReactionEvent {
     /**
      * The original event that triggered this event.
      */
-    private readonly _payload?: any;
+    private readonly _event: Event;
 
     /**
      * Constructor
      */
     public constructor(id: number,
-                       type: string,
                        reaction: ReactionObject,
-                       payload: any,
+                       event: Event,
                        el?: ElementRef<HTMLElement>,
                        view?: ViewContainerRef) {
         this.id = id;
-        this.type = type;
         this.reaction = hydrateReaction(reaction);
-        this._payload = payload;
+        this._event = event;
         this.el = el;
         this.view = view;
     }
@@ -56,7 +49,7 @@ export class ReactionEvent {
     /**
      * The original event that triggered this event.
      */
-    public payload<TType>(): TType {
-        return this._payload as TType;
+    public event<TType extends Event>(): TType {
+        return this._event as TType;
     }
 }

@@ -1,8 +1,8 @@
-import {combineEvents} from './combine-events';
+import {reactionEventObservable} from './reaction-event-observable';
 import {ElementRef} from '@angular/core';
 import {fakeAsync, flush, tick} from '@angular/core/testing';
 
-describe(combineEvents.name, () => {
+describe(reactionEventObservable.name, () => {
     it('should call preventDefault on events', () => {
         const event = {
             preventDefault: jasmine.createSpy('preventDefault')
@@ -14,7 +14,7 @@ describe(combineEvents.name, () => {
         } as any as HTMLElement;
 
         const events = [];
-        const s = combineEvents(new ElementRef(el), [{
+        const s = reactionEventObservable(new ElementRef(el), [{
             source: 'element',
             event: {type: 'click'},
             method: x => (x)
@@ -41,7 +41,7 @@ describe(combineEvents.name, () => {
         } as any as HTMLElement;
 
         const events: CustomEvent[] = [];
-        const s = combineEvents(new ElementRef(el), [{
+        const s = reactionEventObservable(new ElementRef(el), [{
             debounce: 1000,
             source: 'element',
             event: {type: 'click'},

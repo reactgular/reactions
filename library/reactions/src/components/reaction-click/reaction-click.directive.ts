@@ -3,8 +3,9 @@ import {Subject} from 'rxjs';
 import {ReactionCoreService} from '../../services/reaction-core/reaction-core.service';
 import {switchMap, takeUntil} from 'rxjs/operators';
 import {disabledWhen, withSwitchMap} from '../../utils/observables';
-import {combineEvents} from '../../utils/combine-events';
+import {reactionEventObservable} from '../../core/reaction-event/reaction-event-observable';
 import {ReactionProvider} from '../../services/reaction-provider/reaction-provider';
+import {ReactionObject} from '../../core/reaction-types';
 
 @Directive({selector: '[rgReactionClick]'})
 export class ReactionClickDirective implements OnInit, OnDestroy {
@@ -39,9 +40,12 @@ export class ReactionClickDirective implements OnInit, OnDestroy {
         );
 
         this._reactionProvider.reaction$.pipe(
-            withSwitchMap(reaction => combineEvents(this._el, reaction.__REACTION__)),
+            withSwitchMap((reaction: ReactionObject) => reactionEventObservable(
+                this._el.nativeElement,
+                reaction.__REACTION__.filter(hook => hook.source === 'element')
+            )),
             disabledWhen(disabled$),
             takeUntil(this.destroyed$)
-        ).subscribe(([reaction, event]) => this._reactionCore.broadcast(reaction, event.type, event, this._el, this._view));
+        ).subscribe(([reaction, event]) => this._reactionCore.broadcast(reaction, event, this._el, this._view));
     }
 }

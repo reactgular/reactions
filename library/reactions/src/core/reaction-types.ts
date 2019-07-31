@@ -83,11 +83,6 @@ export interface ReactionClassOptions extends ReactionProperties {
  */
 export interface ReactionProperties extends Object {
     /**
-     * A map of codes to event listeners. These will be converted into hooks.
-     */
-    events?: { [code: string]: (event: ReactionEventMatcher) => void };
-
-    /**
      * A dynamic reaction value.
      */
     [name: string]: ReactionProperty<any>;
