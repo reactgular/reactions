@@ -14,7 +14,7 @@ describe(reactionEventObservable.name, () => {
         } as any as HTMLElement;
 
         const events = [];
-        const s = reactionEventObservable(new ElementRef(el), [{
+        const s = reactionEventObservable(el, [{
             source: 'element',
             event: {type: 'click'},
             method: x => (x)
@@ -41,7 +41,7 @@ describe(reactionEventObservable.name, () => {
         } as any as HTMLElement;
 
         const events: CustomEvent[] = [];
-        const s = reactionEventObservable(new ElementRef(el), [{
+        const s = reactionEventObservable(el, [{
             debounce: 1000,
             source: 'element',
             event: {type: 'click'},
