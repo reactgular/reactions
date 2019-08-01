@@ -15,7 +15,7 @@ class ClassFixture {
         // noinspection AngularMissingOrInvalidDeclarationInModule
         @Component({
             selector: 'rg-reaction-proxy',
-            template: '<button [reaction]="reaction" rgReactionClass></button>'
+            template: '<button [rgReaction]="reaction" rgReactionClass></button>'
         })
         class ReactionProxyComponent {
             public reaction = reaction;

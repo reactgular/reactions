@@ -7,7 +7,7 @@ import {syncFirst} from '../../../tests/observable.helper';
 // noinspection AngularMissingOrInvalidDeclarationInModule
 @Component({
     selector: 'rg-reaction-model-proxy',
-    template: '<button #btn [reaction]="reaction"></button>'
+    template: '<button #btn [rgReaction]="reaction"></button>'
 })
 class ReactionModelProxyComponent {
     public reaction = {title: 'Create'};

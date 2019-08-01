@@ -31,7 +31,7 @@ class ClickFixture {
         // noinspection AngularMissingOrInvalidDeclarationInModule
         @Component({
             selector: 'rg-reaction-proxy',
-            template: '<button [reaction]="reaction" rgReactionClick></button>'
+            template: '<button [rgReaction]="reaction" rgReactionClick></button>'
         })
         class ReactionProxyComponent {
             public reaction = new ReactionObject();
