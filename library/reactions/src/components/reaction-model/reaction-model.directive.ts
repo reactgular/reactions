@@ -8,8 +8,7 @@ import {ReactionState} from '../../core/reaction-state/reaction-state';
  * Dependency provider for other components to gain access to the reaction object.
  */
 @Directive({
-    // tslint:disable-next-line:directive-selector
-    selector: '[reaction]',
+    selector: '[rgReaction]',
     providers: [ReactionProvider],
     exportAs: 'rgReaction'
 })
@@ -33,7 +32,7 @@ export class ReactionModelDirective {
     /**
      * Sets the reaction object. We use unknown to reduce warnings in templates.
      */
-    @Input('reaction')
+    @Input('rgReaction')
     public set reaction(reaction: unknown) {
         this._reactionProvider.set(reaction);
     }

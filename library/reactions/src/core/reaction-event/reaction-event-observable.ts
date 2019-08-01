@@ -12,7 +12,7 @@ export function reactionEventObservable(target: FromEventTarget<Event>, hooks: R
         .map(({event, debounce}) =>
             fromEvent<Event>(target, event.type).pipe(throttleTimeIf(Boolean(debounce), debounce))
         );
-    return merge<UIEvent>(...events$).pipe(
+    return merge<Event>(...events$).pipe(
         tap(event => event.preventDefault())
     );
 }
