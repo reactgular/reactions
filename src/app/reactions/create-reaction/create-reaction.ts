@@ -17,6 +17,5 @@ export class CreateReaction {
     @Reaction('click, ctrl+n')
     public click(event: ReactionEvent) {
         this._log.info({event});
-        throw new Error();
     }
 }

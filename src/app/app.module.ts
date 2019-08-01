@@ -7,7 +7,7 @@ import {DemoComponent} from './demo/demo.component';
 import {DemoCardComponent} from './demo-card/demo-card.component';
 import {LoggerModule} from '@reactgular/logger';
 import {environment} from '../environments/environment';
-import {ReactionClassModule, ReactionClickModule, ReactionTextModule} from '@reactgular/reactions';
+import {ReactionClassModule, ReactionClickModule, ReactionShortcutsModule, ReactionTextModule} from '@reactgular/reactions';
 
 @NgModule({
     imports: [
@@ -16,6 +16,7 @@ import {ReactionClassModule, ReactionClickModule, ReactionTextModule} from '@rea
         ReactiveFormsModule,
         MatButtonModule,
         LoggerModule.forRoot({enabled: !environment.production}),
+        ReactionShortcutsModule,
         ReactionClassModule,
         ReactionClickModule,
         ReactionTextModule
