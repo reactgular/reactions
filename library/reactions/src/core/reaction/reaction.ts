@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {reactionCodeParser} from '../reaction-code-parser/reaction-code-parser';
-import {ReactionClassDecorator, ReactionClassOptions, ReactionConstructor, ReactionMethodOptions, ReactionObject} from './reaction-types';
+import {ReactionClassDecorator, ReactionClassOptions, ReactionConstructor, ReactionMethodOptions, ReactionObject} from '../reaction-types';
 
 /**
  * Reaction decorator for classes.
@@ -66,7 +66,8 @@ export function reactionMethod(type: string, options: ReactionMethodOptions): Me
             reactionCodeParser(type).forEach(code => {
                 target.__REACTION__.push({
                     ...options,
-                    ...code,
+                    source: code.source,
+                    event: code.event,
                     method: target[methodName]
                 });
             });

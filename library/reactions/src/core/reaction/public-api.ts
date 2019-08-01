@@ -7,4 +7,3 @@ export {ReactionStyle, ReactionStyleSnapshot, ReactionStyleState} from './reacti
 export {ReactionTitle, ReactionTitleSnapshot, ReactionTitleState} from './reaction-title';
 export {ReactionTooltip, ReactionTooltipSnapshot, ReactionTooltipState} from './reaction-tooltip';
 export {ReactionVisible, ReactionVisibleSnapshot, ReactionVisibleState} from './reaction-visible';
-export * from './reaction-types';

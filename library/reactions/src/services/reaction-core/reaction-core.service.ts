@@ -1,11 +1,11 @@
 import {DOCUMENT} from '@angular/common';
 import {ElementRef, Inject, Injectable, OnDestroy, ViewContainerRef} from '@angular/core';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
-import {catchError, defaultIfEmpty, distinctUntilChanged, first, map, mapTo, takeUntil} from 'rxjs/operators';
+import {catchError, defaultIfEmpty, distinctUntilChanged, first, map, takeUntil} from 'rxjs/operators';
 import {ReactionEvent} from '../../core/reaction-event/reaction-event';
-import {disabledWhen} from '../../utils/observables';
-import {ReactionObject} from '../../core/reaction/reaction-types';
 import {ReactionShortcutService} from '../reaction-shortcut/reaction-shortcut.service';
+import {ReactionObject} from '../../core/reaction-types';
+import {reactionEventMatcher} from '../../core/reaction-event/reaction-event-matcher';
 
 /**
  * UI events are broadcast from this service and reactions can act upon those events. Events are things like mouse events, keyboard
@@ -19,6 +19,11 @@ export class ReactionCoreService implements OnDestroy {
     public readonly events$: Observable<ReactionEvent>;
 
     /**
+     * Emits if reactions are disabled.
+     */
+    public readonly disabled$: Observable<boolean>;
+
+    /**
      * Destruction event
      */
     private readonly _destroyed$: Subject<void> = new Subject();
@@ -27,14 +32,6 @@ export class ReactionCoreService implements OnDestroy {
      * Disabled when above zero. Increments and decrements to support nested disabling.
      */
     private readonly _disabled$: BehaviorSubject<number> = new BehaviorSubject(0);
-
-    /**
-     * Emits if reactions are disabled.
-     */
-    public readonly disabled$: Observable<boolean> = this._disabled$.pipe(
-        map(value => value > 0),
-        distinctUntilChanged()
-    );
 
     /**
      * Emitter of the events.
@@ -52,28 +49,14 @@ export class ReactionCoreService implements OnDestroy {
         );
         this.events$.pipe(
             takeUntil(this._destroyed$)
-        ).subscribe(event => {
-            const hook = event.reaction.__REACTION__.find(hook => hook.type === event.type);
-            if (hook) {
-                hook.method.apply(event.reaction, event);
-            }
+        ).subscribe((event: ReactionEvent) => {
+            event.reaction.__REACTION__
+                .filter(hook => reactionEventMatcher(event.event(), hook.event))
+                .map(hook => hook.method.call(event.reaction, event));
         });
-    }
-
-    /**
-     * Only emits the escape key when reactions are enabled. This prevents a popup dialog which listens for ESC to close
-     * from triggering behaviors elsewhere in the application on ESC.
-     *
-     * For example; you could select multiple items and then open a dialog to multi-edit those items. You would want the
-     * ESC key to close the dialog instead of deselecting the items.
-     *
-     * @todo Maybe a priority setting for binding to hotkeys would be better.
-     */
-    public get esc$(): Observable<void> {
-        return this._shortcut.esc$.pipe(
-            disabledWhen(this._disabled$.pipe(map(Boolean))),
-            mapTo(undefined),
-            takeUntil(this._destroyed$)
+        this.disabled$ = this._disabled$.pipe(
+            map(value => value > 0),
+            distinctUntilChanged()
         );
     }
 
@@ -146,7 +129,7 @@ export class ReactionCoreService implements OnDestroy {
     /**
      * Broadcasts the event to the application.
      */
-    public broadcast(reaction: ReactionObject, type: string, payload: any, el?: ElementRef<HTMLElement>, view?: ViewContainerRef) {
-        this._events$.next(new ReactionEvent(this._nextId++, type, reaction, payload, el, view));
+    public broadcast(reaction: ReactionObject, event: Event, el?: ElementRef<HTMLElement>, view?: ViewContainerRef) {
+        this._events$.next(new ReactionEvent(this._nextId++, reaction, event, el, view));
     }
 }

@@ -1,7 +1,6 @@
 import {Observable} from 'rxjs';
-import {ReactionProperty} from '../reaction-types';
+import {ReactionObject, ReactionProperty} from '../reaction-types';
 import {toReactionValue} from '../../utils/reaction-value';
-import {ReactionObject} from './reaction-types';
 
 /**
  * A display title for a reaction. All reactions should have a title. If none is provided then "n/a" will be the default.

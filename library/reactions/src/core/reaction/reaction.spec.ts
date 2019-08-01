@@ -1,6 +1,5 @@
-import {REACTION_CODE_MODIFIERS} from '../reaction-code-parser/reaction-code-types';
 import {Reaction, reactionMetaData} from './reaction';
-import {ReactionConstructor, ReactionEventBinding, ReactionObject} from './reaction-types';
+import {REACTION_CODE_MODIFIERS, ReactionConstructor, ReactionEventBinding, ReactionObject} from '../reaction-types';
 
 describe(reactionMetaData.name, () => {
     it('should attach meta data', () => {
@@ -41,11 +40,14 @@ describe(Reaction.name, () => {
         const reaction = new CreateDocument() as ReactionObject;
         expect(reaction.__REACTION__).toEqual([
             {
-                type: 'click',
-                modifiers: REACTION_CODE_MODIFIERS,
+                source: 'element',
+                event: {
+                    type: 'click',
+                    ...REACTION_CODE_MODIFIERS
+                },
                 method: reaction.click
             } as ReactionEventBinding
-        ]);
+        ])
     });
 
     it('should define a debounce', () => {
@@ -59,9 +61,12 @@ describe(Reaction.name, () => {
         const reaction = new CreateDocument() as ReactionObject;
         expect(reaction.__REACTION__).toEqual([
             {
+                source: 'element',
                 debounce: 100,
-                type: 'mousemove',
-                modifiers: REACTION_CODE_MODIFIERS,
+                event: {
+                    type: 'mousemove',
+                    ...REACTION_CODE_MODIFIERS
+                },
                 method: reaction.move
             } as ReactionEventBinding
         ]);

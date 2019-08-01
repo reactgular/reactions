@@ -1,9 +1,9 @@
-import {ReactionObject} from '../reaction/reaction-types';
 import {combineLatest, Observable, of} from 'rxjs';
 import {toReactionState} from '../reaction-state/reaction-state';
 import {map} from 'rxjs/operators';
 import {reactionSortCompare, ReactionSortCompare} from './reaction-sort-compare';
 import {reactionGroupNull} from './reaction-group-null';
+import {ReactionObject} from '../reaction-types';
 
 export const toSortCompares$ = (reactions: ReactionObject[]): Observable<ReactionSortCompare>[] => {
     return reactions.map(reaction => {

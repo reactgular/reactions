@@ -8,8 +8,8 @@ import {reactionStyleReducer, ReactionStyleState} from '../reaction/reaction-sty
 import {reactionTitleReducer, ReactionTitleState} from '../reaction/reaction-title';
 import {reactionTooltipReducer, ReactionTooltipState} from '../reaction/reaction-tooltip';
 import {reactionVisibleReducer, ReactionVisibleState} from '../reaction/reaction-visible';
-import {ReactionObject} from '../reaction/reaction-types';
 import {hydrateReaction} from '../../utils/hydrate-reaction';
+import {ReactionObject} from '../reaction-types';
 
 /**
  * Combines all the states into a single interface.

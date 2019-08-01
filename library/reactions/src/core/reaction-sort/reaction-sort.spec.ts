@@ -2,7 +2,7 @@ import {mapSortComparesToReaction, reactionSort, toSortCompares$} from './reacti
 import {syncFirst} from '../../../tests/observable.helper';
 import {ReactionSortCompare} from './reaction-sort-compare';
 import {Observable} from 'rxjs';
-import {ReactionObject} from '../reaction/reaction-types';
+import {ReactionObject} from '../reaction-types';
 
 describe(toSortCompares$.name, () => {
     it('should convert reaction objects to sortable objects', () => {

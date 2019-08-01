@@ -1,8 +1,18 @@
 import {TestBed} from '@angular/core/testing';
 import {ReactionCoreService} from './reaction-core.service';
 import {ReactionEvent} from '../../core/reaction-event/reaction-event';
-import {REACTION_CODE_MODIFIERS} from '../../core/reaction-code-parser/reaction-code-types';
-import {ReactionObject} from '../../core/reaction/reaction-types';
+import {Reaction} from '../../core/reaction/reaction';
+import {ReactionObject} from '../../core/reaction-types';
+import {createClickEvent} from '../../../tests/dom-events.helper';
+
+class TestReaction implements ReactionObject {
+    public events: ReactionEvent[] = [];
+
+    @Reaction('click')
+    public click(event: ReactionEvent) {
+        this.events.push(event);
+    }
+}
 
 describe(ReactionCoreService.name, () => {
     describe('events', () => {
@@ -10,7 +20,7 @@ describe(ReactionCoreService.name, () => {
             const service: ReactionCoreService = TestBed.get(ReactionCoreService);
             expect(service.nextId).toBe(1);
             for (let i = 0; i < 10; i++) {
-                service.broadcast({}, 'click', null);
+                service.broadcast({}, createClickEvent(), null);
             }
             expect(service.nextId).toBe(11);
         });
@@ -20,7 +30,7 @@ describe(ReactionCoreService.name, () => {
             const events: ReactionEvent[] = [];
             service.events$.subscribe(e => events.push(e));
             for (let i = 0; i < 5; i++) {
-                service.broadcast({}, 'click', null);
+                service.broadcast({}, createClickEvent(), null);
             }
             const IDs = events.map(e => e.id);
             expect(IDs).toEqual([1, 2, 3, 4, 5]);
@@ -29,24 +39,12 @@ describe(ReactionCoreService.name, () => {
 
     describe('hooks', () => {
         it('should emit event objects', () => {
-
-        });
-
-        it('should execute hook method', () => {
             const service: ReactionCoreService = TestBed.get(ReactionCoreService);
-
-            // @todo makes this a decorated class at the top of the file.
-            const reaction: ReactionObject = {
-                __REACTION__: [
-                    {
-                        type: 'click',
-                        modifiers: REACTION_CODE_MODIFIERS,
-                        method: (event) => console.error(event)
-                    }
-                ]
-            };
-
-            service.broadcast(reaction, 'click', null);
+            const reaction = new TestReaction();
+            service.broadcast(reaction, createClickEvent(), null);
+            expect(reaction.events.length).toBe(1);
+            const event = reaction.events[0];
+            expect(event instanceof ReactionEvent).toBeTruthy('should emit event object');
         });
     });
 });

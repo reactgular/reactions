@@ -1,8 +1,7 @@
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {ReactionProperty} from '../reaction-types';
+import {ReactionObject, ReactionProperty} from '../reaction-types';
 import {toReactionValue} from '../../utils/reaction-value';
-import {ReactionObject} from './reaction-types';
 
 /**
  * Adds support for applying CSS styles to a reaction.

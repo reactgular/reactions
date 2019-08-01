@@ -1,5 +1,5 @@
-import {ReactionObject} from '../reaction/reaction-types';
 import {ReactionSortable} from '../reaction/reaction-order';
+import {ReactionObject} from '../reaction-types';
 
 /**
  * Contains the sortable properties of a reaction taken from a snapshot.

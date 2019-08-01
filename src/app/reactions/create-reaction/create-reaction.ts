@@ -14,8 +14,9 @@ export class CreateReaction {
         this._log = log.withPrefix(CreateReaction.name);
     }
 
-    @Reaction('click')
+    @Reaction('click, ctrl+n')
     public click(event: ReactionEvent) {
-        this._log.info('click', event);
+        this._log.info({event});
+        throw new Error();
     }
 }

@@ -22,6 +22,9 @@ export class DemoComponent implements OnInit, OnDestroy {
      */
     private readonly _destroyed$: Subject<void> = new Subject();
 
+    /**
+     * Logger
+     */
     private readonly _log: LogService;
 
     /**
@@ -47,8 +50,7 @@ export class DemoComponent implements OnInit, OnDestroy {
      */
     public ngOnInit(): void {
         this._reactionCore.events$.pipe(
-            this._log.tap().log('events'),
             takeUntil(this._destroyed$)
-        ).subscribe(event => console.log('Demo:', event));
+        ).subscribe(event => this._log.info({event}));
     }
 }
