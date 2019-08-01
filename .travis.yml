@@ -27,7 +27,7 @@ addons:
             - google-chrome-stable
 
 before_install:
-    - sh -e /etc/init.d/xvfb start
+    - xvfb
 
 install:
     - npm install
