@@ -1,6 +1,6 @@
 import {ElementRef, ViewContainerRef} from '@angular/core';
 import {hydrateReaction} from '../../utils/hydrate-reaction';
-import {ReactionObject} from '../reaction-types';
+import {ReactionObject, ReactionSourceType} from '../reaction-types';
 
 /**
  * Base interface for all reaction events.
@@ -9,12 +9,17 @@ export class ReactionEvent {
     /**
      * The element for ReactionModel if emitted from a DOM event.
      */
-    public readonly el?: ElementRef<HTMLElement>;
+    public readonly el: ElementRef<HTMLElement>;
 
     /**
-     * Unique ID for debugging
+     * Unique ID for debugging.
      */
     public readonly id: number;
+
+    /**
+     * The source that emitted the event.
+     */
+    public readonly source: ReactionSourceType;
 
     /**
      * The reaction associated with the event.
@@ -24,7 +29,7 @@ export class ReactionEvent {
     /**
      * The view for ReactionModel if emitted from a DOM event.
      */
-    public readonly view?: ViewContainerRef;
+    public readonly view: ViewContainerRef;
 
     /**
      * The original event that triggered this event.
@@ -37,8 +42,9 @@ export class ReactionEvent {
     public constructor(id: number,
                        reaction: ReactionObject,
                        event: Event,
-                       el?: ElementRef<HTMLElement>,
-                       view?: ViewContainerRef) {
+                       source: ReactionSourceType,
+                       el: ElementRef<HTMLElement>,
+                       view: ViewContainerRef) {
         this.id = id;
         this.reaction = hydrateReaction(reaction);
         this._event = event;

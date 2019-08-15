@@ -46,6 +46,6 @@ export class ReactionClickDirective implements OnInit, OnDestroy {
             )),
             disabledWhen(disabled$),
             takeUntil(this.destroyed$)
-        ).subscribe(([reaction, event]) => this._reactionCore.broadcast(reaction, event, this._el, this._view));
+        ).subscribe(([reaction, event]) => this._reactionCore.broadcast(reaction, event, 'element', this._el, this._view));
     }
 }

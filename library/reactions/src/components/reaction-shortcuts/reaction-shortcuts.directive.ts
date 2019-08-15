@@ -6,7 +6,8 @@ import {DOCUMENT} from '@angular/common';
 import {reactionEventObservable} from '../../core/reaction-event/reaction-event-observable';
 import {disabledWhen} from '../../utils/observables';
 import {toReactionState} from '../../core/reaction-state/reaction-state';
-import {map, pairwise, startWith, takeUntil} from 'rxjs/operators';
+import {filter, map, pairwise, startWith, takeUntil} from 'rxjs/operators';
+import {reactionEventMatcher} from '../../core/reaction-event/reaction-event-matcher';
 
 /**
  * Applies the keyboard bindings to the document so that reactions receive keyboard press events.
@@ -61,9 +62,10 @@ export class ReactionShortcutsDirective implements OnInit, OnDestroy {
                 this._doc,
                 reaction.__REACTION__.filter(hook => hook.source === 'document')
             ).pipe(
+                filter(event => reaction.__REACTION__.some(hook => reactionEventMatcher(event, hook.event))),
                 disabledWhen(toReactionState(reaction).disabled),
                 takeUntil(this._destroyed$)
-            ).subscribe(event => this._reactionCode.broadcast(reaction, event, this._el, this._view));
+            ).subscribe(event => this._reactionCode.broadcast(reaction, event, 'document', this._el, this._view));
         };
 
         const createSubscriptions = (reactions: ReactionObject[]): Subscription => {

@@ -10,7 +10,7 @@ describe(ReactionEvent.name, () => {
         }
 
         const reaction = new CreateReaction();
-        const event = new ReactionEvent(0, reaction, createClickEvent(), null);
+        const event = new ReactionEvent(0, reaction, createClickEvent(), 'document', null, null);
 
         expect(event.reaction).toBe(reaction);
         expect(reaction['title']).toBe('Create');

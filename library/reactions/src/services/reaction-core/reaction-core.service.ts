@@ -4,7 +4,7 @@ import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {catchError, defaultIfEmpty, distinctUntilChanged, first, map, takeUntil} from 'rxjs/operators';
 import {ReactionEvent} from '../../core/reaction-event/reaction-event';
 import {ReactionShortcutService} from '../reaction-shortcut/reaction-shortcut.service';
-import {ReactionObject} from '../../core/reaction-types';
+import {ReactionObject, ReactionSourceType} from '../../core/reaction-types';
 import {reactionEventMatcher} from '../../core/reaction-event/reaction-event-matcher';
 
 /**
@@ -129,7 +129,11 @@ export class ReactionCoreService implements OnDestroy {
     /**
      * Broadcasts the event to the application.
      */
-    public broadcast(reaction: ReactionObject, event: Event, el?: ElementRef<HTMLElement>, view?: ViewContainerRef) {
-        this._events$.next(new ReactionEvent(this._nextId++, reaction, event, el, view));
+    public broadcast(reaction: ReactionObject,
+                     event: Event,
+                     source: ReactionSourceType,
+                     el: ElementRef<HTMLElement>,
+                     view: ViewContainerRef) {
+        this._events$.next(new ReactionEvent(this._nextId++, reaction, event, source, el, view));
     }
 }
