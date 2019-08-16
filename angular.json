@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "demo": {
+    "reactions-demo": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -43,7 +43,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "preserveSymlinks": true,
-            "outputPath": "docs",
+            "outputPath": "dist/reactions-demo",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -134,8 +134,8 @@
       }
     },
     "reactions": {
-      "root": "library/reactions",
-      "sourceRoot": "library/reactions/src",
+      "root": "projects/reactions",
+      "sourceRoot": "projects/reactions/src",
       "projectType": "library",
       "prefix": "rg",
       "schematics": {
@@ -158,24 +158,24 @@
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "library/tsconfig.lib.json",
-            "project": "library/ng-package.json"
+            "tsConfig": "projects/reactions/tsconfig.lib.json",
+            "project": "projects/reactions/ng-package.json"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "library/reactions/test.ts",
-            "tsConfig": "library/tsconfig.spec.json",
-            "karmaConfig": "library/karma.conf.js"
+            "main": "projects/reactions/test.ts",
+            "tsConfig": "projects/reactions/tsconfig.spec.json",
+            "karmaConfig": "projects/reactions/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "library/tsconfig.lib.json",
-              "library/tsconfig.spec.json"
+              "projects/reactions/tsconfig.lib.json",
+              "projects/reactions/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -188,7 +188,7 @@
       "projectType": "library",
       "root": "projects/reactions-material",
       "sourceRoot": "projects/reactions-material/src",
-      "prefix": "lib",
+      "prefix": "rg",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -223,7 +223,7 @@
       "projectType": "library",
       "root": "projects/reactions-bootstrap",
       "sourceRoot": "projects/reactions-bootstrap/src",
-      "prefix": "lib",
+      "prefix": "rg",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -255,5 +255,5 @@
       }
     }
   },
-  "defaultProject": "demo"
+  "defaultProject": "reactions-demo"
 }

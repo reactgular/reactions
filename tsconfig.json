@@ -20,10 +20,10 @@
     ],
     "paths": {
       "@reactgular/reactions": [
-        "dist"
+        "dist/reactions"
       ],
       "@reactgular/reactions/*": [
-        "dist/*"
+        "dist/reactions/*"
       ],
       "reactions-material": [
         "dist/reactions-material"

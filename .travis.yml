@@ -34,5 +34,6 @@ install:
     - npm install coveralls
 
 script:
+    - npm lint
     - npm test
     - cat ./coverage/reactions/lcov.info | ./node_modules/coveralls/bin/coveralls.js
