@@ -1,4 +1,4 @@
-import {Reaction} from '@reactgular/reactions';
+import {Reaction, ReactionEvent} from '@reactgular/reactions';
 
 @Reaction({
     title: 'Edit',
@@ -6,4 +6,8 @@ import {Reaction} from '@reactgular/reactions';
     icon: 'fa-pencil'
 })
 export class EditReaction {
+    @Reaction('click')
+    public click(event: ReactionEvent) {
+        // @todo appears to be a bug if a reaction has no bindings.
+    }
 }

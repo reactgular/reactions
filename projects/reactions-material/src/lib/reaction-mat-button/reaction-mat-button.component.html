@@ -1,0 +1,46 @@
+<ng-container [ngSwitch]="type">
+  <button *ngSwitchCase="'button'"
+          mat-button
+          [rgReaction]="reaction"
+          color="primary"
+          rgReactionClass
+          rgReactionClick
+          #rgReaction="rgReaction">
+    <rg-reaction-text [icon]="false"
+                      [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
+  </button>
+
+  <button *ngSwitchCase="'raised'"
+          [rgReaction]="reaction"
+          mat-raised-button
+          color="primary"
+          rgReactionClass
+          rgReactionClick
+          #rgReaction="rgReaction">
+    <rg-reaction-text [icon]="false"
+                      [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
+  </button>
+
+
+  <button *ngSwitchCase="'stroked'"
+          [rgReaction]="reaction"
+          mat-stroked-button
+          color="primary"
+          rgReactionClass
+          rgReactionClick
+          #rgReaction="rgReaction">
+    <rg-reaction-text [icon]="false"
+                      [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
+  </button>
+
+  <button *ngSwitchCase="'flat'"
+          [rgReaction]="reaction"
+          mat-flat-button
+          color="primary"
+          rgReactionClass
+          rgReactionClick
+          #rgReaction="rgReaction">
+    <rg-reaction-text [icon]="false"
+                      [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
+  </button>
+</ng-container>

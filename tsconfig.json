@@ -25,16 +25,16 @@
       "@reactgular/reactions/*": [
         "dist/reactions/*"
       ],
-      "reactions-material": [
+      "@reactgular/reactions-material": [
         "dist/reactions-material"
       ],
-      "reactions-material/*": [
+      "@reactgular/reactions-material/*": [
         "dist/reactions-material/*"
       ],
-      "reactions-bootstrap": [
+      "@reactgular/reactions-bootstrap": [
         "dist/reactions-bootstrap"
       ],
-      "reactions-bootstrap/*": [
+      "@reactgular/reactions-bootstrap/*": [
         "dist/reactions-bootstrap/*"
       ]
     }

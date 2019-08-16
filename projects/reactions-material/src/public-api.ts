@@ -1,1 +1,2 @@
-export * from './lib/reactions-material.module';
+export * from './lib/reaction-mat-button/reaction-mat-button.component';
+export * from './lib/reaction-mat-button/reaction-mat-button.module';

@@ -3,6 +3,159 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "reactions": {
+      "root": "projects/reactions",
+      "sourceRoot": "projects/reactions/src",
+      "projectType": "library",
+      "prefix": "rg",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss",
+          "changeDetection": "OnPush",
+          "flat": false
+        },
+        "@schematics/angular:pipe": {
+          "flat": false
+        },
+        "@schematics/angular:directive": {
+          "flat": false
+        },
+        "@schematics/angular:service": {
+          "flat": false
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/reactions/tsconfig.lib.json",
+            "project": "projects/reactions/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/reactions/src/test.ts",
+            "tsConfig": "projects/reactions/tsconfig.spec.json",
+            "karmaConfig": "projects/reactions/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/reactions/tsconfig.lib.json",
+              "projects/reactions/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "reactions-material": {
+      "projectType": "library",
+      "root": "projects/reactions-material",
+      "sourceRoot": "projects/reactions-material/src",
+      "prefix": "rg",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss",
+          "changeDetection": "OnPush",
+          "flat": true
+        },
+        "@schematics/angular:pipe": {
+          "flat": true
+        },
+        "@schematics/angular:directive": {
+          "flat": true
+        },
+        "@schematics/angular:service": {
+          "flat": false
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/reactions-material/tsconfig.lib.json",
+            "project": "projects/reactions-material/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/reactions-material/src/test.ts",
+            "tsConfig": "projects/reactions-material/tsconfig.spec.json",
+            "karmaConfig": "projects/reactions-material/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/reactions-material/tsconfig.lib.json",
+              "projects/reactions-material/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "reactions-bootstrap": {
+      "projectType": "library",
+      "root": "projects/reactions-bootstrap",
+      "sourceRoot": "projects/reactions-bootstrap/src",
+      "prefix": "rg",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss",
+          "changeDetection": "OnPush",
+          "flat": true
+        },
+        "@schematics/angular:pipe": {
+          "flat": true
+        },
+        "@schematics/angular:directive": {
+          "flat": true
+        },
+        "@schematics/angular:service": {
+          "flat": false
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/reactions-bootstrap/tsconfig.lib.json",
+            "project": "projects/reactions-bootstrap/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/reactions-bootstrap/src/test.ts",
+            "tsConfig": "projects/reactions-bootstrap/tsconfig.spec.json",
+            "karmaConfig": "projects/reactions-bootstrap/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/reactions-bootstrap/tsconfig.lib.json",
+              "projects/reactions-bootstrap/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
     "reactions-demo": {
       "root": "",
       "sourceRoot": "src",
@@ -88,18 +241,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "demo:build"
+            "browserTarget": "reactions-demo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "demo:build:production"
+              "browserTarget": "reactions-demo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "demo:build"
+            "browserTarget": "reactions-demo:build"
           }
         },
         "test": {
@@ -125,127 +278,6 @@
             "tsConfig": [
               "src/tsconfig.app.json",
               "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "reactions": {
-      "root": "projects/reactions",
-      "sourceRoot": "projects/reactions/src",
-      "projectType": "library",
-      "prefix": "rg",
-      "schematics": {
-        "@schematics/angular:component": {
-          "styleext": "scss",
-          "changeDetection": "OnPush",
-          "flat": false
-        },
-        "@schematics/angular:pipe": {
-          "flat": false
-        },
-        "@schematics/angular:directive": {
-          "flat": false
-        },
-        "@schematics/angular:service": {
-          "flat": false
-        }
-      },
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/reactions/tsconfig.lib.json",
-            "project": "projects/reactions/ng-package.json"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/reactions/src/test.ts",
-            "tsConfig": "projects/reactions/tsconfig.spec.json",
-            "karmaConfig": "projects/reactions/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/reactions/tsconfig.lib.json",
-              "projects/reactions/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "reactions-material": {
-      "projectType": "library",
-      "root": "projects/reactions-material",
-      "sourceRoot": "projects/reactions-material/src",
-      "prefix": "rg",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/reactions-material/tsconfig.lib.json",
-            "project": "projects/reactions-material/ng-package.json"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/reactions-material/src/test.ts",
-            "tsConfig": "projects/reactions-material/tsconfig.spec.json",
-            "karmaConfig": "projects/reactions-material/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/reactions-material/tsconfig.lib.json",
-              "projects/reactions-material/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "reactions-bootstrap": {
-      "projectType": "library",
-      "root": "projects/reactions-bootstrap",
-      "sourceRoot": "projects/reactions-bootstrap/src",
-      "prefix": "rg",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/reactions-bootstrap/tsconfig.lib.json",
-            "project": "projects/reactions-bootstrap/ng-package.json"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/reactions-bootstrap/src/test.ts",
-            "tsConfig": "projects/reactions-bootstrap/tsconfig.spec.json",
-            "karmaConfig": "projects/reactions-bootstrap/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/reactions-bootstrap/tsconfig.lib.json",
-              "projects/reactions-bootstrap/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

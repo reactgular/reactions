@@ -3,7 +3,7 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {CreateReaction} from '../reactions/create-reaction';
 import {LogService} from '@reactgular/logger';
-import {ReactionCoreService} from '@reactgular/reactions';
+import {ReactionCoreService, ReactionObject} from '@reactgular/reactions';
 import {DeleteReaction} from '../reactions/delete-reaction';
 import {EditReaction} from '../reactions/edit-reaction';
 
@@ -34,11 +34,10 @@ export class DemoComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      */
-    public constructor(@Inject(TOP_BAR_TOKEN) public reactions: unknown[],
+    public constructor(@Inject(TOP_BAR_TOKEN) public reactions: ReactionObject[],
                        private _reactionCore: ReactionCoreService,
                        log: LogService) {
         this._log = log.withPrefix(DemoComponent.name);
-        this._log.info({reactions});
     }
 
     /**

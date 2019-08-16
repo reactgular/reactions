@@ -1,0 +1,9 @@
+<div [rgReactionShortcuts]="reactions" class="container m-3">
+  <div class="row">
+    <div class="col-12">
+      <rg-mat-button *ngFor="let reaction of reactions; let first = first"
+                     [class.ml-3]="!first"
+                     [reaction]="reaction"></rg-mat-button>
+    </div>
+  </div>
+</div>
