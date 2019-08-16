@@ -20,7 +20,7 @@ describe(ReactionCoreService.name, () => {
             const service: ReactionCoreService = TestBed.get(ReactionCoreService);
             expect(service.nextId).toBe(1);
             for (let i = 0; i < 10; i++) {
-                service.broadcast({}, createClickEvent(), null);
+                service.broadcast({}, createClickEvent(), null, null, null);
             }
             expect(service.nextId).toBe(11);
         });
@@ -30,7 +30,7 @@ describe(ReactionCoreService.name, () => {
             const events: ReactionEvent[] = [];
             service.events$.subscribe(e => events.push(e));
             for (let i = 0; i < 5; i++) {
-                service.broadcast({}, createClickEvent(), null);
+                service.broadcast({}, createClickEvent(), null, null, null);
             }
             const IDs = events.map(e => e.id);
             expect(IDs).toEqual([1, 2, 3, 4, 5]);
@@ -41,7 +41,7 @@ describe(ReactionCoreService.name, () => {
         it('should emit event objects', () => {
             const service: ReactionCoreService = TestBed.get(ReactionCoreService);
             const reaction = new TestReaction();
-            service.broadcast(reaction, createClickEvent(), null);
+            service.broadcast(reaction, createClickEvent(), null, null, null);
             expect(reaction.events.length).toBe(1);
             const event = reaction.events[0];
             expect(event instanceof ReactionEvent).toBeTruthy('should emit event object');
