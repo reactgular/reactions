@@ -1,10 +1,5 @@
-import { NgModule } from '@angular/core';
-import { ReactionsBootstrapComponent } from './reactions-bootstrap.component';
+import {NgModule} from '@angular/core';
 
-@NgModule({
-  declarations: [ReactionsBootstrapComponent],
-  imports: [
-  ],
-  exports: [ReactionsBootstrapComponent]
-})
-export class ReactionsBootstrapModule { }
+@NgModule({})
+export class ReactionsBootstrapModule {
+}

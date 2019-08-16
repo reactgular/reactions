@@ -1,10 +1,5 @@
-import { NgModule } from '@angular/core';
-import { ReactionsMaterialComponent } from './reactions-material.component';
+import {NgModule} from '@angular/core';
 
-@NgModule({
-  declarations: [ReactionsMaterialComponent],
-  imports: [
-  ],
-  exports: [ReactionsMaterialComponent]
-})
-export class ReactionsMaterialModule { }
+@NgModule({})
+export class ReactionsMaterialModule {
+}
