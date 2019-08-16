@@ -1,10 +1,5 @@
-import { Directive } from '@angular/core';
+import {Directive} from '@angular/core';
 
-@Directive({
-  selector: '[rgReactionTooltip]'
-})
+@Directive({selector: '[rgReactionTooltip]'})
 export class ReactionTooltipDirective {
-
-  constructor() { }
-
 }

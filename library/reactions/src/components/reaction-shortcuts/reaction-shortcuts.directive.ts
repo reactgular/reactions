@@ -19,7 +19,7 @@ export class ReactionShortcutsDirective implements OnInit, OnDestroy {
     /**
      * Emits a collection of reactions that might have keyboard bindings.
      */
-    private readonly _reactions$: ReplaySubject<ReactionObject[]> = new ReplaySubject(1);
+    private readonly _reactions$: ReplaySubject<unknown[]> = new ReplaySubject(1);
 
     /**
      * Destructor
@@ -40,7 +40,7 @@ export class ReactionShortcutsDirective implements OnInit, OnDestroy {
      * Binds the attribute as the source for reactions.
      */
     @Input('rgReactionShortcuts')
-    public set reactions(value: ReactionObject[]) {
+    public set reactions(value: unknown[]) {
         this._reactions$.next(value);
     };
 

@@ -1,13 +1,24 @@
 <div [rgReactionShortcuts]="reactions" class="container m-3">
   <div class="row">
     <div class="col-12">
-      <button *ngFor="let reaction of reactions"
+      <button *ngFor="let reaction of reactions; let first = first"
+              [class.ml-3]="!first"
               [rgReaction]="reaction"
+              mat-raised-button
+              color="primary"
               rgReactionClass
               rgReactionClick
               #rgReaction="rgReaction">
         <rg-reaction-text [icon]="false"
                           [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <button *ngReactions="reactions"
+              mat-raised-button
+              color="primary">
       </button>
     </div>
   </div>

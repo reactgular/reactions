@@ -24,6 +24,18 @@
       ],
       "@reactgular/reactions/*": [
         "dist/*"
+      ],
+      "reactions-material": [
+        "dist/reactions-material"
+      ],
+      "reactions-material/*": [
+        "dist/reactions-material/*"
+      ],
+      "reactions-bootstrap": [
+        "dist/reactions-bootstrap"
+      ],
+      "reactions-bootstrap/*": [
+        "dist/reactions-bootstrap/*"
       ]
     }
   }

@@ -9,17 +9,21 @@ import {LoggerModule} from '@reactgular/logger';
 import {environment} from '../environments/environment';
 import {ReactionClassModule, ReactionClickModule, ReactionShortcutsModule, ReactionTextModule} from '@reactgular/reactions';
 
+const MAT_MODULES = [
+    MatButtonModule
+];
+
 @NgModule({
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
-        MatButtonModule,
         LoggerModule.forRoot({enabled: !environment.production}),
         ReactionShortcutsModule,
         ReactionClassModule,
         ReactionClickModule,
-        ReactionTextModule
+        ReactionTextModule,
+        ...MAT_MODULES
     ],
     declarations: [
         DemoComponent,
