@@ -1,7 +1,7 @@
 <ng-container [ngSwitch]="type">
-  <button *ngSwitchCase="'button'"
-          mat-button
+  <button *ngSwitchCase="BASIC"
           [rgReaction]="reaction"
+          mat-button
           color="primary"
           rgReactionClass
           rgReactionClick
@@ -10,7 +10,7 @@
                       [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
   </button>
 
-  <button *ngSwitchCase="'raised'"
+  <button *ngSwitchCase="RAISED"
           [rgReaction]="reaction"
           mat-raised-button
           color="primary"
@@ -21,8 +21,7 @@
                       [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
   </button>
 
-
-  <button *ngSwitchCase="'stroked'"
+  <button *ngSwitchCase="STROKED"
           [rgReaction]="reaction"
           mat-stroked-button
           color="primary"
@@ -33,7 +32,7 @@
                       [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
   </button>
 
-  <button *ngSwitchCase="'flat'"
+  <button *ngSwitchCase="FLAT"
           [rgReaction]="reaction"
           mat-flat-button
           color="primary"
@@ -43,4 +42,38 @@
     <rg-reaction-text [icon]="false"
                       [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
   </button>
+
+  <button *ngSwitchCase="ICON"
+          [rgReaction]="reaction"
+          mat-icon-button
+          color="primary"
+          rgReactionClass
+          rgReactionClick
+          #rgReaction="rgReaction">
+    <rg-reaction-text [icon]="false"
+                      [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
+  </button>
+
+  <button *ngSwitchCase="FAB"
+          [rgReaction]="reaction"
+          mat-fab
+          color="primary"
+          rgReactionClass
+          rgReactionClick
+          #rgReaction="rgReaction">
+    <rg-reaction-text [icon]="false"
+                      [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
+  </button>
+
+  <button *ngSwitchCase="MINI_FAB"
+          [rgReaction]="reaction"
+          mat-mini-fab
+          color="primary"
+          rgReactionClass
+          rgReactionClick
+          #rgReaction="rgReaction">
+    <rg-reaction-text [icon]="false"
+                      [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
+  </button>
+
 </ng-container>
