@@ -1,9 +1,10 @@
+import {faPencilAlt} from '@fortawesome/free-solid-svg-icons';
 import {Reaction, ReactionEvent} from '@reactgular/reactions';
 
 @Reaction({
     title: 'Edit',
     tooltip: 'Edits a note',
-    icon: 'fa-pencil'
+    icon: faPencilAlt
 })
 export class EditReaction {
     @Reaction('click')

@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {ReactionTestOptions} from '@reactgular/reactions';
 import {ReactionMatButtonType} from '../reaction-materials.type';
 import {ReactionMatButtonTypes} from './reaction-mat-button-types';
 
@@ -12,6 +13,9 @@ import {ReactionMatButtonTypes} from './reaction-mat-button-types';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReactionMatButtonComponent extends ReactionMatButtonTypes implements OnInit {
+    @Input()
+    public options?: ReactionTestOptions;
+
     /**
      * The reaction object that will handle the behavior of the button.
      */

@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactionSnapshot} from '../../core/reaction-snapshot/reaction-snapshot';
+import {ReactionTestOptions} from './reaction-test-options';
 
 /**
  * Displays the body of a reaction control. Mostly the icon and title.
@@ -11,27 +12,15 @@ import {ReactionSnapshot} from '../../core/reaction-snapshot/reaction-snapshot';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReactionTextComponent {
-    /***
-     * Show the icon
-     */
-    @Input()
-    public icon: boolean = true;
-
     /**
-     * Show the secondary icon
+     * What should be shown in the template.
      */
     @Input()
-    public secondary: boolean = true;
+    public options?: ReactionTestOptions;
 
     /**
      * Snapshot of the reaction
      */
     @Input()
     public snapshot: ReactionSnapshot;
-
-    /**
-     * Show the title
-     */
-    @Input()
-    public title: boolean = true;
 }
