@@ -1,8 +1,29 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, ViewEncapsulation} from '@angular/core';
 import {ThemePalette} from '@angular/material';
-import {ReactionTestOptions} from '@reactgular/reactions';
-import {ReactionMatButtonType} from '../reaction-materials.type';
+import {ReactionTextOptions} from '@reactgular/reactions';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {isReactionMatButtonTypeIcon, ReactionMatButtonType} from '../reaction-materials.type';
 import {ReactionMatButtonTypes} from './reaction-mat-button-types';
+import {ReactionMatButtonValues, VALUES_DEFAULT} from './reaction-mat-button-values';
+
+/**
+ * Applies defaults to view values.
+ */
+export const mapValuesToDefaults = (values: ReactionMatButtonValues): ReactionMatButtonValues => ({
+    ...values,
+    disableRipple: Boolean(values.disableRipple),
+    options: values.options || VALUES_DEFAULT.options,
+    type: values.type || VALUES_DEFAULT.type
+});
+
+/**
+ * Hides text when rendering icon buttons
+ */
+export const mapIconValues = (values: ReactionMatButtonValues): ReactionMatButtonValues => ({
+    ...values,
+    options: isReactionMatButtonTypeIcon(values.type) ? {...values.options, hideTitle: true, hideSecondary: true} : values.options
+});
 
 /**
  * Renders an Angular Material button bound to a Reactions object.
@@ -13,40 +34,73 @@ import {ReactionMatButtonTypes} from './reaction-mat-button-types';
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ReactionMatButtonComponent extends ReactionMatButtonTypes implements OnInit {
+export class ReactionMatButtonComponent extends ReactionMatButtonTypes {
+    /**
+     * View values
+     */
+    public values$: Observable<ReactionMatButtonValues>;
+
+    /**
+     * Emits value changes.
+     */
+    private readonly _values$: BehaviorSubject<ReactionMatButtonValues> = new BehaviorSubject(VALUES_DEFAULT);
+
+    /**
+     * Constructor
+     */
+    public constructor() {
+        super();
+
+        this.values$ = this._values$.pipe(
+            map(mapValuesToDefaults),
+            map(mapIconValues)
+        );
+    }
+
     /**
      * Material color.
      */
     @Input()
-    public color?: ThemePalette;
+    public set color(color: ThemePalette) {
+        this._patch({color});
+    }
 
     /**
      * Whether ripples are disabled.
      */
     @Input()
-    public disableRipple?: boolean;
+    public set disableRipple(disableRipple: boolean) {
+        this._patch({disableRipple});
+    }
 
     /**
      * Options for rendering the text.
      */
     @Input()
-    public options?: ReactionTestOptions;
+    public set options(options: ReactionTextOptions) {
+        this._patch({options});
+    }
 
     /**
      * The reaction object that will handle the behavior of the button.
      */
     @Input()
-    public reaction: unknown;
+    public set reaction(reaction: unknown) {
+        this._patch({reaction});
+    }
 
     /**
      * Controls which style of Material button to render.
      */
     @Input()
-    public type: ReactionMatButtonType = ReactionMatButtonType.BASIC;
+    public set type(type: ReactionMatButtonType) {
+        this._patch({type});
+    }
 
     /**
-     * Initializer
+     * Patches the current view state.
      */
-    public ngOnInit() {
+    private _patch(value: Partial<ReactionMatButtonValues>) {
+        this._values$.next({...this._values$.getValue(), ...value});
     }
 }

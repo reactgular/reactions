@@ -1,91 +1,93 @@
-<ng-container [ngSwitch]="type">
-  <button *ngSwitchCase="BASIC"
-          [rgReaction]="reaction"
-          mat-button
-          [color]="color"
-          [disableRipple]="disableRipple"
-          [disabled]="(rgReaction.snapshot$ | async)?.disabled"
-          rgReactionClass
-          rgReactionClick
-          #rgReaction="rgReaction">
-    <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
-  </button>
+<ng-container *ngIf="values$ | async as values">
+  <ng-container [ngSwitch]="values.type">
+    <button *ngSwitchCase="BASIC"
+            [rgReaction]="values.reaction"
+            mat-button
+            [color]="values.color"
+            [disableRipple]="values.disableRipple"
+            [disabled]="(rgReaction.snapshot$ | async)?.disabled"
+            rgReactionClass
+            rgReactionClick
+            #rgReaction="rgReaction">
+      <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
+    </button>
 
-  <button *ngSwitchCase="RAISED"
-          [rgReaction]="reaction"
-          mat-raised-button
-          [color]="color"
-          [disableRipple]="disableRipple"
-          [disabled]="(rgReaction.snapshot$ | async)?.disabled"
-          rgReactionClass
-          rgReactionClick
-          #rgReaction="rgReaction">
-    <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
-  </button>
+    <button *ngSwitchCase="RAISED"
+            [rgReaction]="values.reaction"
+            mat-raised-button
+            [color]="values.color"
+            [disableRipple]="values.disableRipple"
+            [disabled]="(rgReaction.snapshot$ | async)?.disabled"
+            rgReactionClass
+            rgReactionClick
+            #rgReaction="rgReaction">
+      <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
+    </button>
 
-  <button *ngSwitchCase="STROKED"
-          [rgReaction]="reaction"
-          mat-stroked-button
-          [color]="color"
-          [disableRipple]="disableRipple"
-          [disabled]="(rgReaction.snapshot$ | async)?.disabled"
-          rgReactionClass
-          rgReactionClick
-          #rgReaction="rgReaction">
-    <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
-  </button>
+    <button *ngSwitchCase="STROKED"
+            [rgReaction]="values.reaction"
+            mat-stroked-button
+            [color]="values.color"
+            [disableRipple]="values.disableRipple"
+            [disabled]="(rgReaction.snapshot$ | async)?.disabled"
+            rgReactionClass
+            rgReactionClick
+            #rgReaction="rgReaction">
+      <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
+    </button>
 
-  <button *ngSwitchCase="FLAT"
-          [rgReaction]="reaction"
-          mat-flat-button
-          [color]="color"
-          [disableRipple]="disableRipple"
-          [disabled]="(rgReaction.snapshot$ | async)?.disabled"
-          rgReactionClass
-          rgReactionClick
-          #rgReaction="rgReaction">
-    <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
-  </button>
+    <button *ngSwitchCase="FLAT"
+            [rgReaction]="values.reaction"
+            mat-flat-button
+            [color]="values.color"
+            [disableRipple]="values.disableRipple"
+            [disabled]="(rgReaction.snapshot$ | async)?.disabled"
+            rgReactionClass
+            rgReactionClick
+            #rgReaction="rgReaction">
+      <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
+    </button>
 
-  <button *ngSwitchCase="ICON"
-          [rgReaction]="reaction"
-          mat-icon-button
-          [color]="color"
-          [disableRipple]="disableRipple"
-          [disabled]="(rgReaction.snapshot$ | async)?.disabled"
-          rgReactionClass
-          rgReactionClick
-          #rgReaction="rgReaction">
-    <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
-  </button>
+    <button *ngSwitchCase="ICON"
+            [rgReaction]="values.reaction"
+            mat-icon-button
+            [color]="values.color"
+            [disableRipple]="values.disableRipple"
+            [disabled]="(rgReaction.snapshot$ | async)?.disabled"
+            rgReactionClass
+            rgReactionClick
+            #rgReaction="rgReaction">
+      <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
+    </button>
 
-  <button *ngSwitchCase="FAB"
-          [rgReaction]="reaction"
-          mat-fab
-          [color]="color"
-          [disableRipple]="disableRipple"
-          [disabled]="(rgReaction.snapshot$ | async)?.disabled"
-          rgReactionClass
-          rgReactionClick
-          #rgReaction="rgReaction">
-    <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
-  </button>
+    <button *ngSwitchCase="FAB"
+            [rgReaction]="values.reaction"
+            mat-fab
+            [color]="values.color"
+            [disableRipple]="values.disableRipple"
+            [disabled]="(rgReaction.snapshot$ | async)?.disabled"
+            rgReactionClass
+            rgReactionClick
+            #rgReaction="rgReaction">
+      <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
+    </button>
 
-  <button *ngSwitchCase="MINI_FAB"
-          [rgReaction]="reaction"
-          mat-mini-fab
-          [color]="color"
-          [disableRipple]="disableRipple"
-          [disabled]="(rgReaction.snapshot$ | async)?.disabled"
-          rgReactionClass
-          rgReactionClick
-          #rgReaction="rgReaction">
-    <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
-  </button>
+    <button *ngSwitchCase="MINI_FAB"
+            [rgReaction]="values.reaction"
+            mat-mini-fab
+            [color]="values.color"
+            [disableRipple]="values.disableRipple"
+            [disabled]="(rgReaction.snapshot$ | async)?.disabled"
+            rgReactionClass
+            rgReactionClick
+            #rgReaction="rgReaction">
+      <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
+    </button>
+  </ng-container>
 
+  <ng-template #reactionText
+               let-snapshot>
+    <rg-reaction-text [options]="values.options"
+                      [snapshot]="snapshot"></rg-reaction-text>
+  </ng-template>
 </ng-container>
-<ng-template #reactionText
-             let-snapshot>
-  <rg-reaction-text [options]="options"
-                    [snapshot]="snapshot"></rg-reaction-text>
-</ng-template>

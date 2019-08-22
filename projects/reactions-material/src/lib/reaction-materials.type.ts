@@ -23,3 +23,9 @@ export const REACTION_MAT_BUTTON_TYPES: ReactionMatButtonType[] = [
     ReactionMatButtonType.FAB,
     ReactionMatButtonType.MINI_FAB
 ];
+
+/**
+ * Indicates if the button type should render only an icon.
+ */
+export const isReactionMatButtonTypeIcon = (type: ReactionMatButtonType): boolean =>
+    type === ReactionMatButtonType.ICON || type === ReactionMatButtonType.FAB || type === ReactionMatButtonType.MINI_FAB;

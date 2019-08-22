@@ -1,8 +1,8 @@
 /**
  * Component modules
  */
-export * from './lib/reaction-mat-button/reaction-mat-button.component';
-export * from './lib/reaction-mat-button/reaction-mat-button.module';
+export {ReactionMatButtonComponent} from './lib/reaction-mat-button/reaction-mat-button.component';
+export {ReactionMatButtonModule} from './lib/reaction-mat-button/reaction-mat-button.module';
 
 /**
  * Data types
