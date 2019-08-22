@@ -2,71 +2,90 @@
   <button *ngSwitchCase="BASIC"
           [rgReaction]="reaction"
           mat-button
-          color="primary"
+          [color]="color"
+          [disableRipple]="disableRipple"
+          [disabled]="(rgReaction.snapshot$ | async)?.disabled"
           rgReactionClass
           rgReactionClick
           #rgReaction="rgReaction">
-    <rg-reaction-text [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
+    <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
   </button>
 
   <button *ngSwitchCase="RAISED"
           [rgReaction]="reaction"
           mat-raised-button
-          color="primary"
+          [color]="color"
+          [disableRipple]="disableRipple"
+          [disabled]="(rgReaction.snapshot$ | async)?.disabled"
           rgReactionClass
           rgReactionClick
           #rgReaction="rgReaction">
-    <rg-reaction-text [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
+    <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
   </button>
 
   <button *ngSwitchCase="STROKED"
           [rgReaction]="reaction"
           mat-stroked-button
-          color="primary"
+          [color]="color"
+          [disableRipple]="disableRipple"
+          [disabled]="(rgReaction.snapshot$ | async)?.disabled"
           rgReactionClass
           rgReactionClick
           #rgReaction="rgReaction">
-    <rg-reaction-text [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
+    <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
   </button>
 
   <button *ngSwitchCase="FLAT"
           [rgReaction]="reaction"
           mat-flat-button
-          color="primary"
+          [color]="color"
+          [disableRipple]="disableRipple"
+          [disabled]="(rgReaction.snapshot$ | async)?.disabled"
           rgReactionClass
           rgReactionClick
           #rgReaction="rgReaction">
-    <rg-reaction-text [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
+    <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
   </button>
 
   <button *ngSwitchCase="ICON"
           [rgReaction]="reaction"
           mat-icon-button
-          color="primary"
+          [color]="color"
+          [disableRipple]="disableRipple"
+          [disabled]="(rgReaction.snapshot$ | async)?.disabled"
           rgReactionClass
           rgReactionClick
           #rgReaction="rgReaction">
-    <rg-reaction-text [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
+    <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
   </button>
 
   <button *ngSwitchCase="FAB"
           [rgReaction]="reaction"
           mat-fab
-          color="primary"
+          [color]="color"
+          [disableRipple]="disableRipple"
+          [disabled]="(rgReaction.snapshot$ | async)?.disabled"
           rgReactionClass
           rgReactionClick
           #rgReaction="rgReaction">
-    <rg-reaction-text [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
+    <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
   </button>
 
   <button *ngSwitchCase="MINI_FAB"
           [rgReaction]="reaction"
           mat-mini-fab
-          color="primary"
+          [color]="color"
+          [disableRipple]="disableRipple"
+          [disabled]="(rgReaction.snapshot$ | async)?.disabled"
           rgReactionClass
           rgReactionClick
           #rgReaction="rgReaction">
-    <rg-reaction-text [snapshot]="rgReaction.snapshot$ | async"></rg-reaction-text>
+    <ng-container *ngTemplateOutlet="reactionText; context: {$implicit: rgReaction.snapshot$ | async}"></ng-container>
   </button>
 
 </ng-container>
+<ng-template #reactionText
+             let-snapshot>
+  <rg-reaction-text [options]="options"
+                    [snapshot]="snapshot"></rg-reaction-text>
+</ng-template>

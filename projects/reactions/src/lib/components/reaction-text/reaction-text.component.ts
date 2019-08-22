@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactionSnapshot} from '../../core/reaction-snapshot/reaction-snapshot';
-import {ReactionTestOptions} from './reaction-test-options';
+import {ReactionTextOptions} from './reaction-text-options';
 
 /**
  * Displays the body of a reaction control. Mostly the icon and title.
@@ -16,7 +16,7 @@ export class ReactionTextComponent {
      * What should be shown in the template.
      */
     @Input()
-    public options?: ReactionTestOptions;
+    public options?: ReactionTextOptions;
 
     /**
      * Snapshot of the reaction

@@ -1,7 +1,7 @@
 /**
  * Configures how the text component will render contents.
  */
-export interface ReactionTestOptions {
+export interface ReactionTextOptions {
     /**
      * Hides the primary icon.
      */

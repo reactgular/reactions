@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {ThemePalette} from '@angular/material';
 import {ReactionTestOptions} from '@reactgular/reactions';
 import {ReactionMatButtonType} from '../reaction-materials.type';
 import {ReactionMatButtonTypes} from './reaction-mat-button-types';
@@ -13,6 +14,21 @@ import {ReactionMatButtonTypes} from './reaction-mat-button-types';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReactionMatButtonComponent extends ReactionMatButtonTypes implements OnInit {
+    /**
+     * Material color.
+     */
+    @Input()
+    public color?: ThemePalette;
+
+    /**
+     * Whether ripples are disabled.
+     */
+    @Input()
+    public disableRipple?: boolean;
+
+    /**
+     * Options for rendering the text.
+     */
     @Input()
     public options?: ReactionTestOptions;
 
