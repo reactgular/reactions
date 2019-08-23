@@ -1,5 +1,6 @@
 import {ThemePalette} from '@angular/material';
 import {ReactionTextOptions} from '@reactgular/reactions/lib/components/reaction-text/reaction-text-options';
+import {Observable, of} from 'rxjs';
 import {ReactionMatButtonType} from '../reaction-materials.type';
 
 export interface ReactionMatButtonValues {
@@ -12,6 +13,11 @@ export interface ReactionMatButtonValues {
      * Whether ripples are disabled.
      */
     disableRipple: boolean;
+
+    /**
+     * Emits when the button is disabled
+     */
+    disabled$: Observable<boolean>;
 
     /**
      * Options for rendering the text.
@@ -32,6 +38,7 @@ export interface ReactionMatButtonValues {
 export const VALUES_DEFAULT: ReactionMatButtonValues = {
     color: undefined,
     disableRipple: false,
+    disabled$: of(false),
     options: {},
     reaction: undefined,
     type: ReactionMatButtonType.BASIC

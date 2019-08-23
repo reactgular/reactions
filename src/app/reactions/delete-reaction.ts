@@ -1,11 +1,12 @@
 import {faTrash} from '@fortawesome/free-solid-svg-icons';
-import {Reaction, ReactionEvent} from '@reactgular/reactions';
 import {LogService} from '@reactgular/logger';
+import {Reaction, ReactionEvent} from '@reactgular/reactions';
 
 @Reaction({
     title: 'Delete',
     tooltip: 'Deletes a note',
-    icon: faTrash
+    icon: faTrash,
+    disabled: true
 })
 export class DeleteReaction {
     private readonly _log: LogService;

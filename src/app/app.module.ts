@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms';
-import {MatButtonModule} from '@angular/material';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatButtonModule, MatFormFieldModule, MatSelectModule} from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DemoComponent} from './demo/demo.component';
@@ -30,7 +30,10 @@ const REACTION_MODULES = [
         ReactiveFormsModule,
         LoggerModule.forRoot({enabled: !environment.production}),
         ...REACTION_MODULES,
-        ...MAT_MODULES
+        ...MAT_MODULES,
+        MatFormFieldModule,
+        MatSelectModule,
+        FormsModule
     ],
     declarations: [
         DemoComponent,

@@ -1,3 +1,13 @@
+<mat-form-field>
+  <mat-label>Colors</mat-label>
+  <mat-select [(ngModel)]="color">
+    <mat-option *ngFor="let color of colors"
+                [value]="color">
+      {{color | titlecase}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
 <ng-container *ngFor="let type of types; let firstType = first">
   <h3 [class.mt-3]="!firstType">
     {{type | titlecase}} Buttons
@@ -5,5 +15,6 @@
   <rg-mat-button *ngFor="let reaction of reactions; let firstReaction = first"
                  [class.ml-3]="!firstReaction"
                  [reaction]="reaction"
+                 [color]="color"
                  [type]="type"></rg-mat-button>
 </ng-container>
