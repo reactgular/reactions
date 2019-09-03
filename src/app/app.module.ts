@@ -3,6 +3,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule, MatFormFieldModule, MatSelectModule} from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AppRoutingModule} from './app-routing.module';
 import {DemoComponent} from './demo/demo.component';
 import {DemoCardComponent} from './demo-card/demo-card.component';
 import {LoggerModule} from '@reactgular/logger';
@@ -27,6 +28,7 @@ const REACTION_MODULES = [
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
+        AppRoutingModule,
         ReactiveFormsModule,
         LoggerModule.forRoot({enabled: !environment.production}),
         ...REACTION_MODULES,
