@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, Inject, ViewEncapsulation} from '@angular/core';
 import {ThemePalette} from '@angular/material';
-import {ReactionObject} from '@reactgular/reactions';
-import {REACTION_MAT_BUTTON_TYPES, ReactionMatButtonType} from '@reactgular/reactions-material';
+import {REACTION_MAT_BUTTON_TYPES, ReactionMatButtonType, ReactionObject} from '@reactgular/reactions';
 import {TOP_BAR_TOKEN} from '../demo/demo.component';
 
 /**

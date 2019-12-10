@@ -1,11 +1,15 @@
 import {ChangeDetectionStrategy, Component, Input, ViewEncapsulation} from '@angular/core';
 import {ThemePalette} from '@angular/material';
-import {ReactionTextOptions} from '@reactgular/reactions';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {isReactionMatButtonTypeIcon, ReactionMatButtonType} from '../reaction-materials.type';
-import {ReactionMatButtonTypes} from './reaction-mat-button-types';
-import {ReactionMatButtonValues, VALUES_DEFAULT} from './reaction-mat-button-values';
+import {ReactionTextOptions} from '../reaction-text/reaction-text-options';
+import {
+    isReactionMatButtonTypeIcon,
+    ReactionMatButtonType,
+    ReactionMatButtonTypes,
+    ReactionMatButtonValues,
+    VALUES_DEFAULT
+} from './reaction-mat-button-types';
 
 /**
  * Applies defaults to view values.

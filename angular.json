@@ -54,57 +54,6 @@
         }
       }
     },
-    "reactions-material": {
-      "projectType": "library",
-      "root": "projects/reactions-material",
-      "sourceRoot": "projects/reactions-material/src",
-      "prefix": "rg",
-      "schematics": {
-        "@schematics/angular:component": {
-          "styleext": "scss",
-          "changeDetection": "OnPush",
-          "flat": true
-        },
-        "@schematics/angular:pipe": {
-          "flat": true
-        },
-        "@schematics/angular:directive": {
-          "flat": true
-        },
-        "@schematics/angular:service": {
-          "flat": false
-        }
-      },
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/reactions-material/tsconfig.lib.json",
-            "project": "projects/reactions-material/ng-package.json"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/reactions-material/src/test.ts",
-            "tsConfig": "projects/reactions-material/tsconfig.spec.json",
-            "karmaConfig": "projects/reactions-material/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/reactions-material/tsconfig.lib.json",
-              "projects/reactions-material/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
     "reactions-demo": {
       "root": "",
       "sourceRoot": "src",
