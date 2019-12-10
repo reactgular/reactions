@@ -15,23 +15,19 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --watch --open",
-    "build": "npm run build:reactions && npm run build:reactions-material && npm run build:reactions-bootstrap && npm run build:reactions-demo",
+    "build": "npm run build:reactions && npm run build:reactions-material && npm run build:reactions-demo",
     "build:reactions": "ng build reactions && npm run postbuild:reactions",
     "build:reactions-material": "ng build reactions-material && npm run postbuild:reactions-material",
-    "build:reactions-bootstrap": "ng build reactions-bootstrap && npm run postbuild:reactions-bootstrap",
     "build:reactions-demo": "ng build reactions-demo",
-    "test": "npm run test:reactions && npm run test:reactions-material && npm run test:reactions-bootstrap",
+    "test": "npm run test:reactions && npm run test:reactions-material",
     "test:reactions": "ng test reactions --watch=false --code-coverage=true",
     "test:reactions-material": "ng test reactions-material --watch=false --code-coverage=true",
-    "test:reactions-bootstrap": "ng test reactions-bootstrap --watch=false --code-coverage=true",
     "test:reactions:watch": "ng test reactions",
     "test:reactions-material:watch": "ng test reactions-material",
-    "test:reactions:bootstrap:watch": "ng test reactions-bootstrap",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "postbuild:reactions": "cp README.md ./dist/reactions/README.md",
-    "postbuild:reactions-material": "cp README.md ./dist/reactions-material/README.md",
-    "postbuild:reactions-bootstrap": "cp README.md ./dist/reactions-bootstrap/README.md"
+    "postbuild:reactions-material": "cp README.md ./dist/reactions-material/README.md"
   },
   "private": true,
   "dependencies": {
