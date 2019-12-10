@@ -3,14 +3,13 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule, MatFormFieldModule, MatSelectModule} from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {AppRoutingModule} from './app-routing.module';
-import {DemoComponent} from './demo/demo.component';
-import {DemoCardComponent} from './demo-card/demo-card.component';
 import {LoggerModule} from '@reactgular/logger';
-import {environment} from '../environments/environment';
 import {ReactionClassModule, ReactionClickModule, ReactionShortcutsModule, ReactionTextModule} from '@reactgular/reactions';
 import {ReactionMatButtonModule} from '@reactgular/reactions-material';
-import { ButtonsExampleComponent } from './buttons-example/buttons-example.component';
+import {environment} from '../environments/environment';
+import {AppRoutingModule} from './app-routing.module';
+import {ButtonsExampleComponent} from './buttons-example/buttons-example.component';
+import {DemoComponent} from './demo/demo.component';
 
 const MAT_MODULES = [
     MatButtonModule
@@ -39,7 +38,6 @@ const REACTION_MODULES = [
     ],
     declarations: [
         DemoComponent,
-        DemoCardComponent,
         ButtonsExampleComponent
     ],
     providers: [],
