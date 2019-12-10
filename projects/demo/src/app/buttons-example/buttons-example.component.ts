@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Inject, ViewEncapsulation} from '@angular/core';
 import {ThemePalette} from '@angular/material';
-import {REACTION_MAT_BUTTON_TYPES, ReactionMatButtonType, ReactionObject} from '@reactgular/reactions';
+import {REACTION_BUTTON_TYPES, ReactionButtonType, ReactionObject} from '@reactgular/reactions';
 import {TOP_BAR_TOKEN} from '../demo/demo.component';
 
 /**
@@ -26,7 +26,7 @@ export class ButtonsExampleComponent {
     /**
      * Collection of button rows.
      */
-    public types: ReactionMatButtonType[] = REACTION_MAT_BUTTON_TYPES;
+    public types: ReactionButtonType[] = REACTION_BUTTON_TYPES;
 
     /**
      * Constructor

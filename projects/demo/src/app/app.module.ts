@@ -5,9 +5,9 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoggerModule} from '@reactgular/logger';
 import {
+    ReactionButtonModule,
     ReactionClassModule,
     ReactionClickModule,
-    ReactionMatButtonModule,
     ReactionShortcutsModule,
     ReactionTextModule
 } from '@reactgular/reactions';
@@ -21,11 +21,11 @@ const MAT_MODULES = [
 ];
 
 const REACTION_MODULES = [
-    ReactionShortcutsModule,
+    ReactionButtonModule,
     ReactionClassModule,
     ReactionClickModule,
+    ReactionShortcutsModule,
     ReactionTextModule,
-    ReactionMatButtonModule,
 ];
 
 @NgModule({
