@@ -1,3 +1,4 @@
+export * from './reaction-behavior/public-api';
 export * from './reaction-class/public-api';
 export * from './reaction-click/public-api';
 export * from './reaction-disable/public-api';
