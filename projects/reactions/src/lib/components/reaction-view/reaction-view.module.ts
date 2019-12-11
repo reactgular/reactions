@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ReactionTextComponent} from './reaction-text.component';
+import {NgModule} from '@angular/core';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {ReactionModelModule} from '../reaction-model/reaction-model.module';
+import {ReactionViewComponent} from './reaction-view.component';
 
 @NgModule({
     imports: [
@@ -11,12 +11,11 @@ import {ReactionModelModule} from '../reaction-model/reaction-model.module';
         ReactionModelModule
     ],
     declarations: [
-        ReactionTextComponent
+        ReactionViewComponent
     ],
     exports: [
-        ReactionTextComponent,
-        ReactionModelModule
+        ReactionViewComponent
     ]
 })
-export class ReactionTextModule {
+export class ReactionViewModule {
 }

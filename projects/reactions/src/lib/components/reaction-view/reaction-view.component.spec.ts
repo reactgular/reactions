@@ -2,7 +2,7 @@ import {Component, Input, ViewChild} from '@angular/core';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {ReactionModelDirective} from '../reaction-model/reaction-model.directive';
-import {ReactionTextComponent} from './reaction-text.component';
+import {ReactionViewComponent} from './reaction-view.component';
 import {ReactionObject} from '../../core/reaction-types';
 
 // noinspection AngularMissingOrInvalidDeclarationInModule
@@ -10,19 +10,19 @@ import {ReactionObject} from '../../core/reaction-types';
     selector: 'rg-reaction-text-proxy',
     template: `
         <button [rgReaction]="reaction">
-            <rg-reaction-text></rg-reaction-text>
+            <rg-reaction-view></rg-reaction-view>
         </button>`
 })
 class ReactionTextProxyComponent {
     @Input()
     public reaction: ReactionObject;
 
-    @ViewChild(ReactionTextComponent, {static: true})
-    public reactionText: ReactionTextComponent;
+    @ViewChild(ReactionViewComponent, {static: true})
+    public reactionText: ReactionViewComponent;
 }
 
-describe(ReactionTextComponent.name, () => {
-    let component: ReactionTextComponent;
+describe(ReactionViewComponent.name, () => {
+    let component: ReactionViewComponent;
     let fixture: ComponentFixture<ReactionTextProxyComponent>;
 
     beforeEach(async(() => {

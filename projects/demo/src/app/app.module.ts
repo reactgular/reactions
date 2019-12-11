@@ -4,13 +4,7 @@ import {MatButtonModule, MatFormFieldModule, MatSelectModule} from '@angular/mat
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoggerModule} from '@reactgular/logger';
-import {
-    ReactionButtonModule,
-    ReactionClassModule,
-    ReactionClickModule,
-    ReactionShortcutsModule,
-    ReactionTextModule
-} from '@reactgular/reactions';
+import {ReactionClassModule, ReactionClickModule, ReactionShortcutsModule, ReactionViewModule} from '@reactgular/reactions';
 import {environment} from '../environments/environment';
 import {AppRoutingModule} from './app-routing.module';
 import {ButtonExamplesComponent} from './button-examples/button-examples.component';
@@ -23,11 +17,10 @@ const MAT_MODULES = [
 ];
 
 const REACTION_MODULES = [
-    ReactionButtonModule,
     ReactionClassModule,
     ReactionClickModule,
     ReactionShortcutsModule,
-    ReactionTextModule,
+    ReactionViewModule
 ];
 
 @NgModule({
@@ -39,7 +32,7 @@ const REACTION_MODULES = [
         AppRoutingModule,
         LoggerModule.forRoot({enabled: !environment.production}),
         ...REACTION_MODULES,
-        ...MAT_MODULES,
+        ...MAT_MODULES
     ],
     declarations: [
         DemoComponent,

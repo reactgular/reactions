@@ -1,6 +1,5 @@
 import {Directive, Input} from '@angular/core';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
 import {ReactionSnapshot} from '../../core/reaction-snapshot/reaction-snapshot';
 import {ReactionState} from '../../core/reaction-state/reaction-state';
 import {ReactionProvider} from '../../services/reaction-provider/reaction-provider';
@@ -14,8 +13,6 @@ import {ReactionProvider} from '../../services/reaction-provider/reaction-provid
     exportAs: 'rgReaction'
 })
 export class ReactionModelDirective {
-    public disabled$: Observable<boolean>;
-
     /**
      * Emits snapshots of the reaction object.
      */
@@ -30,9 +27,6 @@ export class ReactionModelDirective {
      * Constructor
      */
     public constructor(private readonly _reactionProvider: ReactionProvider) {
-        this.disabled$ = this._reactionProvider.snapshot$.pipe(
-            map(state => state.disabled)
-        );
     }
 
     /**

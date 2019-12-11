@@ -1,27 +1,32 @@
 import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs';
+import {distinctUntilChanged, filter, map, pluck, shareReplay, switchMap} from 'rxjs/operators';
 import {ReactionSnapshot, toReactionSnapshot} from '../../core/reaction-snapshot/reaction-snapshot';
 import {ReactionState, toReactionState} from '../../core/reaction-state/reaction-state';
-import {distinctUntilChanged, filter, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {hydrateReaction} from '../../utils/hydrate-reaction';
 import {ReactionObject} from '../../core/reaction-types';
+import {hydrateReaction} from '../../utils/hydrate-reaction';
 
 @Injectable()
 export class ReactionProvider {
+    /**
+     * Emits the disabled state of the reaction object.
+     */
+    public disabled$: Observable<boolean>;
+
     /**
      * Emits changes to the reaction object.
      */
     public reaction$: Observable<ReactionObject>;
 
     /**
-     * Emits the reaction as a state object.
-     */
-    public state$: Observable<ReactionState>;
-
-    /**
      * Emits snapshots of the reaction.
      */
     public snapshot$: Observable<ReactionSnapshot>;
+
+    /**
+     * Emits the reaction as a state object.
+     */
+    public state$: Observable<ReactionState>;
 
     /**
      * Emits the reaction object.
@@ -48,6 +53,8 @@ export class ReactionProvider {
             switchMap(toReactionSnapshot),
             shareReplay(1)
         );
+
+        this.disabled$ = this.snapshot$.pipe(pluck('disabled'));
     }
 
     /**

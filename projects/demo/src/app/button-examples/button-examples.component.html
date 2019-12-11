@@ -1,4 +1,8 @@
 <button *ngFor="let reaction of reactions"
-        [rgReactionButton]="reaction"
+        [rgReaction]="reaction"
+        rgReactionClick
+        rgReactionClass
         type="button"
-        class="mr-3"></button>
+        class="btn btn-outline-primary mr-3">
+  <rg-reaction-view></rg-reaction-view>
+</button>

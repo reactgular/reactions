@@ -5,7 +5,9 @@
     "entryFile": "src/public-api.ts",
     "umdModuleIds": {
       "@reactgular/reactions": "reactions",
-      "@fortawesome/angular-fontawesome": "angularFontawesome"
+      "@fortawesome/angular-fontawesome": "angularFontawesome",
+      "@reactgular/destroyable": "destroyable",
+      "@reactgular/observables": "observables"
     }
   }
 }
