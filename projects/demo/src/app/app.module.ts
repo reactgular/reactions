@@ -5,6 +5,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoggerModule} from '@reactgular/logger';
 import {
+    ReactionButtonModule,
     ReactionClassModule,
     ReactionClickModule,
     ReactionMatButtonModule,
@@ -13,14 +14,17 @@ import {
 } from '@reactgular/reactions';
 import {environment} from '../environments/environment';
 import {AppRoutingModule} from './app-routing.module';
-import {ButtonsExampleComponent} from './buttons-example/buttons-example.component';
+import {ButtonExamplesComponent} from './button-examples/button-examples.component';
 import {DemoComponent} from './demo/demo.component';
 
 const MAT_MODULES = [
-    MatButtonModule
+    MatButtonModule,
+    MatFormFieldModule,
+    MatSelectModule
 ];
 
 const REACTION_MODULES = [
+    ReactionButtonModule,
     ReactionClassModule,
     ReactionClickModule,
     ReactionMatButtonModule,
@@ -32,20 +36,17 @@ const REACTION_MODULES = [
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
-        AppRoutingModule,
+        FormsModule,
         ReactiveFormsModule,
+        AppRoutingModule,
         LoggerModule.forRoot({enabled: !environment.production}),
         ...REACTION_MODULES,
         ...MAT_MODULES,
-        MatFormFieldModule,
-        MatSelectModule,
-        FormsModule
     ],
     declarations: [
         DemoComponent,
-        ButtonsExampleComponent
+        ButtonExamplesComponent
     ],
-    providers: [],
     bootstrap: [
         DemoComponent
     ]

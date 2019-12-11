@@ -1,0 +1,9 @@
+<ng-container [rgReaction]="reaction"
+              #rgReaction="rgReaction">
+  <ng-container *ngIf="rgReaction.snapshot$ | async as snapshot">
+    <rg-reaction-text [options]="options"
+                      [snapshot]="snapshot">
+      <ng-content></ng-content>
+    </rg-reaction-text>
+  </ng-container>
+</ng-container>
