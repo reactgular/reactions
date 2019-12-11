@@ -8,7 +8,6 @@ import {
     ReactionButtonModule,
     ReactionClassModule,
     ReactionClickModule,
-    ReactionMatButtonModule,
     ReactionShortcutsModule,
     ReactionTextModule
 } from '@reactgular/reactions';
@@ -27,7 +26,6 @@ const REACTION_MODULES = [
     ReactionButtonModule,
     ReactionClassModule,
     ReactionClickModule,
-    ReactionMatButtonModule,
     ReactionShortcutsModule,
     ReactionTextModule,
 ];

@@ -1,5 +1,5 @@
+import {toObservable} from '@reactgular/observables';
 import {Observable, of} from 'rxjs';
-import {toObservable} from './observables';
 
 /**
  * Converts the value to an observable. If the value is a function it is called recursively until a literal or observable

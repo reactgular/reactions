@@ -1,13 +1,13 @@
-import {Directive, ElementRef, Inject, Input, OnDestroy, OnInit, ViewContainerRef} from '@angular/core';
-import {ReplaySubject, Subject, Subscription} from 'rxjs';
-import {ReactionObject} from '../../core/reaction-types';
-import {ReactionCoreService} from '../../services/reaction-core/reaction-core.service';
 import {DOCUMENT} from '@angular/common';
-import {reactionEventObservable} from '../../core/reaction-event/reaction-event-observable';
-import {disabledWhen} from '../../utils/observables';
-import {toReactionState} from '../../core/reaction-state/reaction-state';
+import {Directive, ElementRef, Inject, Input, OnDestroy, OnInit, ViewContainerRef} from '@angular/core';
+import {disabledWhen} from '@reactgular/observables';
+import {ReplaySubject, Subject, Subscription} from 'rxjs';
 import {filter, map, pairwise, startWith, takeUntil} from 'rxjs/operators';
 import {reactionEventMatcher} from '../../core/reaction-event/reaction-event-matcher';
+import {reactionEventObservable} from '../../core/reaction-event/reaction-event-observable';
+import {toReactionState} from '../../core/reaction-state/reaction-state';
+import {ReactionObject} from '../../core/reaction-types';
+import {ReactionCoreService} from '../../services/reaction-core/reaction-core.service';
 
 /**
  * Applies the keyboard bindings to the document so that reactions receive keyboard press events.
@@ -17,14 +17,14 @@ import {reactionEventMatcher} from '../../core/reaction-event/reaction-event-mat
 })
 export class ReactionShortcutsDirective implements OnInit, OnDestroy {
     /**
-     * Emits a collection of reactions that might have keyboard bindings.
-     */
-    private readonly _reactions$: ReplaySubject<unknown[]> = new ReplaySubject(1);
-
-    /**
      * Destructor
      */
     private readonly _destroyed$: Subject<void> = new Subject();
+
+    /**
+     * Emits a collection of reactions that might have keyboard bindings.
+     */
+    private readonly _reactions$: ReplaySubject<unknown[]> = new ReplaySubject(1);
 
     /**
      * Constructor

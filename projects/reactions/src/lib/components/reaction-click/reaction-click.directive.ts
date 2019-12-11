@@ -1,11 +1,11 @@
 import {Directive, ElementRef, OnDestroy, OnInit, ViewContainerRef} from '@angular/core';
+import {disabledWhen, withSwitchMap} from '@reactgular/observables';
 import {Subject} from 'rxjs';
-import {ReactionCoreService} from '../../services/reaction-core/reaction-core.service';
 import {switchMap, takeUntil} from 'rxjs/operators';
-import {disabledWhen, withSwitchMap} from '../../utils/observables';
 import {reactionEventObservable} from '../../core/reaction-event/reaction-event-observable';
-import {ReactionProvider} from '../../services/reaction-provider/reaction-provider';
 import {ReactionObject} from '../../core/reaction-types';
+import {ReactionCoreService} from '../../services/reaction-core/reaction-core.service';
+import {ReactionProvider} from '../../services/reaction-provider/reaction-provider';
 
 @Directive({selector: '[rgReactionClick]'})
 export class ReactionClickDirective implements OnInit, OnDestroy {
