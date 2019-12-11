@@ -11,9 +11,9 @@
 <div *ngFor="let type of types"
      class="buttons">
   <div class="title">{{type | titlecase}} Buttons</div>
-  <rg-button *ngFor="let reaction of reactions"
-             class="mr-3"
-             [reaction]="reaction"
-             [color]="color"
-             [type]="type"></rg-button>
+  <rg-mat-button *ngFor="let reaction of reactions"
+                 class="mr-3"
+                 [reaction]="reaction"
+                 [color]="color"
+                 [type]="type"></rg-mat-button>
 </div>

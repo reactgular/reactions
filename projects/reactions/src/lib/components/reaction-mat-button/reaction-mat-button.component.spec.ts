@@ -1,18 +1,18 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {ReactionButtonComponent} from './reaction-button.component';
+import {ReactionMatButtonComponent} from './reaction-mat-button.component';
 
-describe(ReactionButtonComponent.name, () => {
-    let component: ReactionButtonComponent;
-    let fixture: ComponentFixture<ReactionButtonComponent>;
+describe(ReactionMatButtonComponent.name, () => {
+    let component: ReactionMatButtonComponent;
+    let fixture: ComponentFixture<ReactionMatButtonComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ReactionButtonComponent]
+            declarations: [ReactionMatButtonComponent]
         }).compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ReactionButtonComponent);
+        fixture = TestBed.createComponent(ReactionMatButtonComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

@@ -3,7 +3,7 @@ import {ThemePalette} from '@angular/material';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {ReactionTextOptions} from '../reaction-text/reaction-text-options';
-import {isReactionButtonTypeIcon, ReactionButtonType} from './reaction-button-types';
+import {isReactionButtonTypeIcon, ReactionButtonType} from './reaction-mat-button-types';
 
 interface ReactionButtonValues {
     /**
@@ -67,12 +67,12 @@ const mapIconValues = (values: ReactionButtonValues): ReactionButtonValues => ({
  * Renders an Angular Material button bound to a Reactions object.
  */
 @Component({
-    selector: 'rg-button',
-    templateUrl: './reaction-button.component.html',
+    selector: 'rg-mat-button',
+    templateUrl: './reaction-mat-button.component.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ReactionButtonComponent {
+export class ReactionMatButtonComponent {
     public BASIC = ReactionButtonType.BASIC;
 
     public FAB = ReactionButtonType.FAB;
