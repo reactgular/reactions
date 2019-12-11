@@ -4,7 +4,9 @@ import {combineLatest} from 'rxjs';
 import {map, pairwise, startWith, takeUntil} from 'rxjs/operators';
 import {ReactionProvider} from '../../services/reaction-provider/reaction-provider';
 
-@Directive({selector: '[rgReactionClass]'})
+@Directive({
+    selector: '[rgReactionClass],button[reaction]'
+})
 export class ReactionClassDirective extends Destroyable implements OnInit {
     /**
      * Constructor

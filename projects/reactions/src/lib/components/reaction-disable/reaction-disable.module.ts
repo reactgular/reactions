@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {ReactionModelModule} from '../reaction-model/reaction-model.module';
-import {ReactionClickDirective} from './reaction-click.directive';
+import {ReactionDisableDirective} from './reaction-disable.directive';
 
 @NgModule({
     imports: [
@@ -9,11 +9,11 @@ import {ReactionClickDirective} from './reaction-click.directive';
         ReactionModelModule
     ],
     declarations: [
-        ReactionClickDirective
+        ReactionDisableDirective
     ],
     exports: [
-        ReactionClickDirective
+        ReactionDisableDirective
     ]
 })
-export class ReactionClickModule {
+export class ReactionDisableModule {
 }

@@ -1,5 +1,6 @@
 export * from './reaction-class/public-api';
 export * from './reaction-click/public-api';
+export * from './reaction-disable/public-api';
 export * from './reaction-model/public-api';
 export * from './reaction-shortcuts/public-api';
 export * from './reaction-snapshots/public-api';

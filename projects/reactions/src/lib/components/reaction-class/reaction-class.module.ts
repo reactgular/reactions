@@ -1,7 +1,7 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ReactionClassDirective} from './reaction-class.directive';
+import {NgModule} from '@angular/core';
 import {ReactionModelModule} from '../reaction-model/reaction-model.module';
+import {ReactionClassDirective} from './reaction-class.directive';
 
 @NgModule({
     imports: [
@@ -12,8 +12,7 @@ import {ReactionModelModule} from '../reaction-model/reaction-model.module';
         ReactionClassDirective
     ],
     exports: [
-        ReactionClassDirective,
-        ReactionModelModule
+        ReactionClassDirective
     ]
 })
 export class ReactionClassModule {

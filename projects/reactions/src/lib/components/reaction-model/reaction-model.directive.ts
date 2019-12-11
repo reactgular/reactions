@@ -8,7 +8,7 @@ import {ReactionProvider} from '../../services/reaction-provider/reaction-provid
  * Dependency provider for other components to gain access to the reaction object.
  */
 @Directive({
-    selector: '[rgReaction]',
+    selector: '[rgReaction],button[reaction]',
     providers: [ReactionProvider],
     exportAs: 'rgReaction'
 })
@@ -32,8 +32,16 @@ export class ReactionModelDirective {
     /**
      * Sets the reaction object. We use unknown to reduce warnings in templates.
      */
-    @Input('rgReaction')
+    @Input('reaction')
     public set reaction(reaction: unknown) {
+        this.rgReaction = reaction;
+    }
+
+    /**
+     * Sets the reaction object. We use unknown to reduce warnings in templates.
+     */
+    @Input('rgReaction')
+    public set rgReaction(reaction: unknown) {
         this._reactionProvider.set(reaction);
     }
 }

@@ -7,7 +7,9 @@ import {ReactionObject} from '../../core/reaction-types';
 import {ReactionCoreService} from '../../services/reaction-core/reaction-core.service';
 import {ReactionProvider} from '../../services/reaction-provider/reaction-provider';
 
-@Directive({selector: '[rgReactionClick]'})
+@Directive({
+    selector: '[rgReactionClick],button[reaction]'
+})
 export class ReactionClickDirective extends Destroyable implements OnInit {
     /**
      * Constructor

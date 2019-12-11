@@ -4,7 +4,14 @@ import {MatButtonModule, MatFormFieldModule, MatSelectModule} from '@angular/mat
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoggerModule} from '@reactgular/logger';
-import {ReactionClassModule, ReactionClickModule, ReactionShortcutsModule, ReactionViewModule} from '@reactgular/reactions';
+import {
+    ReactionClassModule,
+    ReactionClickModule,
+    ReactionDisableModule,
+    ReactionModelModule,
+    ReactionShortcutsModule,
+    ReactionViewModule
+} from '@reactgular/reactions';
 import {environment} from '../environments/environment';
 import {AppRoutingModule} from './app-routing.module';
 import {ButtonExamplesComponent} from './button-examples/button-examples.component';
@@ -19,6 +26,8 @@ const MAT_MODULES = [
 const REACTION_MODULES = [
     ReactionClassModule,
     ReactionClickModule,
+    ReactionDisableModule,
+    ReactionModelModule,
     ReactionShortcutsModule,
     ReactionViewModule
 ];
