@@ -1,0 +1,6 @@
+<ng-container *ngIf="snapshot$ | async as snapshot">
+  <rg-reaction-icon [fixedWidth]="fixedWidth"></rg-reaction-icon>
+  <span *ngIf="text && snapshot.title" class="rg-reaction-text">{{snapshot.title}}</span>
+  <rg-reaction-icon [secondary]="true"
+                    [fixedWidth]="fixedWidth"></rg-reaction-icon>
+</ng-container>
