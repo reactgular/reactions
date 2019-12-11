@@ -1,29 +1,18 @@
-import {Directive, ElementRef, OnDestroy, OnInit, Renderer2} from '@angular/core';
-import {combineLatest, Subject} from 'rxjs';
+import {Directive, ElementRef, OnInit, Renderer2} from '@angular/core';
+import {Destroyable} from '@reactgular/destroyable';
+import {combineLatest} from 'rxjs';
 import {map, pairwise, startWith, takeUntil} from 'rxjs/operators';
 import {ReactionProvider} from '../../services/reaction-provider/reaction-provider';
 
 @Directive({selector: '[rgReactionClass]'})
-export class ReactionClassDirective implements OnInit, OnDestroy {
-    /**
-     * Destructor event
-     */
-    private readonly _destroyed$: Subject<void> = new Subject();
-
+export class ReactionClassDirective extends Destroyable implements OnInit {
     /**
      * Constructor
      */
     public constructor(private readonly _reactionProvider: ReactionProvider,
                        private readonly _el: ElementRef<HTMLElement>,
                        private readonly _renderer: Renderer2) {
-    }
-
-    /**
-     * Destructor
-     */
-    public ngOnDestroy(): void {
-        this._destroyed$.next();
-        this._destroyed$.complete();
+        super();
     }
 
     /**

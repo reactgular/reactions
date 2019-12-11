@@ -1,7 +1,8 @@
 import {DOCUMENT} from '@angular/common';
 import {Directive, ElementRef, Inject, Input, OnDestroy, OnInit, ViewContainerRef} from '@angular/core';
+import {Destroyable} from '@reactgular/destroyable';
 import {disabledWhen} from '@reactgular/observables';
-import {ReplaySubject, Subject, Subscription} from 'rxjs';
+import {ReplaySubject, Subscription} from 'rxjs';
 import {filter, map, pairwise, startWith, takeUntil} from 'rxjs/operators';
 import {reactionEventMatcher} from '../../core/reaction-event/reaction-event-matcher';
 import {reactionEventObservable} from '../../core/reaction-event/reaction-event-observable';
@@ -15,12 +16,7 @@ import {ReactionCoreService} from '../../services/reaction-core/reaction-core.se
 @Directive({
     selector: '[rgReactionShortcuts]'
 })
-export class ReactionShortcutsDirective implements OnInit, OnDestroy {
-    /**
-     * Destructor
-     */
-    private readonly _destroyed$: Subject<void> = new Subject();
-
+export class ReactionShortcutsDirective extends Destroyable implements OnInit, OnDestroy {
     /**
      * Emits a collection of reactions that might have keyboard bindings.
      */
@@ -33,7 +29,7 @@ export class ReactionShortcutsDirective implements OnInit, OnDestroy {
                        private readonly _reactionCode: ReactionCoreService,
                        private readonly _el: ElementRef<HTMLElement>,
                        private readonly _view: ViewContainerRef) {
-
+        super();
     }
 
     /**
@@ -49,8 +45,7 @@ export class ReactionShortcutsDirective implements OnInit, OnDestroy {
      */
     public ngOnDestroy(): void {
         this._reactions$.next([]);
-        this._destroyed$.next();
-        this._destroyed$.complete();
+        super.ngOnDestroy();
     }
 
     /**

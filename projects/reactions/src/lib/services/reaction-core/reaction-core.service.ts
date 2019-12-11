@@ -1,32 +1,28 @@
 import {DOCUMENT} from '@angular/common';
-import {ElementRef, Inject, Injectable, OnDestroy, ViewContainerRef} from '@angular/core';
+import {ElementRef, Inject, Injectable, ViewContainerRef} from '@angular/core';
+import {Destroyable} from '@reactgular/destroyable';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {catchError, defaultIfEmpty, distinctUntilChanged, first, map, takeUntil} from 'rxjs/operators';
 import {ReactionEvent} from '../../core/reaction-event/reaction-event';
-import {ReactionShortcutService} from '../reaction-shortcut/reaction-shortcut.service';
-import {ReactionObject, ReactionSourceType} from '../../core/reaction-types';
 import {reactionEventMatcher} from '../../core/reaction-event/reaction-event-matcher';
+import {ReactionObject, ReactionSourceType} from '../../core/reaction-types';
+import {ReactionShortcutService} from '../reaction-shortcut/reaction-shortcut.service';
 
 /**
  * UI events are broadcast from this service and reactions can act upon those events. Events are things like mouse events, keyboard
  * events, etc.. etc..
  */
 @Injectable({providedIn: 'root'})
-export class ReactionCoreService implements OnDestroy {
-    /**
-     * All of the reaction events.
-     */
-    public readonly events$: Observable<ReactionEvent>;
-
+export class ReactionCoreService extends Destroyable {
     /**
      * Emits if reactions are disabled.
      */
     public readonly disabled$: Observable<boolean>;
 
     /**
-     * Destruction event
+     * All of the reaction events.
      */
-    private readonly _destroyed$: Subject<void> = new Subject();
+    public readonly events$: Observable<ReactionEvent>;
 
     /**
      * Disabled when above zero. Increments and decrements to support nested disabling.
@@ -43,6 +39,7 @@ export class ReactionCoreService implements OnDestroy {
      */
     public constructor(@Inject(DOCUMENT) private _doc: any,
                        private _shortcut: ReactionShortcutService) {
+        super();
         this._events$ = new Subject<ReactionEvent>();
         this.events$ = this._events$.pipe(
             takeUntil(this._destroyed$)
@@ -73,36 +70,14 @@ export class ReactionCoreService implements OnDestroy {
     }
 
     /**
-     * Bootstraps a reaction when it's being created.
-     *
-     * @deprecated use hydrate instead.
+     * Broadcasts the event to the application.
      */
-    public bootstrap(reaction: ReactionObject) {
-        // const reactionDisabled$ = toReactionValue<boolean>(reaction['disabled'], false);
-        // const disabled$ = combineLatest([reactionDisabled$, this.disabled$]).pipe(
-        //     map(([disabledA, disabledB]) => disabledA || disabledB)
-        // );
-        //
-        // const hooks = reaction.hocks.filter(hook => isReactionShortcutOptions(hook)) as ReactionShortcutOptions[];
-        // const events$ = hooks.map(hook => {
-        //     return fromEvent<KeyboardEvent>(this._doc, 'keydown').pipe(
-        //         // only key presses for this hook
-        //         filter(event => event.key.toLowerCase() === hook.code.key
-        //             && event.ctrlKey === hook.code.ctrlKey
-        //             && event.altKey === hook.code.altKey
-        //             && event.shiftKey === hook.code.shiftKey
-        //             && !event.repeat)
-        //     );
-        // });
-        //
-        // merge<KeyboardEvent>(...events$).pipe(
-        //     // disable default even if the hook is disabled (i.e. CTRL+S shouldn't save the web page)
-        //     tap(event => event.preventDefault()),
-        //     disabledWhen(disabled$),
-        //     map<KeyboardEvent, ReactionEvent>(payload => ({id: 0, payload, reaction})),
-        //     // @todo this won't work
-        //     takeUntil(merge(this._destroyed$, reaction.destroyed$))
-        // ).subscribe(event => this._events$.next(event));
+    public broadcast(reaction: ReactionObject,
+                     event: Event,
+                     source: ReactionSourceType,
+                     el: ElementRef<HTMLElement>,
+                     view: ViewContainerRef) {
+        this._events$.next(new ReactionEvent(this._nextId++, reaction, event, source, el, view));
     }
 
     /**
@@ -116,24 +91,5 @@ export class ReactionCoreService implements OnDestroy {
             first(),
             takeUntil(this._destroyed$)
         ).subscribe(() => this._disabled$.next(this._disabled$.value - 1));
-    }
-
-    /**
-     * Destructor
-     */
-    public ngOnDestroy(): void {
-        this._destroyed$.next();
-        this._destroyed$.complete();
-    }
-
-    /**
-     * Broadcasts the event to the application.
-     */
-    public broadcast(reaction: ReactionObject,
-                     event: Event,
-                     source: ReactionSourceType,
-                     el: ElementRef<HTMLElement>,
-                     view: ViewContainerRef) {
-        this._events$.next(new ReactionEvent(this._nextId++, reaction, event, source, el, view));
     }
 }

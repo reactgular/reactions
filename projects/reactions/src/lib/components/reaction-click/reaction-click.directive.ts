@@ -1,6 +1,6 @@
-import {Directive, ElementRef, OnDestroy, OnInit, ViewContainerRef} from '@angular/core';
+import {Directive, ElementRef, OnInit, ViewContainerRef} from '@angular/core';
+import {Destroyable} from '@reactgular/destroyable';
 import {disabledWhen, withSwitchMap} from '@reactgular/observables';
-import {Subject} from 'rxjs';
 import {switchMap, takeUntil} from 'rxjs/operators';
 import {reactionEventObservable} from '../../core/reaction-event/reaction-event-observable';
 import {ReactionObject} from '../../core/reaction-types';
@@ -8,12 +8,7 @@ import {ReactionCoreService} from '../../services/reaction-core/reaction-core.se
 import {ReactionProvider} from '../../services/reaction-provider/reaction-provider';
 
 @Directive({selector: '[rgReactionClick]'})
-export class ReactionClickDirective implements OnInit, OnDestroy {
-    /**
-     * Destructor event
-     */
-    public readonly destroyed$: Subject<void> = new Subject();
-
+export class ReactionClickDirective extends Destroyable implements OnInit {
     /**
      * Constructor
      */
@@ -21,14 +16,7 @@ export class ReactionClickDirective implements OnInit, OnDestroy {
                        private readonly _reactionCore: ReactionCoreService,
                        private readonly _el: ElementRef<HTMLElement>,
                        private readonly _view: ViewContainerRef) {
-    }
-
-    /**
-     * Destructor
-     */
-    public ngOnDestroy(): void {
-        this.destroyed$.next();
-        this.destroyed$.complete();
+        super();
     }
 
     /**

@@ -1,12 +1,13 @@
-import {Inject, Injectable, OnDestroy} from '@angular/core';
-import {BehaviorSubject, fromEvent, merge, Observable, Subject} from 'rxjs';
 import {DOCUMENT} from '@angular/common';
-import {distinctUntilChanged, filter, map, mapTo, takeUntil} from 'rxjs/operators';
+import {Inject, Injectable} from '@angular/core';
+import {Destroyable} from '@reactgular/destroyable';
+import {BehaviorSubject, fromEvent, merge, Observable} from 'rxjs';
+import {distinctUntilChanged, map, mapTo, takeUntil} from 'rxjs/operators';
 
 interface KeyboardState {
-    ctrlKey: boolean;
-
     altKey: boolean;
+
+    ctrlKey: boolean;
 
     metaKey: boolean;
 
@@ -17,7 +18,7 @@ interface KeyboardState {
  * A service for consuming events from the keyboard.
  */
 @Injectable({providedIn: 'root'})
-export class ReactionKeyboardService implements OnDestroy {
+export class ReactionKeyboardService extends Destroyable {
     /**
      * Emits the pressed state of the alt key.
      */
@@ -29,19 +30,14 @@ export class ReactionKeyboardService implements OnDestroy {
     public readonly ctrl$: Observable<boolean>;
 
     /**
-     * Emits the pressed state of the shift key.
-     */
-    public readonly shift$: Observable<boolean>;
-
-    /**
      * Emits the pressed state of the meta key.
      */
     public readonly meta$: Observable<boolean>;
 
     /**
-     * Destroy event.
+     * Emits the pressed state of the shift key.
      */
-    private readonly _destroyed$: Subject<void> = new Subject();
+    public readonly shift$: Observable<boolean>;
 
     /**
      * Emits the current state of the keyboard.
@@ -57,6 +53,8 @@ export class ReactionKeyboardService implements OnDestroy {
      * Constructor
      */
     public constructor(@Inject(DOCUMENT) private _doc: any) {
+        super();
+
         const keyUpEvent: KeyboardEvent = new KeyboardEvent('keyup', {
             ctrlKey: false,
             altKey: false,
@@ -91,13 +89,5 @@ export class ReactionKeyboardService implements OnDestroy {
             map(s => s.metaKey),
             distinctUntilChanged()
         );
-    }
-
-    /**
-     * Destructor
-     */
-    public ngOnDestroy(): void {
-        this._destroyed$.next();
-        this._destroyed$.complete();
     }
 }
