@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, ViewEncapsulation} from '@angular/core';
 import {ReactionSnapshot} from '../../core/reaction-snapshot/reaction-snapshot';
 import {ReactionTextOptions} from './reaction-text-options';
 
@@ -8,7 +8,7 @@ import {ReactionTextOptions} from './reaction-text-options';
 @Component({
     selector: 'rg-reaction-text',
     templateUrl: './reaction-text.component.html',
-    styleUrls: ['./reaction-text.component.scss'],
+    encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReactionTextComponent {

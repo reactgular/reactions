@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Inject, ViewEncapsulation} from '@angular/core';
 import {ThemePalette} from '@angular/material';
-import {REACTION_BUTTON_TYPES, ReactionButtonType, ReactionObject} from '@reactgular/reactions';
+import {ReactionButtonType, ReactionObject} from '@reactgular/reactions';
 import {TOP_BAR_TOKEN} from '../demo/demo.component';
 
 /**
@@ -9,7 +9,7 @@ import {TOP_BAR_TOKEN} from '../demo/demo.component';
 @Component({
     selector: 'rg-buttons-example',
     templateUrl: './buttons-example.component.html',
-    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['./buttons-example.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ButtonsExampleComponent {
@@ -26,7 +26,15 @@ export class ButtonsExampleComponent {
     /**
      * Collection of button rows.
      */
-    public types: ReactionButtonType[] = REACTION_BUTTON_TYPES;
+    public types: ReactionButtonType[] = [
+        ReactionButtonType.BASIC,
+        ReactionButtonType.FLAT,
+        ReactionButtonType.RAISED,
+        ReactionButtonType.STROKED,
+        ReactionButtonType.ICON,
+        ReactionButtonType.FAB,
+        ReactionButtonType.MINI_FAB
+    ];
 
     /**
      * Constructor

@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  flex-direction: column;
+
+  .buttons {
+    display: flex;
+    align-items: baseline;
+    margin-top: 0.5rem;
+
+    .title {
+      display: flex;
+      width: 10rem;
+    }
+  }
+
+  rg-button .rg-reaction-icon {
+    margin-right: 1rem;
+  }
+}

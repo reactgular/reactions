@@ -8,13 +8,12 @@
   </mat-select>
 </mat-form-field>
 
-<ng-container *ngFor="let type of types; let firstType = first">
-  <h3 [class.mt-3]="!firstType">
-    {{type | titlecase}} Buttons
-  </h3>
-  <rg-button *ngFor="let reaction of reactions; let firstReaction = first"
-             [class.ml-3]="!firstReaction"
+<div *ngFor="let type of types"
+     class="buttons">
+  <div class="title">{{type | titlecase}} Buttons</div>
+  <rg-button *ngFor="let reaction of reactions"
+             class="mr-3"
              [reaction]="reaction"
              [color]="color"
              [type]="type"></rg-button>
-</ng-container>
+</div>

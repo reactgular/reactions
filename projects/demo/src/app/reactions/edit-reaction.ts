@@ -1,7 +1,7 @@
 import {faPencilAlt} from '@fortawesome/free-solid-svg-icons';
 import {Reaction, ReactionDisabled, ReactionEvent} from '@reactgular/reactions';
-import {Observable, of} from 'rxjs';
-import {delay, startWith} from 'rxjs/operators';
+import {concat, Observable, of} from 'rxjs';
+import {delay, repeat} from 'rxjs/operators';
 
 @Reaction({
     title: 'Edit',
@@ -16,9 +16,12 @@ export class EditReaction implements ReactionDisabled {
     }
 
     public disabled(): Observable<boolean> {
-        return of(true).pipe(
-            delay(2000),
-            startWith(false)
+        return concat(
+            of(false),
+            of(true).pipe(delay(2000)),
+            of(false).pipe(delay(2000))
+        ).pipe(
+            repeat()
         );
     }
 }

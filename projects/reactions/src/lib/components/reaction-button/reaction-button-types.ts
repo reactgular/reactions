@@ -13,18 +13,6 @@ export enum ReactionButtonType {
 }
 
 /**
- * The different types of buttons.
- */
-export const REACTION_BUTTON_TYPES: ReactionButtonType[] = [
-    ReactionButtonType.BASIC,
-    ReactionButtonType.FLAT,
-    ReactionButtonType.RAISED,
-    ReactionButtonType.STROKED,
-    ReactionButtonType.ICON,
-    ReactionButtonType.FAB,
-    ReactionButtonType.MINI_FAB
-];
-/**
  * Indicates if the button type should render only an icon.
  */
 export const isReactionButtonTypeIcon = (type: ReactionButtonType): boolean =>
