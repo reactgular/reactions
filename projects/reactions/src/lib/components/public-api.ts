@@ -6,4 +6,5 @@ export * from './reaction-shortcuts/public-api';
 export * from './reaction-snapshots/public-api';
 export * from './reaction-sort/public-api';
 export * from './reaction-state/public-api';
+export * from './reaction-templates/public-api';
 export * from './reaction-view/public-api';

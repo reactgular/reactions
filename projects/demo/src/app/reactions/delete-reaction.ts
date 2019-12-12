@@ -1,4 +1,4 @@
-import {faTrash} from '@fortawesome/free-solid-svg-icons';
+import {faPlug, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {LogService} from '@reactgular/logger';
 import {Reaction, ReactionEvent} from '@reactgular/reactions';
 
@@ -6,6 +6,7 @@ import {Reaction, ReactionEvent} from '@reactgular/reactions';
     title: 'Delete',
     tooltip: 'Deletes a note',
     icon: faTrash,
+    secondary: faPlug,
     disabled: true
 })
 export class DeleteReaction {

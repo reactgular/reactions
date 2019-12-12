@@ -31,7 +31,6 @@ export class ReactionClassDirective extends Destroyable implements OnInit {
             snapshot$.pipe(map(s => toArray(s.secondary, 'rg-reaction-secondary'))),
             snapshot$.pipe(map(s => toArray(s.title, 'rg-reaction-title'))),
             snapshot$.pipe(map(s => toArray(s.tooltip, 'rg-reaction-tooltip'))),
-            snapshot$.pipe(map(s => toArray(s.animate, 'rg-reaction-animate'))),
             snapshot$.pipe(map(s => toArray(s.disabled, 'rg-reaction-disabled')))
         ];
 
