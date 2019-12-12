@@ -1,0 +1,11 @@
+{
+  "name": "reactions-fontawesome",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^8.0.0",
+    "@angular/core": "^8.0.0",
+    "@fortawesome/angular-fontawesome": "~0.5.0",
+    "@fortawesome/fontawesome-svg-core": "~1.2.25",
+    "@reactgular/reactions": "^1.0.0"
+  }
+}

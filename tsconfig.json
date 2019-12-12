@@ -25,17 +25,11 @@
       "@reactgular/reactions/*": [
         "dist/reactions/*"
       ],
-      "@reactgular/reactions-material": [
-        "dist/reactions-material"
+      "@reactgular/reactions-fontawesome": [
+        "dist/reactions-fontawesome"
       ],
-      "@reactgular/reactions-material/*": [
-        "dist/reactions-material/*"
-      ],
-      "@reactgular/reactions-bootstrap": [
-        "dist/reactions-bootstrap"
-      ],
-      "@reactgular/reactions-bootstrap/*": [
-        "dist/reactions-bootstrap/*"
+      "@reactgular/reactions-fontawesome/*": [
+        "dist/reactions-fontawesome/*"
       ]
     }
   }

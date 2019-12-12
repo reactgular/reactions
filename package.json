@@ -15,13 +15,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --watch --open",
-    "build": "npm run build:reactions && npm run build:demo",
-    "build:reactions": "ng build reactions && npm run postbuild:reactions",
+    "build": "npm run build:reactions && npm run build:reactions-fontawesome && npm run build:demo",
+    "build:reactions": "ng build reactions",
+    "build:reactions-fontawesome": "ng build reactions-fontawesome",
     "build:demo": "ng build demo",
     "test": "ng test reactions --watch=false --code-coverage=true",
     "test:watch": "ng test reactions",
-    "lint": "ng lint",
-    "postbuild:reactions": "cp README.md ./dist/reactions/README.md"
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
