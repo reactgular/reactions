@@ -3,7 +3,7 @@ import {ReactionSnapshot} from '../lib/core/reaction-snapshot/reaction-snapshot'
 export const reactionSnapshotDefaults = () => ({
     description: undefined,
     disabled: false,
-    icon: undefined,
+    primary: undefined,
     animate: undefined,
     secondary: undefined,
     secondaryAnimate: undefined,
