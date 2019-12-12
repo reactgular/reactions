@@ -7,9 +7,9 @@ import {ReactionObject, ReactionProperty} from '../reaction-types';
  */
 export interface ReactionIcon {
     /**
-     * The visual icon for the tool.
+     * Primary icon shown before the text.
      */
-    icon: ReactionProperty<any>;
+    primary: ReactionProperty<any>;
 
     /**
      * Secondary icon shown after the text.
@@ -22,12 +22,12 @@ export interface ReactionIcon {
  */
 export interface ReactionIconState {
     /**
-     * Icon state
+     * Primary icon state
      */
-    icon: Observable<any>;
+    primary: Observable<any>;
 
     /**
-     * Secondary state
+     * Secondary icon state
      */
     secondary: Observable<any>;
 }
@@ -37,9 +37,9 @@ export interface ReactionIconState {
  */
 export interface ReactionIconSnapshot {
     /**
-     * Icon state
+     * Primary state
      */
-    icon: any;
+    primary: any;
 
     /**
      * Secondary state
@@ -51,7 +51,7 @@ export interface ReactionIconSnapshot {
  * Updates a state object with more observable properties from the reaction.
  */
 export function reactionIconReducer(acc: ReactionObject, next: ReactionObject | ReactionIcon): ReactionObject {
-    const icon = toReactionValue(next.icon);
+    const primary = toReactionValue(next.primary);
     const secondary = toReactionValue(next.secondary);
-    return {...acc, icon, secondary};
+    return {...acc, primary, secondary};
 }

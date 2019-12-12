@@ -14,7 +14,7 @@ import {ReactionProvider} from '../../services/reaction-provider/reaction-provid
 })
 export class ReactionViewComponent implements OnInit {
     @Input()
-    public icon: boolean = true;
+    public primary: boolean = true;
 
     @Input()
     public secondary: boolean = true;

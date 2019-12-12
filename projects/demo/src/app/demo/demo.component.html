@@ -5,17 +5,5 @@
   <rg-button-examples class="m-3"></rg-button-examples>
 </ng-container>
 <ng-template #icon let-icon>
-  <fa-icon *ngIf="icon"
-           [class.rg-reaction-icon]="true"
-           [fixedWidth]="true"
-           [icon]="icon"></fa-icon>
-  <!--
-    <fa-icon *ngIf="secondary ? snapshot.secondary : snapshot.icon"
-             [class.rg-reaction-icon]="!secondary"
-             [class.rg-reaction-secondary]="secondary"
-             [fixedWidth]="fixedWidth"
-             [icon]="secondary ? snapshot.secondary : snapshot.icon"
-             [pulse]="(secondary ? snapshot.secondaryAnimate : snapshot.animate) === 'pulse'"
-             [spin]="(secondary ? snapshot.secondaryAnimate : snapshot.animate) === 'spin'"></fa-icon>
-  -->
+  <fa-icon [fixedWidth]="true" [icon]="icon"></fa-icon>
 </ng-template>

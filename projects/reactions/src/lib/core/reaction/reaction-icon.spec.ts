@@ -3,7 +3,7 @@ import {ReactionIcon, reactionIconReducer} from './reaction-icon';
 
 describe(reactionIconReducer.name, () => {
     const r = () => ({
-        icon: 'fa-plus',
+        primary: 'fa-plus',
         secondary: 'fa-document'
     } as ReactionIcon);
     const keys = Object.keys(r());

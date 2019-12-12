@@ -33,9 +33,11 @@ export class ReactionIconComponent implements OnInit {
             switchMap(secondary => secondary ? this._reactionTemplates.secondary$ : this._reactionTemplates.primary$)
         );
 
-        this.context$ = <any>this._secondary$.pipe(
+        this.context$ = this._secondary$.pipe(
             withSwitchMap(() => this._reactionProvider.state$),
-            withSwitchMap(([secondary, state]: [boolean, ReactionState]) => secondary ? state.secondary : state.icon),
+            withSwitchMap(([secondary, state]: [boolean, ReactionState]) => {
+                return secondary ? state.secondary : state.primary;
+            }),
             map(([values, $implicit]) => ({$implicit, secondary: values[0]}))
         );
     }
