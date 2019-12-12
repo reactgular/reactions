@@ -1,40 +1,20 @@
 import {Observable} from 'rxjs';
-import {ReactionObject, ReactionProperty} from '../reaction-types';
 import {toReactionValue} from '../../utils/reaction-value';
-
-/**
- * Supported types of animation.
- *
- * These are currently limited to what FontAwesome supports.
- */
-export enum ReactionIconAnimate {
-    SPIN = 'spin',
-    PULSE = 'pulse'
-}
+import {ReactionObject, ReactionProperty} from '../reaction-types';
 
 /**
  * Adds support for showing an icon.
  */
 export interface ReactionIcon {
     /**
-     * Emits the animation state of the tool. Can be "spin" or "pulse" or undefined.
+     * Primary icon shown before the text.
      */
-    animate?: ReactionProperty<ReactionIconAnimate>;
-
-    /**
-     * The visual icon for the tool.
-     */
-    icon: ReactionProperty<any>;
+    primary: ReactionProperty<any>;
 
     /**
      * Secondary icon shown after the text.
      */
     secondary?: ReactionProperty<any>;
-
-    /**
-     * Emits the animation state of the tool. Can be "spin" or "pulse" or undefined.
-     */
-    secondaryAnimate?: ReactionProperty<ReactionIconAnimate>;
 }
 
 /**
@@ -42,24 +22,14 @@ export interface ReactionIcon {
  */
 export interface ReactionIconState {
     /**
-     * Animation state
+     * Primary icon state
      */
-    animate: Observable<ReactionIconAnimate>;
+    primary: Observable<any>;
 
     /**
-     * Icon state
-     */
-    icon: Observable<any>;
-
-    /**
-     * Secondary state
+     * Secondary icon state
      */
     secondary: Observable<any>;
-
-    /**
-     * Animation state
-     */
-    secondaryAnimate: Observable<ReactionIconAnimate>;
 }
 
 /**
@@ -67,33 +37,21 @@ export interface ReactionIconState {
  */
 export interface ReactionIconSnapshot {
     /**
-     * Animation state
+     * Primary state
      */
-    animate: ReactionIconAnimate;
-
-    /**
-     * Icon state
-     */
-    icon: any;
+    primary: any;
 
     /**
      * Secondary state
      */
     secondary: any;
-
-    /**
-     * Animation state
-     */
-    secondaryAnimate: ReactionIconAnimate;
 }
 
 /**
  * Updates a state object with more observable properties from the reaction.
  */
 export function reactionIconReducer(acc: ReactionObject, next: ReactionObject | ReactionIcon): ReactionObject {
-    const icon = toReactionValue(next.icon);
-    const animate = toReactionValue(next.animate);
+    const primary = toReactionValue(next.primary);
     const secondary = toReactionValue(next.secondary);
-    const secondaryAnimate = toReactionValue(next.secondaryAnimate);
-    return {...acc, icon, animate, secondary, secondaryAnimate};
+    return {...acc, primary, secondary};
 }

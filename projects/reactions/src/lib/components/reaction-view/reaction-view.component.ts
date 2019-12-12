@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
-import {ReactionSnapshot} from '../../core/reaction-snapshot/reaction-snapshot';
+import {mergeAll, pluck} from 'rxjs/operators';
 import {ReactionProvider} from '../../services/reaction-provider/reaction-provider';
 
 /**
@@ -14,23 +14,23 @@ import {ReactionProvider} from '../../services/reaction-provider/reaction-provid
 })
 export class ReactionViewComponent implements OnInit {
     @Input()
-    public fixedWidth: boolean = true;
-
-    @Input()
-    public icon: boolean = true;
+    public primary: boolean = true;
 
     @Input()
     public secondary: boolean = true;
 
-    public snapshot$: Observable<ReactionSnapshot>;
-
     @Input()
     public text: boolean = true;
+
+    public title$: Observable<string>;
 
     public constructor(private readonly _reactionProvider: ReactionProvider) {
     }
 
     public ngOnInit(): void {
-        this.snapshot$ = this._reactionProvider.snapshot$;
+        this.title$ = <any>this._reactionProvider.state$.pipe(
+            pluck('title'),
+            mergeAll()
+        );
     }
 }

@@ -1,9 +1,7 @@
 import {Component, Input, ViewChild} from '@angular/core';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {ReactionModelDirective} from '../reaction-model/reaction-model.directive';
-import {ReactionViewComponent} from './reaction-view.component';
+import {async, ComponentFixture} from '@angular/core/testing';
 import {ReactionObject} from '../../core/reaction-types';
+import {ReactionViewComponent} from './reaction-view.component';
 
 // noinspection AngularMissingOrInvalidDeclarationInModule
 @Component({
@@ -27,7 +25,6 @@ describe(ReactionViewComponent.name, () => {
 
     beforeEach(async(() => {
         // TestBed.configureTestingModule({
-        //     imports: [FontAwesomeModule],
         //     declarations: [
         //         ReactionModelDirective,
         //         ReactionTextComponent,

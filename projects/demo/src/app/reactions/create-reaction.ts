@@ -5,7 +5,7 @@ import {Reaction, ReactionEvent} from '@reactgular/reactions';
 @Reaction({
     title: 'Create',
     tooltip: 'Creates a new note',
-    icon: faPlus,
+    primary: faPlus,
     order: 'demo:000'
 })
 export class CreateReaction {

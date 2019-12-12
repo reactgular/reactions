@@ -27,11 +27,10 @@ export class ReactionClassDirective extends Destroyable implements OnInit {
         const toArray = (cond: any, value: string): string[] => cond ? [value] : [];
         const styles$ = [
             snapshot$.pipe(map(s => s.css)),
-            snapshot$.pipe(map(s => toArray(s.icon, 'rg-reaction-icon'))),
+            snapshot$.pipe(map(s => toArray(s.primary, 'rg-reaction-primary'))),
             snapshot$.pipe(map(s => toArray(s.secondary, 'rg-reaction-secondary'))),
             snapshot$.pipe(map(s => toArray(s.title, 'rg-reaction-title'))),
             snapshot$.pipe(map(s => toArray(s.tooltip, 'rg-reaction-tooltip'))),
-            snapshot$.pipe(map(s => toArray(s.animate, 'rg-reaction-animate'))),
             snapshot$.pipe(map(s => toArray(s.disabled, 'rg-reaction-disabled')))
         ];
 

@@ -6,7 +6,7 @@ import {delay, repeat} from 'rxjs/operators';
 @Reaction({
     title: 'Edit',
     tooltip: 'Edits a note',
-    icon: faPencilAlt
+    primary: faPencilAlt
 })
 export class EditReaction implements ReactionDisabled {
 

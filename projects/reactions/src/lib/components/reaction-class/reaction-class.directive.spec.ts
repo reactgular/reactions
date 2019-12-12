@@ -53,7 +53,7 @@ describe(ReactionClassDirective.name, () => {
             it(`should read "${name}" property and set "rg-reaction-${name}" class`, () =>
                 expect(fixtureClass({[name]: value})).toEqual({...c, [`rg-reaction-${name}`]: true}));
 
-        shouldSetClass('icon', 'fa-document');
+        shouldSetClass('primary', 'fa-document');
         shouldSetClass('secondary', 'fa-document');
         shouldSetClass('title', 'Create');
         shouldSetClass('tooltip', 'Create a document');
@@ -83,7 +83,7 @@ describe(ReactionClassDirective.name, () => {
             }));
         }
 
-        shouldRemoveClass('icon', 'fa-document');
+        shouldRemoveClass('primary', 'fa-document');
         shouldRemoveClass('secondary', 'fa-document');
         shouldRemoveClass('title', 'Create');
         shouldRemoveClass('tooltip', 'Creates a new document.');

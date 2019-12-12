@@ -1,9 +1,9 @@
-<ng-container *ngIf="snapshot$ | async as snapshot">
-  <fa-icon *ngIf="secondary ? snapshot.secondary : snapshot.icon"
-           [class.rg-reaction-icon]="!secondary"
-           [class.rg-reaction-secondary]="secondary"
-           [fixedWidth]="fixedWidth"
-           [icon]="secondary ? snapshot.secondary : snapshot.icon"
-           [pulse]="(secondary ? snapshot.secondaryAnimate : snapshot.animate) === 'pulse'"
-           [spin]="(secondary ? snapshot.secondaryAnimate : snapshot.animate) === 'spin'"></fa-icon>
+<ng-container *ngIf="context$ | async as context">
+  <ng-container *ngIf="context.$implicit && template$ | async as template">
+    <span class="rg-reaction-icon"
+          [class.rg-reaction-primary]="!context.secondary"
+          [class.rg-reaction-secondary]="context.secondary">
+    <ng-container *ngTemplateOutlet="template; context: context"></ng-container>
+    </span>
+  </ng-container>
 </ng-container>
