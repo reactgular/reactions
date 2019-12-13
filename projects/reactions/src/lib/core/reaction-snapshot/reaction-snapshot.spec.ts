@@ -19,14 +19,14 @@ describe(toReactionSnapshot.name, () => {
     it('should emit snapshots of changes', () => {
         const snapshot$ = toReactionSnapshot({
             title: of('Create'),
-            icon: () => 'fa-plus',
+            primary: () => 'fa-plus',
             description: 'Creates a new document'
         });
 
         expect(syncToArray(snapshot$)).toEqual([{
             ...reactionSnapshotDefaults(),
             title: 'Create',
-            icon: 'fa-plus',
+            primary: 'fa-plus',
             description: 'Creates a new document'
         }]);
     });

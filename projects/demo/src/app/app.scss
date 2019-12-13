@@ -47,3 +47,11 @@ ul {
 button:focus {
     outline: none !important;
 }
+
+.rg-reaction-primary {
+  margin-right: map_get($spacers, 2);
+}
+
+.rg-reaction-secondary {
+  margin-left: map_get($spacers, 2);
+}

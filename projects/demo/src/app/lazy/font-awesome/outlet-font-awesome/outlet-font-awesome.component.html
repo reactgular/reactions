@@ -1,1 +1,31 @@
-<p>outlet-font-awesome works!</p>
+<div class="left-panel">
+  <ng-container
+    *ngTemplateOutlet="selectIcon; context: {title:'Primary Icon', value: primaryIcon, setter: setPrimaryIcon}"></ng-container>
+  <ng-container
+    *ngTemplateOutlet="selectIcon; context: {title:'Secondary Icon', value: secondaryIcon, setter: setSecondaryIcon}"></ng-container>
+  <mat-checkbox class="mb-3">Spin</mat-checkbox>
+  <mat-checkbox class="mb-3">Pulse</mat-checkbox>
+</div>
+
+<div class="center-panel">
+  <rg-reaction-fontawesome [rgReactionShortcuts]="[]">
+    <h3 class="mb-3">Buttons</h3>
+    <button class="mr-3"
+            *ngFor="let reaction of reactions"
+            [reaction]="reaction">
+      <rg-reaction-view></rg-reaction-view>
+    </button>
+  </rg-reaction-fontawesome>
+</div>
+
+<ng-template #selectIcon let-title="title" let-value="value" let-setter="setter">
+  <mat-form-field>
+    <mat-label>{{title}}</mat-label>
+    <mat-select [value]="value" (valueChange)="setter($event)">
+      <mat-option *ngFor="let icon of icons" [value]="icon">
+        <fa-icon [icon]="icon"></fa-icon>
+        <span class="ml-3">{{icon.iconName | titlecase}}</span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-template>

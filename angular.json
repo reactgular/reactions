@@ -53,9 +53,14 @@
               "projects/demo/src/assets"
             ],
             "styles": [
-              "projects/demo/src/app/main/app.scss"
+              "projects/demo/src/app/app.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/demo/src/app"
+              ]
+            }
           },
           "configurations": {
             "production": {

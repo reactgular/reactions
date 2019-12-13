@@ -1,4 +1,3 @@
-
 import {ReactionConstructor, ReactionObject} from '../core/reaction-types';
 
 /**
@@ -9,7 +8,7 @@ export function hydrateReaction(reaction: ReactionObject): ReactionObject {
     if (func && func.__REACTION__) {
         Object.keys(func.__REACTION__)
             .filter(key => !reaction.hasOwnProperty(key))
-            .reduce((acc, key) => (acc[key] = func.__REACTION__[key], acc), reaction);
+            .forEach(key => reaction[key] = func.__REACTION__[key]);
         delete func.__REACTION__;
     }
     if (!reaction.__REACTION__) {
