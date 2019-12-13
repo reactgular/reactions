@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {ReactionObject} from '@reactgular/reactions/lib/core/reaction-types';
-import {TOP_BAR_TOKEN} from '../demo/demo.component';
+import {TOP_BAR_TOKEN} from '../outlet-main/outlet-main.component';
 
 @Component({
     selector: 'rg-button-examples',

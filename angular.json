@@ -53,7 +53,7 @@
               "projects/demo/src/assets"
             ],
             "styles": [
-              "projects/demo/src/app/app.scss"
+              "projects/demo/src/app/main/app.scss"
             ],
             "scripts": []
           },

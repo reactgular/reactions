@@ -10,17 +10,17 @@ import {EditReaction} from '../reactions/edit-reaction';
 export const TOP_BAR_TOKEN: InjectionToken<any> = new InjectionToken<any>('TOP_BAR_TOKEN');
 
 @Component({
-    selector: 'rg-demo',
-    templateUrl: './demo.component.html',
-    styleUrls: ['./demo.component.scss'],
+    selector: 'rg-outlet-main',
+    templateUrl: './outlet-main.component.html',
+    styleUrls: ['./outlet-main.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         {provide: TOP_BAR_TOKEN, useClass: CreateReaction, multi: true},
         {provide: TOP_BAR_TOKEN, useClass: EditReaction, multi: true},
-        {provide: TOP_BAR_TOKEN, useClass: DeleteReaction, multi: true},
+        {provide: TOP_BAR_TOKEN, useClass: DeleteReaction, multi: true}
     ]
 })
-export class DemoComponent extends Destroyable implements OnInit {
+export class OutletMainComponent extends Destroyable implements OnInit {
     /**
      * Logger
      */
@@ -33,7 +33,7 @@ export class DemoComponent extends Destroyable implements OnInit {
                        private _reactionCore: ReactionCoreService,
                        log: LogService) {
         super();
-        this._log = log.withPrefix(DemoComponent.name);
+        this._log = log.withPrefix(OutletMainComponent.name);
     }
 
     /**

@@ -14,10 +14,11 @@ import {
     ReactionViewModule
 } from '@reactgular/reactions';
 import {ReactionFontawesomeModule} from '@reactgular/reactions-fontawesome';
-import {environment} from '../environments/environment';
-import {AppRoutingModule} from './app-routing.module';
+import {environment} from '../../environments/environment';
+import {MainRoutingModule} from './main-routing.module';
+import {BodyComponent} from './body/body.component';
 import {ButtonExamplesComponent} from './button-examples/button-examples.component';
-import {DemoComponent} from './demo/demo.component';
+import {OutletMainComponent} from './outlet-main/outlet-main.component';
 
 const MAT_MODULES = [
     MatButtonModule,
@@ -40,7 +41,7 @@ const REACTION_MODULES = [
         BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
-        AppRoutingModule,
+        MainRoutingModule,
         LoggerModule.forRoot({enabled: !environment.production}),
         ...REACTION_MODULES,
         ...MAT_MODULES,
@@ -48,12 +49,13 @@ const REACTION_MODULES = [
         ReactionFontawesomeModule
     ],
     declarations: [
-        DemoComponent,
-        ButtonExamplesComponent
+        BodyComponent,
+        ButtonExamplesComponent,
+        OutletMainComponent
     ],
     bootstrap: [
-        DemoComponent
+        BodyComponent
     ]
 })
-export class AppModule {
+export class MainModule {
 }
