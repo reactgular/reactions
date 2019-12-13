@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit, Optional, TemplateRef, ViewEncapsulation} from '@angular/core';
 import {withSwitchMap} from '@reactgular/observables';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
@@ -20,7 +20,10 @@ export class ReactionIconComponent implements OnInit {
     private readonly _secondary$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     public constructor(private readonly _reactionProvider: ReactionProvider,
-                       private readonly _reactionTemplates: ReactionTemplatesService) {
+                       @Optional() private readonly _reactionTemplates: ReactionTemplatesService) {
+        if(!_reactionTemplates) {
+            throw new Error('ReactionTemplatesService not found. Did you forget to provide it a component?')
+        }
     }
 
     @Input()

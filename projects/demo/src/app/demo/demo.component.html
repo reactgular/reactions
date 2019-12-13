@@ -1,9 +1,3 @@
-<ng-container [rgReactionShortcuts]="reactions"
-              rgReactionTemplates
-              [primary]="icon"
-              [secondary]="icon">
+<rg-reaction-fontawesome [rgReactionShortcuts]="reactions">
   <rg-button-examples class="m-3"></rg-button-examples>
-</ng-container>
-<ng-template #icon let-icon>
-  <fa-icon [fixedWidth]="true" [icon]="icon"></fa-icon>
-</ng-template>
+</rg-reaction-fontawesome>

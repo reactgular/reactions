@@ -13,6 +13,7 @@ import {
     ReactionTemplatesModule,
     ReactionViewModule
 } from '@reactgular/reactions';
+import {ReactionFontawesomeModule} from '@reactgular/reactions-fontawesome';
 import {environment} from '../environments/environment';
 import {AppRoutingModule} from './app-routing.module';
 import {ButtonExamplesComponent} from './button-examples/button-examples.component';
@@ -43,7 +44,8 @@ const REACTION_MODULES = [
         LoggerModule.forRoot({enabled: !environment.production}),
         ...REACTION_MODULES,
         ...MAT_MODULES,
-        FontAwesomeModule
+        FontAwesomeModule,
+        ReactionFontawesomeModule
     ],
     declarations: [
         DemoComponent,

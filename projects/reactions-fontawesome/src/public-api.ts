@@ -1,1 +1,1 @@
-export * from './lib/reactions-fontawesome.module';
+export * from './lib/componnents/public-api';
