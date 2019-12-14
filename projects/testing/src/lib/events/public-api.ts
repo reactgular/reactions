@@ -1,1 +1,1 @@
-export * from './dom-events.helper';
+export * from './dom-events';
