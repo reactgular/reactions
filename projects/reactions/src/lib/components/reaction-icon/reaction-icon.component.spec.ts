@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {async, TestBed} from '@angular/core/testing';
-import {fixtureHtml, removeSpaces} from '../../../tests/html.helper';
+import {fixtureHtml, removeSpaces} from '@reactgular/testing';
 import {ReactionModelDirective} from '../reaction-model/reaction-model.directive';
 import {ReactionTemplatesDirective} from '../reaction-templates/reaction-templates.directive';
 import {ReactionIconComponent} from './reaction-icon.component';

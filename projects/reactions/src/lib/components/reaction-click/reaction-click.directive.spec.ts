@@ -1,13 +1,13 @@
-import {ReactionClickDirective} from './reaction-click.directive';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {Component, DebugElement} from '@angular/core';
-import {ReactionModelDirective} from '../reaction-model/reaction-model.directive';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {By} from '@angular/platform-browser';
+import {createClickEvent} from '@reactgular/testing';
+import {Observable, of} from 'rxjs';
 import {ReactionEvent} from '../../core/reaction-event/reaction-event';
 import {Reaction} from '../../core/reaction/reaction';
-import {Observable, of} from 'rxjs';
-import {createClickEvent} from '../../../tests/dom-events.helper';
-import {By} from '@angular/platform-browser';
 import {ReactionCoreService} from '../../services/reaction-core/reaction-core.service';
+import {ReactionModelDirective} from '../reaction-model/reaction-model.directive';
+import {ReactionClickDirective} from './reaction-click.directive';
 
 class ClickFixture {
     public button: DebugElement;
@@ -51,11 +51,11 @@ class ClickFixture {
         this.spyBroadcast = spyOn(TestBed.get(ReactionCoreService), 'broadcast').and.callThrough();
     }
 
+    public click = () => this.dispatch(createClickEvent());
+
     public clicks = () => this._fixture.componentInstance['reaction']['clicks'] as ReactionEvent[];
 
     public dispatch = (e: Event) => this.button.nativeElement.dispatchEvent(e);
-
-    public click = () => this.dispatch(createClickEvent());
 }
 
 describe(ReactionClickDirective.name, () => {

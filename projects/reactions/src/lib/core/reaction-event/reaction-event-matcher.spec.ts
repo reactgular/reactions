@@ -1,5 +1,5 @@
+import {createClickEvent} from '@reactgular/testing';
 import {reactionEventMatcher} from './reaction-event-matcher';
-import {createClickEvent} from '../../../tests/dom-events.helper';
 
 describe(reactionEventMatcher.name, () => {
     it('should match the event type', () => {

@@ -1,9 +1,9 @@
 import {TestBed} from '@angular/core/testing';
-import {ReactionCoreService} from './reaction-core.service';
+import {createClickEvent} from '@reactgular/testing';
 import {ReactionEvent} from '../../core/reaction-event/reaction-event';
-import {Reaction} from '../../core/reaction/reaction';
 import {ReactionObject} from '../../core/reaction-types';
-import {createClickEvent} from '../../../tests/dom-events.helper';
+import {Reaction} from '../../core/reaction/reaction';
+import {ReactionCoreService} from './reaction-core.service';
 
 class TestReaction implements ReactionObject {
     public events: ReactionEvent[] = [];

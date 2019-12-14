@@ -1,6 +1,6 @@
-import {ReactionEvent} from './reaction-event';
+import {createClickEvent} from '@reactgular/testing';
 import {Reaction} from '../reaction/reaction';
-import {createClickEvent} from '../../../tests/dom-events.helper';
+import {ReactionEvent} from './reaction-event';
 
 describe(ReactionEvent.name, () => {
     it('should hydrate a reaction', () => {
