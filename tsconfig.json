@@ -30,6 +30,12 @@
       ],
       "@reactgular/reactions-fontawesome/*": [
         "dist/reactions-fontawesome/*"
+      ],
+      "@reactgular/testing": [
+        "dist/testing"
+      ],
+      "@reactgular/testing/*": [
+        "dist/testing/*"
       ]
     }
   }

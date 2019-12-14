@@ -1,6 +1,6 @@
 {
-  "name": "reactions-fontawesome",
-  "version": "0.0.1",
+  "name": "@reactgular/reactions-fontawesome",
+  "version": "1.0.0",
   "peerDependencies": {
     "@angular/common": "^8.0.0",
     "@angular/core": "^8.0.0",
