@@ -1,6 +1,9 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
 import {ReactionTemplatesService} from '@reactgular/reactions';
 
+/**
+ * Provides a template for rendering icons via the FontAwesome icon library for Angular.
+ */
 @Component({
     selector: 'rg-reaction-fontawesome',
     templateUrl: './reaction-fontawesome.component.html',
@@ -11,6 +14,9 @@ import {ReactionTemplatesService} from '@reactgular/reactions';
     ]
 })
 export class ReactionFontawesomeComponent implements OnInit {
+    /**
+     * Render all icons as fixedWith.
+     */
     @Input()
     public fixedWidth: boolean = true;
 
@@ -22,7 +28,6 @@ export class ReactionFontawesomeComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        console.log(this.iconTemplate);
         this._reactionTemplates.primary(this.iconTemplate);
         this._reactionTemplates.secondary(this.iconTemplate);
     }

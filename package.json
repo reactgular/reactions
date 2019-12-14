@@ -19,8 +19,11 @@
     "build:reactions": "ng build reactions",
     "build:reactions-fontawesome": "ng build reactions-fontawesome",
     "build:demo": "ng build demo",
-    "test": "ng test reactions --watch=false --code-coverage=true",
-    "test:watch": "ng test reactions",
+    "test": "npm run test:reactions && npm run test:reactions-fontawesome",
+    "test:reactions": "ng test reactions --watch=false --code-coverage=true",
+    "test:reactions-fontawesome": "ng test reactions-fontawesome --watch=false --code-coverage=true",
+    "test:reactions:watch": "ng test reactions",
+    "test:reactions-fontawesome:watch": "ng test reactions-fontawesome",
     "lint": "ng lint"
   },
   "private": true,
