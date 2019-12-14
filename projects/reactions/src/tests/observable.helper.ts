@@ -3,6 +3,8 @@ import {first, toArray} from 'rxjs/operators';
 
 /**
  * Assumes that the observable is synchronise and returns all emitted values as an array.
+ *
+ * @deprecated Use marbles instead.
  */
 export function syncToArray<TType>($: Observable<TType>): TType[] {
     let value = undefined;
@@ -12,6 +14,8 @@ export function syncToArray<TType>($: Observable<TType>): TType[] {
 
 /**
  * Assumes that the observable is synchronise and returns the first emitted value.
+ *
+ * @deprecated Use marbles instead.
  */
 export function syncFirst<TType>($: Observable<TType>): TType {
     let value = undefined;
@@ -28,6 +32,8 @@ export function syncFirst<TType>($: Observable<TType>): TType {
 
 /**
  * Collects emitted values when the callback is executed.
+ *
+ * @deprecated Use marbles instead.
  */
 export function syncCapture<TType>($: Observable<TType>, cb: () => void): TType[] {
     let value = [];
@@ -39,6 +45,8 @@ export function syncCapture<TType>($: Observable<TType>, cb: () => void): TType[
 
 /**
  * Returns the first emitted value when the callback is executed.
+ *
+ * @deprecated Use marbles instead.
  */
 export function syncCaptureFirst<TType>($: Observable<TType>, cb: () => void): TType {
     let value = undefined;

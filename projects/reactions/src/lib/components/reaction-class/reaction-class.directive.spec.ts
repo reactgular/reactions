@@ -57,7 +57,6 @@ describe(ReactionClassDirective.name, () => {
         shouldSetClass('secondary', 'fa-document');
         shouldSetClass('title', 'Create');
         shouldSetClass('tooltip', 'Create a document');
-        shouldSetClass('animate', 'spin');
         shouldSetClass('disabled', true);
     });
 
@@ -87,7 +86,6 @@ describe(ReactionClassDirective.name, () => {
         shouldRemoveClass('secondary', 'fa-document');
         shouldRemoveClass('title', 'Create');
         shouldRemoveClass('tooltip', 'Creates a new document.');
-        shouldRemoveClass('animate', 'spin');
         shouldRemoveClass('disabled', true, false);
     });
 });
