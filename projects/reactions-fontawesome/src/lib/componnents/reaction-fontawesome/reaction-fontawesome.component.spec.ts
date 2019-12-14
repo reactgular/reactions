@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, TestBed} from '@angular/core/testing';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {faHome} from '@fortawesome/free-solid-svg-icons';
 import {ReactionIconModule, ReactionModelModule} from '@reactgular/reactions';
@@ -24,9 +24,6 @@ export class MockComponent {
 }
 
 describe(ReactionFontawesomeComponent.name, () => {
-    let component: ReactionFontawesomeComponent;
-    let fixture: ComponentFixture<ReactionFontawesomeComponent>;
-
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -41,13 +38,10 @@ describe(ReactionFontawesomeComponent.name, () => {
         }).compileComponents();
     }));
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(ReactionFontawesomeComponent);
-        component = fixture.componentInstance;
+    it('should create render an icon as the primary', () => {
+        const fixture = TestBed.createComponent(ReactionFontawesomeComponent);
+        const component = fixture.componentInstance;
         fixture.detectChanges();
-    });
-
-    it('should create', () => {
         expect(component).toBeTruthy();
     });
 });
