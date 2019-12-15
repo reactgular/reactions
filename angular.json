@@ -285,6 +285,36 @@
       "root": "projects/sandbox",
       "sourceRoot": "projects/sandbox/src",
       "prefix": "rg",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss",
+          "changeDetection": "OnPush",
+          "flat": false,
+          "spec": false
+        },
+        "@schematics/angular:class": {
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "flat": false,
+          "spec": false
+        },
+        "@schematics/angular:guard": {
+          "flat": false,
+          "spec": false
+        },
+        "@schematics/angular:module": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+          "flat": false,
+          "spec": false
+        },
+        "@schematics/angular:service": {
+          "flat": false,
+          "spec": false
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
