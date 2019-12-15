@@ -36,6 +36,12 @@
       ],
       "@reactgular/testing/*": [
         "dist/testing/*"
+      ],
+      "@reactgular/sandbox": [
+        "dist/sandbox"
+      ],
+      "@reactgular/sandbox/*": [
+        "dist/sandbox/*"
       ]
     }
   }
