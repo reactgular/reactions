@@ -1,8 +1,9 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {MatButtonModule, MatIconModule, MatToolbarModule} from '@angular/material';
+import {LayoutModule} from '@reactgular/layouts';
 import {NavigationRoutingModule} from './navigation-routing.module';
-import { OutletNavigationComponent } from './outlet-navigation/outlet-navigation.component';
+import {OutletNavigationComponent} from './outlet-navigation/outlet-navigation.component';
 
 @NgModule({
     declarations: [OutletNavigationComponent],
@@ -11,7 +12,8 @@ import { OutletNavigationComponent } from './outlet-navigation/outlet-navigation
         NavigationRoutingModule,
         MatToolbarModule,
         MatButtonModule,
-        MatIconModule
+        MatIconModule,
+        LayoutModule
     ]
 })
 export class NavigationModule {

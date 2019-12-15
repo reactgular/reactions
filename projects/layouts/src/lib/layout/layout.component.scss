@@ -1,0 +1,33 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+
+  .panel {
+    display: flex;
+  }
+
+  .wide {
+    width: 100%;
+  }
+
+  .second-level {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+  }
+
+  .third-level {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+  }
+
+  .content-frame {
+    display: flex;
+    position: relative;
+    flex-grow: 1;
+  }
+}
