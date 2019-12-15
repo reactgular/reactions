@@ -42,6 +42,12 @@
       ],
       "@reactgular/sandbox/*": [
         "dist/sandbox/*"
+      ],
+      "@reactgular/layouts": [
+        "dist/layouts"
+      ],
+      "@reactgular/layouts/*": [
+        "dist/layouts/*"
       ]
     }
   }

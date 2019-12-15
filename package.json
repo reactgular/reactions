@@ -15,10 +15,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --watch --open",
-    "build": "npm run build:reactions && npm run build:reactions-fontawesome && npm run sandbox && npm run build:demo && npm run build:testing",
+    "build": "npm run build:reactions && npm run build:reactions-fontawesome && npm run sandbox && npm run build:layouts && npm run build:demo && npm run build:testing",
     "build:reactions": "ng build reactions",
     "build:reactions-fontawesome": "ng build reactions-fontawesome",
     "build:sandbox": "ng build sandbox",
+    "build:layouts": "ng build layouts",
     "build:demo": "ng build demo",
     "build:testing": "ng build testing",
     "test": "npm run test:reactions && npm run test:reactions-fontawesome",
@@ -30,6 +31,8 @@
     "test:testing:watch": "ng test testing",
     "test:sandbox": "ng test sandbox --watch=false --code-coverage=true",
     "test:sandbox:watch": "ng test sandbox",
+    "test:layouts": "ng test layouts --watch=false --code-coverage=true",
+    "test:layouts:watch": "ng test layouts",
     "lint": "ng lint"
   },
   "private": true,
