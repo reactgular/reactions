@@ -12,7 +12,7 @@
 
     <div class="third-level">
       <div class="content-frame">
-        <rg-scrollable *ngIf="scrollable else content" [horizontal]="false">
+        <rg-scrollable *ngIf="options.scrollable else content" [horizontal]="options.horizontal">
           <ng-container *ngTemplateOutlet="content"></ng-container>
         </rg-scrollable>
       </div>

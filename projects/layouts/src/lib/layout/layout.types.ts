@@ -9,9 +9,13 @@ export interface LayoutOptions {
 
     bottomUnderRight?: boolean;
 
+    horizontal?: boolean | 'both';
+
     left?: LayoutPanelOptions;
 
     right?: LayoutPanelOptions;
+
+    scrollable?: boolean;
 
     top?: LayoutPanelOptions;
 

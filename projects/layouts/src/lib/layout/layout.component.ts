@@ -3,8 +3,10 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {LayoutOptions} from './layout.types';
 
 const DEFAULT_LAYOUT_OPTIONS: LayoutOptions = {
-    topAboveLeft: true,
-    topAboveRight: true,
+    scrollable: true,
+    horizontal: false,
+    topAboveLeft: false,
+    topAboveRight: false,
     bottomUnderLeft: false,
     bottomUnderRight: false
 };
@@ -26,9 +28,6 @@ export class LayoutComponent implements OnInit {
 
     @Input()
     public right: TemplateRef<any>;
-
-    @Input()
-    public scrollable: boolean = true;
 
     @Input()
     public top: TemplateRef<any>;
