@@ -1,31 +1,35 @@
-<div *ngIf="left && showLeft"
-     class="panel">
-  <ng-container *ngTemplateOutlet="left"></ng-container>
-</div>
-<div class="second-level">
-  <div *ngIf="top && showTop"
-       class="panel wide">
-    <ng-container *ngTemplateOutlet="top"></ng-container>
+<ng-container *ngIf="options$ | async as options">
+  <div *ngIf="left"
+       class="panel"
+       [style.width.rem]="20">
+    <ng-container *ngTemplateOutlet="left"></ng-container>
   </div>
-
-  <div class="third-level">
-    <div class="content-frame">
-      <rg-scrollable *ngIf="scrollable else childContent"
-                     [horizontal]="false">
-        <ng-container *ngTemplateOutlet="childContent"></ng-container>
-      </rg-scrollable>
+  <div class="second-level">
+    <div *ngIf="top"
+         class="panel wide">
+      <ng-container *ngTemplateOutlet="top"></ng-container>
     </div>
-    <div *ngIf="right && showRight"
-         class="panel">
-      <ng-container *ngTemplateOutlet="right"></ng-container>
+
+    <div class="third-level">
+      <div class="content-frame">
+        <rg-scrollable *ngIf="scrollable else content" [horizontal]="false">
+          <ng-container *ngTemplateOutlet="content"></ng-container>
+        </rg-scrollable>
+      </div>
+
+      <div *ngIf="right"
+           class="panel">
+        <ng-container *ngTemplateOutlet="right"></ng-container>
+      </div>
+
+    </div>
+
+    <div *ngIf="bottom"
+         class="panel wide">
+      <ng-container *ngTemplateOutlet="bottom"></ng-container>
     </div>
   </div>
-
-  <div *ngIf="bottom && showBottom"
-       class="panel wide">
-    <ng-container *ngTemplateOutlet="bottom"></ng-container>
-  </div>
-</div>
-<ng-template #childContent>
+</ng-container>
+<ng-template #content>
   <ng-content></ng-content>
 </ng-template>

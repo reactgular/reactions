@@ -1,8 +1,18 @@
-<rg-layout [top]="top"
+<rg-layout *ngIf="options$ | async as options"
            [left]="left"
            [right]="right"
-           [bottom]="bottom">
-  <router-outlet></router-outlet>
+           [top]="top"
+           [bottom]="bottom"
+           [options]="options">
+  <div class="d-flex flex-column p-3"
+       [style.width.rem]="15">
+    <button mat-stroked-button
+            class="mb-3"
+            *ngFor="let toggle of toggles"
+            (click)="toggleOverlay(toggle)">
+      {{toggle}}: {{!!options[toggle]}}
+    </button>
+  </div>
 </rg-layout>
 <ng-template #top>
   <mat-toolbar color="primary">
@@ -16,11 +26,17 @@
   </mat-toolbar>
 </ng-template>
 <ng-template #left>
-  LEFT SIDE
+  <div class="border-right w-100">
+    LEFT SIDE
+  </div>
 </ng-template>
 <ng-template #right>
-  RIGHT SIDE
+  <div class="border-left w-100">
+    RIGHT SIDE
+  </div>
 </ng-template>
 <ng-template #bottom>
-  BOTTOM
+  <div class="border-top w-100">
+    BOTTOM
+  </div>
 </ng-template>
