@@ -355,29 +355,29 @@
           "styleext": "scss",
           "changeDetection": "OnPush",
           "flat": false,
-          "spec": false
+          "spec": true
         },
         "@schematics/angular:class": {
           "skipTests": true
         },
         "@schematics/angular:directive": {
           "flat": false,
-          "spec": false
+          "spec": true
         },
         "@schematics/angular:guard": {
           "flat": false,
-          "spec": false
+          "spec": true
         },
         "@schematics/angular:module": {
           "skipTests": true
         },
         "@schematics/angular:pipe": {
           "flat": false,
-          "spec": false
+          "spec": true
         },
         "@schematics/angular:service": {
           "flat": false,
-          "spec": false
+          "spec": true
         }
       },
       "architect": {
