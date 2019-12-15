@@ -1,6 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {MatButtonModule, MatToolbarModule} from '@angular/material';
+import {MatButtonModule, MatIconModule, MatToolbarModule} from '@angular/material';
 import {NavigationRoutingModule} from './navigation-routing.module';
 import { OutletNavigationComponent } from './outlet-navigation/outlet-navigation.component';
 
@@ -10,7 +10,8 @@ import { OutletNavigationComponent } from './outlet-navigation/outlet-navigation
         CommonModule,
         NavigationRoutingModule,
         MatToolbarModule,
-        MatButtonModule
+        MatButtonModule,
+        MatIconModule
     ]
 })
 export class NavigationModule {

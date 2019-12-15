@@ -1,5 +1,10 @@
 <mat-toolbar color="primary">
-  <span class="mr-3">Reactions</span>
-  <button mat-button [routerLink]="['/font-awesome']">Font Awesome</button>
+  <mat-toolbar-row>
+    <button mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="mr-3">Reactions</span>
+    <button mat-button [routerLink]="['/font-awesome']">Font Awesome</button>
+  </mat-toolbar-row>
 </mat-toolbar>
 <router-outlet></router-outlet>
